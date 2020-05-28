@@ -16,6 +16,10 @@
 		D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D74A6403247CB091005CDC8B /* Assets.xcassets */; };
 		D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D74A6405247CB091005CDC8B /* LaunchScreen.storyboard */; };
 		D74A6412247CB091005CDC8B /* GyrusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A6411247CB091005CDC8B /* GyrusTests.swift */; };
+		D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712345247F897800D9D303 /* GyrusTabBarController.swift */; };
+		D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */; };
+		D771234B247F908D00D9D303 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771234A247F908D00D9D303 /* Extensions.swift */; };
+		D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +46,10 @@
 		D74A640D247CB091005CDC8B /* GyrusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GyrusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74A6411247CB091005CDC8B /* GyrusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTests.swift; sourceTree = "<group>"; };
 		D74A6413247CB091005CDC8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7712345247F897800D9D303 /* GyrusTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBarController.swift; sourceTree = "<group>"; };
+		D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateAlarmPageViewController.swift; sourceTree = "<group>"; };
+		D771234A247F908D00D9D303 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTimePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +100,9 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
+				D7712349247F907F00D9D303 /* Extensions */,
+				D7712344247F895E00D9D303 /* ViewControllers */,
+				D771234C247FA08A00D9D303 /* Views */,
 				D70B6F4A247E065A001A14DC /* Core Data */,
 				D74A63F7247CB08F005CDC8B /* AppDelegate.swift */,
 				D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */,
@@ -111,6 +122,31 @@
 				D74A6413247CB091005CDC8B /* Info.plist */,
 			);
 			path = GyrusTests;
+			sourceTree = "<group>";
+		};
+		D7712344247F895E00D9D303 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D7712345247F897800D9D303 /* GyrusTabBarController.swift */,
+				D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D7712349247F907F00D9D303 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D771234A247F908D00D9D303 /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D771234C247FA08A00D9D303 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,7 +254,11 @@
 				D74A63FC247CB08F005CDC8B /* ViewController.swift in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
+				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
+				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
+				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
+				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

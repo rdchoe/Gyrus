@@ -26,7 +26,17 @@ class CoreDataManager: NSObject {
         super.init()
     }
     
-    // MARK: Dream
+    fileprivate func save() {
+        do {
+            if self.container.viewContext.hasChanges {
+                try self.container.viewContext.save()
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: Dream-
     /**
         Adds a dream to core data
         - Parameters:
@@ -124,7 +134,7 @@ class CoreDataManager: NSObject {
         }
     }
     
-    // MARK: Category
+    // MARK: Category-
     /**
         Adds a category to core data
         - Parameters:
@@ -215,7 +225,7 @@ class CoreDataManager: NSObject {
          }
      }
     
-    // MARK: Alarm
+    // MARK: Alarm-
     /**
         Adds an alarm to core data
         - Parameters:
@@ -283,16 +293,5 @@ class CoreDataManager: NSObject {
              fatalError("Could not execute batch delete request")
          }
      }
-
-    fileprivate func save() {
-        do {
-            if self.container.viewContext.hasChanges {
-                try self.container.viewContext.save()
-            }
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
-    
+        
 }
