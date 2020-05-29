@@ -13,10 +13,9 @@ class GyrusTimePicker: UIView {
     /// An array holding the hours of the day
     private let hours: [Int] = [Int](0...12)
     /// An array holding the minutes of the day  **single digit minutes should be specially handled ex. 1 -> 01**
-    private let minutes: [Int] = [Int](0...60)
+    private let minutes: [Int] = [Int](0...59)
     /// An array holding the AM and PM time periods
     private let period: [String] = ["AM", "PM"]
-    
     /// The view surrounding the currently selected time *the currently selected time the rows that are currently in the middle of the tableviews
     private lazy var selectionBoxView: UIView = {
         let selectionBoxView = UIView()
@@ -77,12 +76,12 @@ class GyrusTimePicker: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setupView()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-        self.setupView()
+        super.init(coder: coder)
+        setupView()
     }
     
     override func layoutSubviews() {
@@ -114,12 +113,13 @@ class GyrusTimePicker: UIView {
         horizontalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         horizontalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
-      //custom views should override this to return true if
-      //they cannot layout correctly using autoresizing.
-      //from apple docs https://developer.apple.com/documentation/uikit/uiview/1622549-requiresconstraintbasedlayout
-      override class var requiresConstraintBasedLayout: Bool {
-        return true
-      }
+    
+    //custom views should override this to return true if
+    //they cannot layout correctly using autoresizing.
+    //from apple docs https://developer.apple.com/documentation/uikit/uiview/1622549-requiresconstraintbasedlayout
+    override class var requiresConstraintBasedLayout: Bool {
+    return true
+    }
 
     /**
         Fades in and out the content of the time picker. Rows that are not in the seleciton view are slightly faded out
@@ -215,7 +215,6 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
    /**
         Scrolls the table view row that is most in the center to the middle
         - Parameters:
@@ -247,5 +246,20 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
+    /**
+     Gets the time the currently selected
+     - Returns: Date object representing the time selected
+     */
+    func getSelectedTime() -> Date {
+        // visibleCells[1] is the row in the middle. There are at most 3 rows showing
+        var hour: Int = Int((self.hoursTableView.visibleCells[1].textLabel?.text)!)!
+        let minute: Int = Int((self.minutesTableView.visibleCells[1].textLabel?.text)!)!
+        let timePeriod = (self.timePeriodTableView.visibleCells[1].textLabel?.text)!
+        if timePeriod == "PM"  && hour != 12 {
+            hour += 12
+        }
+        
+        let date = Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
+        return date
+    }
 }

@@ -10,8 +10,6 @@
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
 		D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63F7247CB08F005CDC8B /* AppDelegate.swift */; };
 		D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */; };
-		D74A63FC247CB08F005CDC8B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63FB247CB08F005CDC8B /* ViewController.swift */; };
-		D74A63FF247CB08F005CDC8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D74A63FD247CB08F005CDC8B /* Main.storyboard */; };
 		D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D74A6400247CB08F005CDC8B /* Gyrus.xcdatamodeld */; };
 		D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D74A6403247CB091005CDC8B /* Assets.xcassets */; };
 		D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D74A6405247CB091005CDC8B /* LaunchScreen.storyboard */; };
@@ -20,6 +18,10 @@
 		D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */; };
 		D771234B247F908D00D9D303 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771234A247F908D00D9D303 /* Extensions.swift */; };
 		D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */; };
+		D7712351247FCB2700D9D303 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712350247FCB2700D9D303 /* Constants.swift */; };
+		D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712352248132FB00D9D303 /* GyrusTabBar.swift */; };
+		D771235724813E4B00D9D303 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771235624813E4B00D9D303 /* Helpers.swift */; };
+		D77123592481667900D9D303 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77123582481667900D9D303 /* TabItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +39,6 @@
 		D74A63F4247CB08F005CDC8B /* Gyrus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gyrus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74A63F7247CB08F005CDC8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D74A63FB247CB08F005CDC8B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D74A63FE247CB08F005CDC8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D74A6401247CB08F005CDC8B /* Gyrus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Gyrus.xcdatamodel; sourceTree = "<group>"; };
 		D74A6403247CB091005CDC8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D74A6406247CB091005CDC8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -50,6 +50,10 @@
 		D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateAlarmPageViewController.swift; sourceTree = "<group>"; };
 		D771234A247F908D00D9D303 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTimePickerView.swift; sourceTree = "<group>"; };
+		D7712350247FCB2700D9D303 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D7712352248132FB00D9D303 /* GyrusTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBar.swift; sourceTree = "<group>"; };
+		D771235624813E4B00D9D303 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		D77123582481667900D9D303 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,14 +104,13 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
-				D7712349247F907F00D9D303 /* Extensions */,
+				D7712350247FCB2700D9D303 /* Constants.swift */,
+				D7712349247F907F00D9D303 /* Helpers */,
 				D7712344247F895E00D9D303 /* ViewControllers */,
 				D771234C247FA08A00D9D303 /* Views */,
 				D70B6F4A247E065A001A14DC /* Core Data */,
 				D74A63F7247CB08F005CDC8B /* AppDelegate.swift */,
 				D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */,
-				D74A63FB247CB08F005CDC8B /* ViewController.swift */,
-				D74A63FD247CB08F005CDC8B /* Main.storyboard */,
 				D74A6403247CB091005CDC8B /* Assets.xcassets */,
 				D74A6405247CB091005CDC8B /* LaunchScreen.storyboard */,
 				D74A6408247CB091005CDC8B /* Info.plist */,
@@ -128,23 +131,26 @@
 			isa = PBXGroup;
 			children = (
 				D7712345247F897800D9D303 /* GyrusTabBarController.swift */,
+				D77123582481667900D9D303 /* TabItem.swift */,
 				D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		D7712349247F907F00D9D303 /* Extensions */ = {
+		D7712349247F907F00D9D303 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				D771234A247F908D00D9D303 /* Extensions.swift */,
+				D771235624813E4B00D9D303 /* Helpers.swift */,
 			);
-			path = Extensions;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D771234C247FA08A00D9D303 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */,
+				D7712352248132FB00D9D303 /* GyrusTabBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -232,7 +238,6 @@
 			files = (
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
 				D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */,
-				D74A63FF247CB08F005CDC8B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,13 +256,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */,
-				D74A63FC247CB08F005CDC8B /* ViewController.swift in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
+				D77123592481667900D9D303 /* TabItem.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
 				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
+				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
+				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
+				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,14 +289,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D74A63FD247CB08F005CDC8B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D74A63FE247CB08F005CDC8B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D74A6405247CB091005CDC8B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
