@@ -30,9 +30,20 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         return separator
     }()
     
+    var timePickerCenterYConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            let sleepingIcon = UIImage(cgImage: #imageLiteral(resourceName: "napping").cgImage!, scale: #imageLiteral(resourceName: "napping").scale * -0.5, orientation:#imageLiteral(resourceName: "napping").imageOrientation)
+            
+            sleepingIcon.withTintColor(UIColor.white, renderingMode: .automatic)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setImage(sleepingIcon, for: .normal)
+        }
     }
     
     private func setupViewController() {
@@ -40,6 +51,11 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         view.addSubview(alarmLabel)
         view.addSubview(separator)
         view.addSubview(timePickerView)
+        
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            gyrusTabBarController.gyrusTabBar.delegate = self
+        }
+        
         layoutConstraints()
     }
     
@@ -48,14 +64,14 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         let views : [String:Any] = ["timePickerView" : self.timePickerView, "separator" : self.separator]
         
         [
-            "H:[timePickerView(210)]",
-            "V:[timePickerView(210)]",
+            "H:[timePickerView(300)]",
+            "V:[timePickerView(300)]",
             "V:[separator(2)]"
         ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
         
         /// This constraint offsets the center of the time picker view by a quarter of the center of the page view
-        let constraint = NSLayoutConstraint(item: timePickerView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 0.75, constant: 0)
-        self.view.addConstraint(constraint)
+        timePickerCenterYConstraint = NSLayoutConstraint(item: timePickerView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 0.75, constant: 0)
+        self.view.addConstraint(timePickerCenterYConstraint)
         self.timePickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
         self.alarmLabel.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor).isActive = true
@@ -70,5 +86,68 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     //MARK: UITextField Handler
     @objc private func tapDone(sender: Any) {
         self.view.endEditing(true)
+    }
+}
+
+extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
+    func mainEventButtonClicked(button: UIButton) {
+        button.isUserInteractionEnabled = false
+        self.alarmLabel.isUserInteractionEnabled = false
+        
+        var timePickerFrame = self.timePickerView.frame
+        var alarmLabelFrame = self.alarmLabel.frame
+        var separatorFrame = self.separator.frame
+        let distanceToTravel = alarmLabelFrame.origin.y - timePickerFrame.origin.y
+        
+        if button.isSelected {
+            UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut, animations: {
+                self.timePickerView.animateSelectionView(mainEventButton: button)
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                    if button.isSelected {
+                        timePickerFrame.origin.y -= distanceToTravel
+                        alarmLabelFrame.origin.y -= distanceToTravel
+                        separatorFrame.origin.y -= distanceToTravel
+                        self.timePickerView.alpha = 0
+                    } else {
+                        timePickerFrame.origin.y += distanceToTravel
+                        alarmLabelFrame.origin.y += distanceToTravel
+                        separatorFrame.origin.y += distanceToTravel
+                        self.timePickerView.alpha = 1
+                    }
+
+                    self.timePickerView.frame = timePickerFrame
+                    self.alarmLabel.frame = alarmLabelFrame
+                    self.separator.frame = separatorFrame
+                    self.timePickerView.layoutIfNeeded()
+                }, completion: { _ in
+                    button.isUserInteractionEnabled = true
+                })
+            })
+        } else { // animating back to in-active state
+            UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut, animations: {
+
+                timePickerFrame.origin.y += distanceToTravel
+                alarmLabelFrame.origin.y += distanceToTravel
+                separatorFrame.origin.y += distanceToTravel
+                self.timePickerView.alpha = 1
+                
+
+                self.timePickerView.frame = timePickerFrame
+                self.alarmLabel.frame = alarmLabelFrame
+                self.separator.frame = separatorFrame
+                self.timePickerView.layoutIfNeeded()
+            }, completion: {_ in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.timePickerView.animateSelectionView(mainEventButton: button)
+                }, completion: { _ in
+                    button.isUserInteractionEnabled = true
+                    self.alarmLabel.isUserInteractionEnabled = true
+                })
+            })
+        }
+        
+        
+        
     }
 }

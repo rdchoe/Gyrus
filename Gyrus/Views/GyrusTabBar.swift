@@ -8,21 +8,26 @@
 
 import UIKit
 
+protocol GyrusTabBarDelegate: UIViewController {
+    func mainEventButtonClicked(button: UIButton)
+}
+
 /**
  Custom UITabbar for Gyrus
  */
 @IBDesignable
-class GyrusTabBar: UITabBar {
-    /// Implemented with the guide of this tutorial: https://medium.com/better-programming/draw-a-custom-ios-tabbar-shape-27d298a7f4fa
+class GyrusTabBar: UIView {
+    /// Implemented with the guide of this tutorial: https://medium.com/sprinthub/creating-a-customized-tab-bar-in-ios-with-swift-41ed380f2a30
     
     /// The shape of the nav bar
     private var shapeLayer: CALayer?
-    private var mainEventButton: UIButton = {
+    weak var delegate: GyrusTabBarDelegate?
+    var mainEventButton: UIButton = {
        let mainEventButton = UIButton()
         mainEventButton.frame.size = CGSize(width: 80, height: 80)
         mainEventButton.backgroundColor = Constants.colors.blue
         mainEventButton.layer.cornerRadius = mainEventButton.frame.width / 2
-        mainEventButton.layer.masksToBounds = true
+       //mainEventButton.clipsToBounds = false
 
         // adding drop shadow
         mainEventButton.layer.shadowColor = UIColor.black.cgColor
@@ -35,11 +40,193 @@ class GyrusTabBar: UITabBar {
         return mainEventButton
     }()
     
-    func setup() {
-        self.addShape()
+    private var leadingStackView: UIStackView = {
+       let leadingStackView = UIStackView()
+        leadingStackView.translatesAutoresizingMaskIntoConstraints = false
+        leadingStackView.axis = .horizontal
+        //leadingStackView.distribution = .equalSpacing
+        
+        return leadingStackView
+    }()
+    
+    private var trailingStackView: UIStackView = {
+       let trailingStackView = UIStackView()
+        trailingStackView.translatesAutoresizingMaskIntoConstraints = false
+        trailingStackView.axis = .horizontal
+        trailingStackView.distribution = .fill
+        
+        return trailingStackView
+    }()
+    
+    var itemTapped: ((_ tab: Int) -> Void)?
+    var activeItem: Int = 0
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
-    private func addShape()  {
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    convenience init(menuItems: [TabItem], frame: CGRect) {
+        self.init(frame: frame)
+        drawTabBarOutline()
+        renderMenuItems(menuItems: menuItems)
+        addMainEventButton()
+        
+    }
+    
+    func addMainEventButton() {
+        mainEventButton.center = CGPoint(x: self.frame.width / 2, y: 0)
+        mainEventButton.addTarget(self, action: #selector(mainEventButtonClicked(sender:)), for: .touchUpInside)
+        addSubview(mainEventButton)
+    }
+    
+   
+    /// This function handles the problem of the raised button (@mainEventButton) not being hit outside the tab bar bounds
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+         if self.isHidden {
+             return super.hitTest(point, with: event)
+         }
+         
+         let from = point
+         let to = mainEventButton.center
+
+         return sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)) <= 39 ? mainEventButton : super.hitTest(point, with: event)
+     }
+    
+    
+    func renderMenuItems(menuItems: [TabItem]) {
+        
+        self.addSubview(leadingStackView)
+        self.addSubview(trailingStackView)
+        
+        NSLayoutConstraint.activate([
+            leadingStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            leadingStackView.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -Constants.tabbar.tabbarRadius),
+            leadingStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            leadingStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            trailingStackView.leadingAnchor.constraint(equalTo: self.centerXAnchor, constant: Constants.tabbar.tabbarRadius),
+            trailingStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            trailingStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            trailingStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+        // This is what's going through that array of menu items
+        for (index,menuItem) in menuItems[0...menuItems.count / 2].enumerated() {
+            let itemView = self.createTabItem(item: menuItem)
+            itemView.tag = index
+            leadingStackView.addArrangedSubview(itemView)
+        }
+        
+        if ((menuItems.count / 2) + 1 <= menuItems.count - 1) {
+            for (index,menuItem) in menuItems[((menuItems.count / 2) + 1)...menuItems.count].enumerated() {
+                let itemView = self.createTabItem(item: menuItem)
+                itemView.tag = index + ((menuItems.count / 2) + 1)
+                trailingStackView.addArrangedSubview(itemView)
+            }
+        }
+        /*
+        for i in 0 ..< menuItems.count {
+            let itemWidth = self.frame.width / CGFloat(menuItems.count)
+            let leadingAnchor = itemWidth * CGFloat(i)
+            
+            let itemView = self.createTabItem(item: menuItems[i])
+            itemView.translatesAutoresizingMaskIntoConstraints = false
+            itemView.clipsToBounds = true
+            itemView.tag = i
+        self.addSubview(itemView)
+        NSLayoutConstraint.activate([
+                itemView.heightAnchor.constraint(equalTo: self.heightAnchor),
+                itemView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: leadingAnchor),
+                itemView.topAnchor.constraint(equalTo: self.topAnchor),
+            ])
+        }
+ */
+            
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        self.activateTab(tab: 0) // activate the first tab
+    }
+    
+    /**
+    Returns a UIView of what this tab bar item should look like
+     - Returns: a UIView of what this tab bar item should look like
+     */
+    func createTabItem(item: TabItem) -> UIView{
+        let tabBarItem = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let itemTitleLabel = UILabel(frame: CGRect.zero)
+        let itemIconView = UIImageView(frame: CGRect.zero)
+        itemTitleLabel.text = item.displayTitle
+        itemTitleLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.tabBarSize)
+        itemTitleLabel.textAlignment = .center
+        itemTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        itemTitleLabel.clipsToBounds = true
+        itemTitleLabel.textColor = Constants.colors.textBlue
+        
+        itemIconView.image = item.icon.withTintColor(UIColor.white, renderingMode: .automatic)
+        itemIconView.translatesAutoresizingMaskIntoConstraints = false
+        itemIconView.clipsToBounds = true
+        tabBarItem.layer.backgroundColor = UIColor.clear.cgColor
+        tabBarItem.addSubview(itemIconView)
+        tabBarItem.addSubview(itemTitleLabel)
+        tabBarItem.translatesAutoresizingMaskIntoConstraints = false
+        tabBarItem.clipsToBounds = true
+        NSLayoutConstraint.activate([
+            //itemIconView.heightAnchor.constraint(equalToConstant: 25), // Fixed height for our tab item(25pts)
+            //itemIconView.widthAnchor.constraint(equalToConstant: 25), // Fixed width for our tab item icon
+            itemIconView.centerXAnchor.constraint(equalTo: tabBarItem.centerXAnchor),
+            itemIconView.topAnchor.constraint(equalTo: tabBarItem.topAnchor, constant: 8), // Position menu item icon 8pts from the top of it's parent view
+            itemTitleLabel.heightAnchor.constraint(equalToConstant: 13), // Fixed height for title label
+            itemTitleLabel.widthAnchor.constraint(equalTo: tabBarItem.widthAnchor), // Position label full width across tab bar item
+            itemTitleLabel.topAnchor.constraint(equalTo: itemIconView.bottomAnchor, constant: 4), // Position title label 4pts below item icon
+        ])
+        tabBarItem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTap))) // Each item should be able to trigger and action on tap
+        return tabBarItem
+    }
+    
+    @objc func handleTap(_ sender: UIGestureRecognizer) {
+        self.switchTab(from: self.activeItem, to: sender.view!.tag)
+    }
+    
+    func switchTab(from: Int, to: Int) {
+        self.deactivateTab(tab: from)
+        self.activateTab(tab: to)
+    }
+    
+    func activateTab(tab: Int) {
+        let tabToActivate = self.subviews[tab]
+        let borderWidth = tabToActivate.frame.size.width - 20
+        let borderLayer = CALayer()
+        // This is adding that green thing on the top
+        borderLayer.backgroundColor = UIColor.white.cgColor
+        borderLayer.name = "active border"
+        borderLayer.frame = CGRect(x: 10, y: 0, width: borderWidth, height: 2)
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.8, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
+                tabToActivate.layer.addSublayer(borderLayer)
+                tabToActivate.setNeedsLayout()
+                tabToActivate.layoutIfNeeded()
+            })
+            self.itemTapped?(tab)
+        }
+        self.activeItem = tab
+    }
+    
+    func deactivateTab(tab: Int) {
+        let inactiveTab = self.subviews[tab]
+        let layersToRemove = inactiveTab.layer.sublayers!.filter({ $0.name == "active border" })
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.4, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
+                layersToRemove.forEach({ $0.removeFromSuperlayer() })
+                inactiveTab.setNeedsLayout()
+                inactiveTab.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func drawTabBarOutline()  {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = createPathCircle()
         shapeLayer.strokeColor = Constants.colors.gray.cgColor
@@ -74,5 +261,28 @@ class GyrusTabBar: UITabBar {
         print("i am here")
         //self.mainEventButton.center = CGPoint(x: self.frame.width / 2, y: 0)
         addSubview(self.mainEventButton)
+    }
+    
+    // MARK: mainEventButton-
+    @objc fileprivate func mainEventButtonClicked(sender: UIButton) {
+        // Toggle selected state of the button
+        if sender.isSelected {
+            sender.isSelected = false
+        } else {
+            sender.isSelected = true
+        }
+        self.animateButton(button: sender)
+        self.delegate?.mainEventButtonClicked(button: sender)
+    }
+    
+    @objc fileprivate func animateButton(button: UIView) {
+        UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0.5, options: .curveEaseIn, animations: {
+            button.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        
+        }) { (_) in
+            UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 2, options: .curveEaseIn, animations: {
+                button.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion: nil)
+        }
     }
 }

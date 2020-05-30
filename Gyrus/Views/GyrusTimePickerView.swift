@@ -17,7 +17,7 @@ class GyrusTimePicker: UIView {
     /// An array holding the AM and PM time periods
     private let period: [String] = ["AM", "PM"]
     /// The view surrounding the currently selected time *the currently selected time the rows that are currently in the middle of the tableviews
-    private lazy var selectionBoxView: UIView = {
+    lazy var selectionBoxView: UIView = {
         let selectionBoxView = UIView()
         selectionBoxView.translatesAutoresizingMaskIntoConstraints = false
         selectionBoxView.layer.borderColor = #colorLiteral(red: 0.6415534616, green: 0.6621769071, blue: 0.6961867809, alpha: 1)
@@ -25,6 +25,12 @@ class GyrusTimePicker: UIView {
         selectionBoxView.layer.cornerRadius = 5.0
         return selectionBoxView
     }()
+    
+    /// Making these constraints on the selection view accessible to allow for animation
+    fileprivate var selectionBoxViewTopConstraint: NSLayoutConstraint!
+    fileprivate var selectionBoxViewBottomConstraint: NSLayoutConstraint!
+    fileprivate var selectionBoxViewHeightAnchor: NSLayoutConstraint!
+    
     /// The table view holding the hours in a day
     private lazy var hoursTableView: UITableView = {
         let hoursTableView = UITableView()
@@ -62,6 +68,13 @@ class GyrusTimePicker: UIView {
 
         return timePeriodTableView
     }()
+    
+    private lazy var stackViewWrapper: UIView = {
+        let stackViewWrapper = UIView()
+        stackViewWrapper.translatesAutoresizingMaskIntoConstraints = false
+        stackViewWrapper.backgroundColor = UIColor.clear
+        return stackViewWrapper
+    }()
     /// The horizontal stack view containing the three table views
     private lazy var horizontalStackView: UIStackView = {
         let horizontalStackView = UIStackView()
@@ -89,6 +102,9 @@ class GyrusTimePicker: UIView {
         hoursTableView.rowHeight = self.bounds.height/3
         minutesTableView.rowHeight = self.bounds.height/3
         timePeriodTableView.rowHeight = self.bounds.height/3
+        
+        self.minutesTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: false)
+        self.hoursTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: false)
     }
     
     
@@ -96,8 +112,10 @@ class GyrusTimePicker: UIView {
         horizontalStackView.addArrangedSubview(hoursTableView)
         horizontalStackView.addArrangedSubview(minutesTableView)
         horizontalStackView.addArrangedSubview(timePeriodTableView)
+        stackViewWrapper.addSubview(horizontalStackView)
         addSubview(selectionBoxView)
-        addSubview(horizontalStackView)
+        addSubview(stackViewWrapper)
+        //addSubview(horizontalStackView)
         setupLayout()
     }
     
@@ -105,13 +123,20 @@ class GyrusTimePicker: UIView {
         selectionBoxView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         selectionBoxView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         selectionBoxView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        selectionBoxView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.33).isActive = true
+        self.selectionBoxViewHeightAnchor = selectionBoxView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.33)
+        self.selectionBoxViewHeightAnchor.isActive = true
+        
+        stackViewWrapper.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        stackViewWrapper.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        stackViewWrapper.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        stackViewWrapper.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
+        horizontalStackView.topAnchor.constraint(equalTo: stackViewWrapper.topAnchor).isActive = true
+        horizontalStackView.bottomAnchor.constraint(equalTo: stackViewWrapper.bottomAnchor).isActive = true
+        horizontalStackView.leadingAnchor.constraint(equalTo: stackViewWrapper.leadingAnchor).isActive = true
+        horizontalStackView.trailingAnchor.constraint(equalTo: stackViewWrapper.trailingAnchor).isActive = true
         
         
-        horizontalStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        horizontalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        horizontalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        horizontalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     //custom views should override this to return true if
@@ -128,7 +153,8 @@ class GyrusTimePicker: UIView {
         let gradient = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
-        self.layer.mask = gradient
+        
+        self.stackViewWrapper.layer.mask = gradient
     }
 }
 
@@ -150,7 +176,8 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
         cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        cell.textLabel?.font = UIFont(name: "futura", size: 22)
+        cell.textLabel?.font = UIFont(name: "futura", size: Constants.font.h4)
+        cell.textLabel?.lineBreakMode = .byClipping
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.textLabel?.textAlignment = .center
         if tableView == self.hoursTableView  {
@@ -261,5 +288,31 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         
         let date = Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
         return date
+    }
+    
+    func animateSelectionView(mainEventButton: UIButton) {
+        self.removeConstraint(self.selectionBoxViewHeightAnchor)
+        if (mainEventButton.isSelected) {
+            //self.alpha = 0
+            self.selectionBoxViewHeightAnchor = self.selectionBoxView.heightAnchor.constraint(equalTo:  self.heightAnchor, multiplier: 1.0)
+            var timePickerFrame = self.frame
+            //timePickerFrame.origin.y -= 250
+            self.frame = timePickerFrame
+        } else {
+            //self.alpha = 1
+            self.selectionBoxViewHeightAnchor = self.selectionBoxView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.33)
+        }
+        self.addConstraint(self.selectionBoxViewHeightAnchor)
+        
+        
+        self.layoutIfNeeded()
+        /*
+        UIView.animate(withDuration: 0.75, delay: 0.5, options: .curveEaseIn, animations: {
+            
+        }, completion: { _ in
+            //mainEventButton.isUserInteractionEnabled = true
+        })
+        */
+        
     }
 }

@@ -17,4 +17,15 @@ enum TabItem: String, CaseIterable {
             return GyrusCreateAlarmPageViewController()
         }
     }
+    
+    var icon: UIImage {
+        switch self {
+        case .alarm:
+            return #imageLiteral(resourceName: "napping")
+        }
+    }
+    
+    var displayTitle: String {
+        return self.rawValue.capitalized(with: nil)
+    }
 }
