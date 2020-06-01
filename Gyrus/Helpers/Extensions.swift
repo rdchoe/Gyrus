@@ -85,3 +85,20 @@ extension UIApplication {
         return windows.first(where: { $0.isKeyWindow })
     }
 }
+
+// MARK: UITableView-
+extension UITableView {
+    
+    private static var _currentlyScrolling = [String:Bool]()
+    
+    var currentlyScrolling: Bool  {
+        get{
+            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            return UITableView.self._currentlyScrolling[tmpAddress] ?? false
+        }
+        set(newValue) {
+           let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            UITableView._currentlyScrolling[tmpAddress] = newValue
+        }
+    }
+}

@@ -25,7 +25,7 @@ class GyrusTabBar: UIView {
     var mainEventButton: UIButton = {
        let mainEventButton = UIButton()
         mainEventButton.frame.size = CGSize(width: 80, height: 80)
-        mainEventButton.backgroundColor = Constants.colors.blue
+        mainEventButton.backgroundColor = Constants.colors.buttonColor
         mainEventButton.layer.cornerRadius = mainEventButton.frame.width / 2
        //mainEventButton.clipsToBounds = false
 

@@ -10,8 +10,11 @@ import Foundation
 import UIKit
 
 class GyrusTimePicker: UIView {
+    
+    /// A boolean indicating if any of the scrollable table views are still being **interacted** with
+    var currentlySelectingTime: Bool = false
     /// An array holding the hours of the day
-    private let hours: [Int] = [Int](0...12)
+    private let hours: [Int] = [Int](1...12)
     /// An array holding the minutes of the day  **single digit minutes should be specially handled ex. 1 -> 01**
     private let minutes: [Int] = [Int](0...59)
     /// An array holding the AM and PM time periods
@@ -38,9 +41,10 @@ class GyrusTimePicker: UIView {
         hoursTableView.backgroundColor = UIColor.clear
         hoursTableView.dataSource = self
         hoursTableView.delegate = self
-        hoursTableView.register(UITableViewCell.self, forCellReuseIdentifier: "basicCell")
+        hoursTableView.register(TimePickerCellView.self, forCellReuseIdentifier: "timePickerCell")
         hoursTableView.showsVerticalScrollIndicator = false
         hoursTableView.allowsSelection = false
+        hoursTableView.separatorColor = UIColor.clear
         return hoursTableView
     }()
     /// The table view holding the minutes in a day
@@ -50,9 +54,10 @@ class GyrusTimePicker: UIView {
         minutesTableView.backgroundColor = UIColor.clear
         minutesTableView.dataSource = self
         minutesTableView.delegate = self
-        minutesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "basicCell")
+        minutesTableView.register(TimePickerCellView.self, forCellReuseIdentifier: "timePickerCell")
         minutesTableView.showsVerticalScrollIndicator = false
         minutesTableView.allowsSelection = false
+        minutesTableView.separatorColor = UIColor.clear
         return minutesTableView
     }()
     /// The table view holding the time periods in a day (AM / PM)
@@ -62,9 +67,10 @@ class GyrusTimePicker: UIView {
         timePeriodTableView.backgroundColor = UIColor.clear
         timePeriodTableView.dataSource = self
         timePeriodTableView.delegate = self
-        timePeriodTableView.register(UITableViewCell.self, forCellReuseIdentifier: "basicCell")
+        timePeriodTableView.register(TimePickerCellView.self, forCellReuseIdentifier: "timePickerCell")
         timePeriodTableView.showsVerticalScrollIndicator = false
         timePeriodTableView.allowsSelection = false
+        timePeriodTableView.separatorColor = UIColor.clear
 
         return timePeriodTableView
     }()
@@ -102,12 +108,8 @@ class GyrusTimePicker: UIView {
         hoursTableView.rowHeight = self.bounds.height/3
         minutesTableView.rowHeight = self.bounds.height/3
         timePeriodTableView.rowHeight = self.bounds.height/3
-        
-        self.minutesTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: false)
-        self.hoursTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: false)
     }
-    
-    
+
     private func setupView() {
         horizontalStackView.addArrangedSubview(hoursTableView)
         horizontalStackView.addArrangedSubview(minutesTableView)
@@ -117,6 +119,9 @@ class GyrusTimePicker: UIView {
         addSubview(stackViewWrapper)
         //addSubview(horizontalStackView)
         setupLayout()
+        
+        self.minutesTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: true)
+        self.hoursTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: true)
     }
     
     private func setupLayout() {
@@ -135,8 +140,6 @@ class GyrusTimePicker: UIView {
         horizontalStackView.bottomAnchor.constraint(equalTo: stackViewWrapper.bottomAnchor).isActive = true
         horizontalStackView.leadingAnchor.constraint(equalTo: stackViewWrapper.leadingAnchor).isActive = true
         horizontalStackView.trailingAnchor.constraint(equalTo: stackViewWrapper.trailingAnchor).isActive = true
-        
-        
     }
     
     //custom views should override this to return true if
@@ -174,27 +177,24 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "basicCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "timePickerCell", for: indexPath) as! TimePickerCellView
         cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        cell.textLabel?.font = UIFont(name: "futura", size: Constants.font.h4)
-        cell.textLabel?.lineBreakMode = .byClipping
-        cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        cell.textLabel?.textAlignment = .center
         if tableView == self.hoursTableView  {
-            cell.textLabel?.text = String(self.hours[indexPath.row % self.hours.count])
+            cell.timePickerLabel.text = String(self.hours[indexPath.row % self.hours.count])
             return cell
         } else if tableView == self.minutesTableView {
             let minute = self.minutes[indexPath.row % self.minutes.count]
             // Case handle for single digit minutes
             if minute < 10 {
-                cell.textLabel?.text = "0" + String(minute)
+                cell.timePickerLabel.text = "0" + String(minute)
             } else {
-                cell.textLabel?.text = String(minute)
+                cell.timePickerLabel.text = String(minute)
             }
             return cell
         } else if tableView == self.timePeriodTableView {
             if indexPath.row > 0 && indexPath.row < 3 {
-                cell.textLabel?.text = String(self.period[indexPath.row-1])
+                cell.timePickerLabel
+                    .text = String(self.period[indexPath.row-1])
                 return cell
             } else {
                 return cell
@@ -220,35 +220,95 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         if decelerate == false {
             if let tableview = scrollView as? UITableView {
                 if tableview == self.hoursTableView {
+                    self.hoursTableView.currentlyScrolling = false
                     scrollToNearestRow(in: self.hoursTableView)
                 } else if tableview == self.minutesTableView {
+                    self.minutesTableView.currentlyScrolling = false
                     scrollToNearestRow(in: self.minutesTableView)
                 } else if tableview == self.timePeriodTableView {
+                    self.timePeriodTableView.currentlyScrolling = false
                     scrollToNearestRow(in: self.timePeriodTableView)
                 }
             }
         }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let tableview = scrollView as? UITableView {
-            if tableview == self.hoursTableView {
-                scrollToNearestRow(in: self.hoursTableView)
-            } else if tableview == self.minutesTableView {
-                scrollToNearestRow(in: self.minutesTableView)
-            } else if tableview == self.timePeriodTableView {
-                scrollToNearestRow(in: self.timePeriodTableView)
-            }
+        // If none of the table views are currently scrolling then the user is not currently selecting a time
+        if !hoursTableView.currentlyScrolling && !minutesTableView.currentlyScrolling && !timePeriodTableView.currentlyScrolling {
+            self.currentlySelectingTime = false
         }
     }
     
-   /**
-        Scrolls the table view row that is most in the center to the middle
-        - Parameters:
-            - tableView: the table view to scroll
-    */
-    private func scrollToNearestRow(in tableView: UITableView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print("did end decel")
+        if let tableview = scrollView as? UITableView {
+            if tableview == self.hoursTableView {
+                self.hoursTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.hoursTableView)
+            } else if tableview == self.minutesTableView {
+                self.minutesTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.minutesTableView)
+            } else if tableview == self.timePeriodTableView {
+                self.timePeriodTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.timePeriodTableView)
+            }
+        }
         
+        // If none of the table views are currently scrolling then the user is not currently selecting a time
+        if !hoursTableView.currentlyScrolling && !minutesTableView.currentlyScrolling && !timePeriodTableView.currentlyScrolling {
+            self.currentlySelectingTime = false
+        }
+        
+    }
+    
+    
+    
+ 
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let tableview = scrollView as? UITableView {
+            if tableview == self.hoursTableView {
+                self.hoursTableView.currentlyScrolling = true
+            } else if tableview == self.minutesTableView {
+                self.minutesTableView.currentlyScrolling = true
+            } else if tableview == self.timePeriodTableView {
+                self.timePeriodTableView.currentlyScrolling = true
+            }
+        }
+        self.currentlySelectingTime = true
+    }
+               
+    /*
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self.hoursTableView)
+        
+        self.perform(#selector(scrollViewDidEndScrollingAnimation(_:)), with: scrollView, afterDelay: 0.1, inModes: [.common])
+    }
+    
+    @objc func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        print("ENDED SCROLLING")
+        if let tableview = scrollView as? UITableView {
+            if tableview == self.hoursTableView {
+                NSObject.cancelPreviousPerformRequests(withTarget: self)
+                self.hoursTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.hoursTableView)
+            } else if tableview == self.minutesTableView {
+                NSObject.cancelPreviousPerformRequests(withTarget: self)
+                self.minutesTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.minutesTableView)
+            } else if tableview == self.timePeriodTableView {
+                NSObject.cancelPreviousPerformRequests(withTarget: self)
+                self.timePeriodTableView.currentlyScrolling = false
+                scrollToNearestRow(in: self.timePeriodTableView)
+            }
+        }
+        
+        // If none of the table views are currently scrolling then the user is not currently selecting a time
+        if !hoursTableView.currentlyScrolling && !minutesTableView.currentlyScrolling && !timePeriodTableView.currentlyScrolling {
+            self.currentlySelectingTime = false
+        }
+    }
+ */
+    
+    private func getRowInMiddle(in tableView: UITableView) -> IndexPath? {
         var maxArea: CGFloat = 0.0
         var winningCell: UITableViewCell = UITableViewCell()
         var cellOriginY: CGFloat
@@ -265,29 +325,87 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
                 winningCell = cell
             }
         }
-        
-        if let indexPath = tableView.indexPath(for: winningCell) {
+        return tableView.indexPath(for: winningCell)
+    }
+   /**
+        Scrolls the table view row that is most in the center to the middle
+        - Parameters:
+            - tableView: the table view to scroll
+    */
+    private func scrollToNearestRow(in tableView: UITableView) {
+        if let indexPath = getRowInMiddle(in: tableView) {
             tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
-        } else {
-            print("found no winning cell??")
         }
     }
     
+    func getRowInSelectionView(for tableView: UITableView) -> IndexPath? {
+        let indexPaths = tableView.indexPathsForRows(in: self.selectionBoxView.convert(self.selectionBoxView.frame, to: self))
+        print(indexPaths)
+        return indexPaths?[1]
+    }
     /**
      Gets the time the currently selected
      - Returns: Date object representing the time selected
      */
-    func getSelectedTime() -> Date {
+    func getSelectedTime() -> Date? {
         // visibleCells[1] is the row in the middle. There are at most 3 rows showing
+        
+        self.hoursTableView.indexPathsForRows(in: self.selectionBoxView.convert(self.selectionBoxView.frame, to: self))
+        //print("converted frame:\(self.selectionBoxView.convert(self.selectionBoxView.frame, to: self)) ")
+        let hourMiddleIndex = self.hoursTableView.indexPathsForRows(in: self.selectionBoxView.frame)?[0]
+        //var hour: Int = Int((self.hoursTableView.cellForRow(at: hourMiddleIndex!)!.textLabel!.text)!)!
+        var hour: Int = 0
+        var minute: Int = 0
+        var timePeriod: String = ""
+        if let middleHourIndexPath = getRowInMiddle(in: self.hoursTableView) {
+            print(self.hoursTableView.cellForRow(at: middleHourIndexPath)!)
+            let cell = self.hoursTableView.cellForRow(at: middleHourIndexPath)! as! TimePickerCellView
+            hour = Int(cell.timePickerLabel.text!)!
+        }
+        if let middleMinuteIndexPath = getRowInMiddle(in: self.minutesTableView) {
+            let cell = self.minutesTableView.cellForRow(at: middleMinuteIndexPath)! as! TimePickerCellView
+            minute = Int(cell.timePickerLabel.text!)!
+        }
+        if let middleTimePeriodIndexPath = getRowInMiddle(in: self.timePeriodTableView) {
+            let cell = self.timePeriodTableView.cellForRow(at: middleTimePeriodIndexPath)! as! TimePickerCellView
+            timePeriod = cell.timePickerLabel.text!
+            if timePeriod == "PM" && hour != 12 {
+                hour += 12
+            }
+        }
+        
+        
+        
+        
+        /*
         var hour: Int = Int((self.hoursTableView.visibleCells[1].textLabel?.text)!)!
         let minute: Int = Int((self.minutesTableView.visibleCells[1].textLabel?.text)!)!
         let timePeriod = (self.timePeriodTableView.visibleCells[1].textLabel?.text)!
+        //print(timePeriod)
         if timePeriod == "PM"  && hour != 12 {
             hour += 12
         }
+ */
+        //print("selectedTime: \(hour):\(minute)")
+        let currDate = Date()
         
-        let date = Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
-        return date
+        let currHour = Calendar.current.component(.hour, from: currDate)
+        let currMinute = Calendar.current.component(.minute, from: currDate)
+        //print("currTime: \(currHour):\(currMinute)")
+        if hour <= currHour { // Alarm is on the next day (possibly)
+            if hour == currHour &&  minute > currMinute { // curr: 4:30  alarm: 4:34 -> same day exception
+                //print("i am here")
+                return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: currDate)
+            }
+            if let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: currDate) {
+                return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: nextDay)
+            } else {
+                return nil
+            }
+        }
+
+        return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date())
+        
     }
     
     func animateSelectionView(mainEventButton: UIButton) {

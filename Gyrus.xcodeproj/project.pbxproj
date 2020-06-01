@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
+		D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */; };
+		D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */; };
 		D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63F7247CB08F005CDC8B /* AppDelegate.swift */; };
 		D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */; };
 		D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D74A6400247CB08F005CDC8B /* Gyrus.xcdatamodeld */; };
@@ -36,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCountdownTimerView.swift; sourceTree = "<group>"; };
+		D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerCellView.swift; sourceTree = "<group>"; };
 		D74A63F4247CB08F005CDC8B /* Gyrus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gyrus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74A63F7247CB08F005CDC8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,67 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
+		D72F72172484E2DA00B92AD7 /* GyrusTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				D77123582481667900D9D303 /* TabItem.swift */,
+				D72F721C2484E34300B92AD7 /* Views */,
+				D72F721B2484E33700B92AD7 /* ViewController */,
+			);
+			path = GyrusTabBar;
+			sourceTree = "<group>";
+		};
+		D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */ = {
+			isa = PBXGroup;
+			children = (
+				D72F721A2484E32C00B92AD7 /* Views */,
+				D72F72192484E32200B92AD7 /* ViewController */,
+			);
+			path = GyrusCreateAlarmPage;
+			sourceTree = "<group>";
+		};
+		D72F72192484E32200B92AD7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		D72F721A2484E32C00B92AD7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */,
+				D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */,
+				D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D72F721B2484E33700B92AD7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D7712345247F897800D9D303 /* GyrusTabBarController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		D72F721C2484E34300B92AD7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D7712352248132FB00D9D303 /* GyrusTabBar.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D72F721D2484E36000B92AD7 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 		D74A63EB247CB08F005CDC8B = {
 			isa = PBXGroup;
 			children = (
@@ -104,10 +169,9 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
-				D7712350247FCB2700D9D303 /* Constants.swift */,
+				D72F721D2484E36000B92AD7 /* Pages */,
+				D72F72172484E2DA00B92AD7 /* GyrusTabBar */,
 				D7712349247F907F00D9D303 /* Helpers */,
-				D7712344247F895E00D9D303 /* ViewControllers */,
-				D771234C247FA08A00D9D303 /* Views */,
 				D70B6F4A247E065A001A14DC /* Core Data */,
 				D74A63F7247CB08F005CDC8B /* AppDelegate.swift */,
 				D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */,
@@ -127,32 +191,14 @@
 			path = GyrusTests;
 			sourceTree = "<group>";
 		};
-		D7712344247F895E00D9D303 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				D7712345247F897800D9D303 /* GyrusTabBarController.swift */,
-				D77123582481667900D9D303 /* TabItem.swift */,
-				D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
 		D7712349247F907F00D9D303 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				D771234A247F908D00D9D303 /* Extensions.swift */,
 				D771235624813E4B00D9D303 /* Helpers.swift */,
+				D7712350247FCB2700D9D303 /* Constants.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		D771234C247FA08A00D9D303 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				D771234D247FA0A400D9D303 /* GyrusTimePickerView.swift */,
-				D7712352248132FB00D9D303 /* GyrusTabBar.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +304,11 @@
 				D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
 				D77123592481667900D9D303 /* TabItem.swift in Sources */,
+				D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
 				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
 				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
+				D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */,
 				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
@@ -421,6 +469,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LSP9LJQBT3;
 				INFOPLIST_FILE = Gyrus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -439,6 +488,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LSP9LJQBT3;
 				INFOPLIST_FILE = Gyrus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
