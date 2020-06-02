@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
 // MARK: UIView-
 extension UIView {
@@ -100,5 +101,20 @@ extension UITableView {
            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
             UITableView._currentlyScrolling[tmpAddress] = newValue
         }
+    }
+}
+
+// MARK: MPVolumeView-
+extension MPVolumeView {
+    static func setVolume(_ volume: Float) {
+        // Need to use the MPVolumeView in order to change volume, but don't care about UI set so frame to .zero
+        let volumeView = MPVolumeView(frame: .zero)
+        // Search for the slider
+        let slider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
+        // Update the slider value with the desired volume.
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+            slider?.value = volume
+        }
+        // Optional - Remove the HUD
     }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
 class GyrusCreateAlarmPageViewController: UIViewController {
     
@@ -46,7 +47,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         let alarmLabel = UITextField()
         alarmLabel.translatesAutoresizingMaskIntoConstraints = false
         alarmLabel.textColor = Constants.colors.whiteTextColor
-        alarmLabel.text = "Alarm"
+        alarmLabel.placeholder = "Alarm"
         alarmLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.h4)
         alarmLabel.textAlignment = .center
         alarmLabel.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
@@ -66,11 +67,10 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         countdownTimerView.alpha = 0
         return countdownTimerView
     }()
-    
-    
-    
-    var timePickerCenterYConstraint: NSLayoutConstraint!
+
     var contentWrapperViewTopConstraint: NSLayoutConstraint!
+    var separatorLeadingConstraint: NSLayoutConstraint!
+    var separatorTrailingConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
@@ -113,8 +113,13 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             "V:[countdownTimerView(100)]"
         ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
         
-        contentWrapperViewTopConstraint = contentWrapperView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.view.frame.height / 8))
+        contentWrapperViewTopConstraint = contentWrapperView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.view.frame.height / 4))
         contentWrapperViewTopConstraint.isActive = true
+        
+        separatorLeadingConstraint = self.separator.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor)
+        separatorLeadingConstraint.isActive = true
+        separatorTrailingConstraint = self.separator.trailingAnchor.constraint(equalTo: self.timePickerView.trailingAnchor)
+        separatorTrailingConstraint.isActive = true
         NSLayoutConstraint.activate([
             contentWrapperView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             contentWrapperView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
@@ -126,9 +131,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             self.alarmLabel.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor),
             self.alarmLabel.trailingAnchor.constraint(equalTo: self.timePickerView.trailingAnchor),
             self.alarmLabel.topAnchor.constraint(equalTo: self.timePickerView.bottomAnchor, constant: Constants.spacing.standard),
-            
-            self.separator.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor),
-            self.separator.trailingAnchor.constraint(equalTo: self.timePickerView.trailingAnchor),
+        
             self.separator.topAnchor.constraint(equalTo: self.alarmLabel.bottomAnchor),
             
             self.countdownTimerView.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor),
@@ -146,7 +149,41 @@ class GyrusCreateAlarmPageViewController: UIViewController {
 
 extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
-        
+        animateScreen(button: button)
+        // Turning an alarm on if button is selected
+        if button.isSelected {
+            guard let timeUntilAlarm = self.timePickerView.getSelectedTime() else {
+                return
+            }
+            let alarm: Alarm = AppDelegate.appCoreDateManager.addAlarm(time: timeUntilAlarm, name: self.alarmLabel.text ?? self.alarmLabel.placeholder!)
+            
+            PushNotificationManager.createLocalNotification(alarm: alarm)
+           
+            let alarmSound = Bundle.main.path(forResource: "boniver", ofType: "mp3")
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.duckOthers, .defaultToSpeaker])
+                try AVAudioSession.sharedInstance().setActive(true)
+                UIApplication.shared.beginReceivingRemoteControlEvents()
+                AppDelegate.GyrusAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: alarmSound!))
+                print(AppDelegate.GyrusAudioPlayer.deviceCurrentTime)
+                AppDelegate.GyrusAudioPlayer.play(atTime: AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)
+                print("time: \(AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)")
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alarm.time!.timeIntervalSinceNow, execute: {
+                    MPVolumeView.setVolume(1.0)
+                })
+
+            } catch {
+               print(error)
+            }
+        } else { // deactivating an alarm
+            // Stop the audio player
+            AppDelegate.GyrusAudioPlayer.stop()
+            // delete all pending alarms
+            AppDelegate.appCoreDateManager.deleteAllAlarms()
+        }
+    }
+    
+    private func animateScreen(button: UIButton) {
         button.isUserInteractionEnabled = false
         self.alarmLabel.isUserInteractionEnabled = false
         
@@ -155,45 +192,61 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
         
         
         if !self.timePickerView.currentlySelectingTime {
-            
-            print("i am not currently selecting a time")
             if button.isSelected { // | Turning ON the alarm
                 guard let timeTillAlarm = self.timePickerView.getSelectedTime()?.timeIntervalSinceNow else {
                     return
                 }
                 self.countdownTimerView.startCountdown(time: timeTillAlarm)
+                // Animate the time picker expansion, THEN (on completion) do other animations
                 UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut, animations: {
+                    // 1
                     self.timePickerView.animateSelectionView(mainEventButton: button)
                 }, completion: { _ in
+                    // 2
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                         self.contentWrapperViewTopConstraint.constant -= distanceToTravel
                         self.timePickerView.alpha = 0
                         self.contentWrapperView.frame = contentWrapperViewFrame
-                        
-                        
+                        // layoutifneeded necesary for the constraint constant changes to animate
                         self.view.layoutIfNeeded()
                     }, completion: { _ in
+                        // 3
                         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                            self.separatorLeadingConstraint.constant = -24
+                            self.separatorTrailingConstraint.constant = 24
+                            self.separator.backgroundColor = Constants.colors.whiteTextColor
                             self.countdownTimerView.alpha = 1
+                            // layoutifneeded necesary for the constraint constant changes to animate
+                            self.view.layoutIfNeeded()
                         })
                         button.isUserInteractionEnabled = true
                     })
                 })
             } else { // animating back to in-active state | Turning OFF the alarm
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+                    // 1
                     self.countdownTimerView.alpha = 0
+                    self.separatorLeadingConstraint.constant = 0
+                    self.separatorTrailingConstraint.constant = 0
+                    self.separator.backgroundColor = Constants.colors.gray
+                    // layoutifneeded necesary for the constraint constant changes to animate
+                    self.view.layoutIfNeeded()
                 }, completion: { _ in
                     UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut,animations: {
+                        // 2
                         self.contentWrapperViewTopConstraint.constant += distanceToTravel
                         self.timePickerView.alpha = 1
                         self.contentWrapperView.frame = contentWrapperViewFrame
                         self.countdownTimerView.alpha = 0
                         self.countdownTimerView.stopCountdown()
+                        // layoutifneeded necesary for the constraint constant changes to animate
                         self.view.layoutIfNeeded()
                     }, completion: {_ in
+                        // 3
                         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut,animations: {
                             self.timePickerView.animateSelectionView(mainEventButton: button)
                         }, completion: { _ in
+                            // 4
                             button.isUserInteractionEnabled = true
                             self.alarmLabel.isUserInteractionEnabled = true
                         })
@@ -202,7 +255,6 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                 
             }
         } else { // The user is in the middle of interacting with the time picker
-            print("what the heck it says that i am currently selecting a time")
             button.isUserInteractionEnabled = true // interaction should be set back to true
             button.isSelected = false // button selection should be undone
         }

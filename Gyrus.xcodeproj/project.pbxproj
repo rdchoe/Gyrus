@@ -24,6 +24,8 @@
 		D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712352248132FB00D9D303 /* GyrusTabBar.swift */; };
 		D771235724813E4B00D9D303 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771235624813E4B00D9D303 /* Helpers.swift */; };
 		D77123592481667900D9D303 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77123582481667900D9D303 /* TabItem.swift */; };
+		D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */; };
+		D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7BCBD272485A8D800F645D8 /* boniver.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,10 @@
 		D7712352248132FB00D9D303 /* GyrusTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBar.swift; sourceTree = "<group>"; };
 		D771235624813E4B00D9D303 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D77123582481667900D9D303 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gyrus.entitlements; sourceTree = "<group>"; };
+		D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		D7BCBD272485A8D800F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boniver.mp3; path = "../../../Music/Music/Media.localized/Unknown Artist/Unknown Album/boniver.mp3"; sourceTree = "<group>"; };
+		D7BCBD2A2485A8E100F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boniver.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				D74A6400247CB08F005CDC8B /* Gyrus.xcdatamodeld */,
-				D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -169,9 +174,13 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
+				D7BCBD292485A8DD00F645D8 /* Alarm Sounds */,
+				D7BCBD242485A47800F645D8 /* Managers */,
+				D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */,
 				D72F721D2484E36000B92AD7 /* Pages */,
 				D72F72172484E2DA00B92AD7 /* GyrusTabBar */,
 				D7712349247F907F00D9D303 /* Helpers */,
+				D7BCBD272485A8D800F645D8 /* boniver.mp3 */,
 				D70B6F4A247E065A001A14DC /* Core Data */,
 				D74A63F7247CB08F005CDC8B /* AppDelegate.swift */,
 				D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */,
@@ -199,6 +208,23 @@
 				D7712350247FCB2700D9D303 /* Constants.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D7BCBD242485A47800F645D8 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */,
+				D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		D7BCBD292485A8DD00F645D8 /* Alarm Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				D7BCBD2A2485A8E100F645D8 /* boniver.mp3 */,
+			);
+			path = "Alarm Sounds";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
+				D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */,
 				D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,6 +340,7 @@
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
+				D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */,
 				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);
@@ -466,6 +494,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Gyrus/Gyrus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LSP9LJQBT3;
 				INFOPLIST_FILE = Gyrus/Info.plist;
@@ -485,6 +514,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Gyrus/Gyrus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LSP9LJQBT3;
 				INFOPLIST_FILE = Gyrus/Info.plist;
