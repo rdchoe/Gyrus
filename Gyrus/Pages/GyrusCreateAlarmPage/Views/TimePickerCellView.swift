@@ -17,6 +17,7 @@ class TimePickerCellView: UITableViewCell {
         timePickerLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.timePickerFontSize)
         timePickerLabel.textAlignment = .center
         timePickerLabel.lineBreakMode = .byClipping
+        timePickerLabel.textColor = Constants.colors.whiteTextColor
         return timePickerLabel
     }()
     

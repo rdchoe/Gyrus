@@ -10,18 +10,23 @@ import UIKit
 
 enum TabItem: String, CaseIterable {
     case alarm = "alarm"
+    case create = "create"
     
     var viewController: UIViewController {
         switch self {
         case .alarm:
             return GyrusCreateAlarmPageViewController()
+        case .create:
+            return GyrusCreateDreamPageViewController()
         }
     }
     
     var icon: UIImage {
         switch self {
         case .alarm:
-            return #imageLiteral(resourceName: "napping")
+            return #imageLiteral(resourceName: "alarm")
+        case .create:
+            return #imageLiteral(resourceName: "create")
         }
     }
     

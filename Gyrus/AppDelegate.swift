@@ -8,14 +8,17 @@
 
 import UIKit
 import CoreData
+import AVFoundation
+import MediaPlayer
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        registerForPushNotification()
         return true
     }
 
@@ -34,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
+    
+    static let appCoreDateManager: CoreDataManager = CoreDataManager()
 
     lazy var persistentContainer: NSPersistentContainer = {
         /*
@@ -63,7 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     // MARK: - Core Data Saving support
-
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -77,6 +81,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    
+    // MARK: Alarm System-
+    static var GyrusAudioPlayer: AVAudioPlayer = AVAudioPlayer()
+    
+    /// Register the user for push notifications
+    func registerForPushNotification() {
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge, .sound, .criticalAlert]) {
+            granted, error in
+            print("Permissiong grandted: \(granted)")
+            guard granted else { return }
+            self.getNotificationSettings()
+        }
+    }
+    
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings {
+            settings in
+                print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        MPVolumeView.setVolume(1.0)
+    }
+    
+    
+    
+    
+    
 }
 

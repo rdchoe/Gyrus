@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import MediaPlayer
 
-class GyrusTabBarController: UITabBarController {
+class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegate {
     
     private var mainEventButton: UIButton = {
        let mainEventButton = UIButton()
@@ -47,29 +48,14 @@ class GyrusTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*
-        self.setupViewController()
-        let alarmPage = GyrusCreateAlarmPageViewController()
-        alarmPage.tabBarItem = UITabBarItem(title: "Alarm", image: #imageLiteral(resourceName: "napping"), tag: 0)
-        let alarmPag2 = GyrusCreateAlarmPageViewController()
-        alarmPag2.tabBarItem = UITabBarItem(title: "Alarm", image: #imageLiteral(resourceName: "napping"), tag: 1)
-        let page3 = GyrusCreateAlarmPageViewController()
-        page3.tabBarItem = UITabBarItem(title: "Alarm", image: #imageLiteral(resourceName: "napping"), tag: 2)
-        let page4 = GyrusCreateAlarmPageViewController()
-        page4.tabBarItem = UITabBarItem(title: "Alarm", image: #imageLiteral(resourceName: "napping"), tag: 2)
-        self.viewControllers = [alarmPage, alarmPag2, page3, page4]
-         */
-        
-        //self.tabBar.barTintColor = UIColor.clear
-        
-        //self.tabBar.isTranslucent = true
-        
         self.loadGyrusTabBar()
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.delegate = self
     }
     
     private func loadGyrusTabBar() {
-        let tabItems: [TabItem] = [.alarm]
+        let tabItems: [TabItem] = [.alarm, .create]
         self.setupCustomTabBar(tabItems) { (controllers) in
             self.viewControllers = controllers
         }
@@ -106,11 +92,16 @@ class GyrusTabBarController: UITabBarController {
     func changeTab(tab: Int) {
         self.selectedIndex = tab
     }
-    /*
-    private func setupViewController() {
-        mainEventButton.center = CGPoint(x: tabBar.frame.width/2, y: -10)
-        self.tabBar.addSubview(mainEventButton)
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("opening up from notificaiton in app delegate")
+        // Turning down the volume
+        MPVolumeView.setVolume(0.5)
+        print(response.notification.request.content.userInfo)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(_:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
     }
-    */
+    @objc func volumeChanged(_ notifcation: NSNotification) {
+        MPVolumeView.setVolume(0.5)
+    }
 }

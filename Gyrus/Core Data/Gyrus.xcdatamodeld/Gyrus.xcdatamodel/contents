@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Alarm" representedClassName="Alarm" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="time" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="emoji" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="popularity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="relatedDreams" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Dream" inverseName="relatedCategories" inverseEntity="Dream"/>
     </entity>
     <entity name="Dream" representedClassName="Dream" syncable="YES" codeGenerationType="class">
-        <attribute name="content" optional="YES" attributeType="String"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="content" attributeType="String"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String"/>
         <relationship name="relatedCategories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Category" inverseName="relatedDreams" inverseEntity="Category"/>
     </entity>
     <elements>
         <element name="Alarm" positionX="-19.6875" positionY="-167.75390625" width="128" height="88"/>
+        <element name="Category" positionX="132.39453125" positionY="-20.9140625" width="128" height="118"/>
         <element name="Dream" positionX="347.9140625" positionY="-41.44921875" width="128" height="118"/>
-        <element name="Category" positionX="132.39453125" positionY="-20.9140625" width="128" height="88"/>
     </elements>
 </model>
