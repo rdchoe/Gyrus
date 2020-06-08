@@ -27,7 +27,6 @@ class GyrusTabBar: UIView {
         mainEventButton.frame.size = CGSize(width: 80, height: 80)
         mainEventButton.backgroundColor = Constants.colors.buttonColor
         mainEventButton.layer.cornerRadius = mainEventButton.frame.width / 2
-       //mainEventButton.clipsToBounds = false
 
         // adding drop shadow
         mainEventButton.layer.shadowColor = UIColor.black.cgColor
@@ -98,7 +97,6 @@ class GyrusTabBar: UIView {
     
     
     func renderMenuItems(menuItems: [TabItem]) {
-        
         self.addSubview(leadingStackView)
         self.addSubview(trailingStackView)
         
@@ -114,37 +112,21 @@ class GyrusTabBar: UIView {
             trailingStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         // This is what's going through that array of menu items
-        for (index,menuItem) in menuItems[0...menuItems.count / 2].enumerated() {
+        let splittedMenuItems = menuItems.splitted()
+        let left = splittedMenuItems.0
+        let right = splittedMenuItems.1
+        
+        for (index,menuItem) in left.enumerated() {
             let itemView = self.createTabItem(item: menuItem)
             itemView.tag = index
             leadingStackView.addArrangedSubview(itemView)
         }
-        
-        if ((menuItems.count / 2) + 1 <= menuItems.count - 1) {
-            for (index,menuItem) in menuItems[((menuItems.count / 2) + 1)...menuItems.count].enumerated() {
-                let itemView = self.createTabItem(item: menuItem)
-                itemView.tag = index + ((menuItems.count / 2) + 1)
-                trailingStackView.addArrangedSubview(itemView)
-            }
+        for (index,menuItem) in right.enumerated() {
+            let itemView = self.createTabItem(item: menuItem)
+            itemView.tag = index + left.count
+            trailingStackView.addArrangedSubview(itemView)
         }
-        /*
-        for i in 0 ..< menuItems.count {
-            let itemWidth = self.frame.width / CGFloat(menuItems.count)
-            let leadingAnchor = itemWidth * CGFloat(i)
-            
-            let itemView = self.createTabItem(item: menuItems[i])
-            itemView.translatesAutoresizingMaskIntoConstraints = false
-            itemView.clipsToBounds = true
-            itemView.tag = i
-        self.addSubview(itemView)
-        NSLayoutConstraint.activate([
-                itemView.heightAnchor.constraint(equalTo: self.heightAnchor),
-                itemView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: leadingAnchor),
-                itemView.topAnchor.constraint(equalTo: self.topAnchor),
-            ])
-        }
- */
-            
+
         self.setNeedsLayout()
         self.layoutIfNeeded()
         self.activateTab(tab: 0) // activate the first tab
@@ -258,8 +240,6 @@ class GyrusTabBar: UIView {
     }
     
     private func setupMiddleButton() {
-        print("i am here")
-        //self.mainEventButton.center = CGPoint(x: self.frame.width / 2, y: 0)
         addSubview(self.mainEventButton)
     }
     

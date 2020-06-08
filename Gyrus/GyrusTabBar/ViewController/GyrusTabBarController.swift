@@ -55,7 +55,7 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
     }
     
     private func loadGyrusTabBar() {
-        let tabItems: [TabItem] = [.alarm]
+        let tabItems: [TabItem] = [.alarm, .create]
         self.setupCustomTabBar(tabItems) { (controllers) in
             self.viewControllers = controllers
         }

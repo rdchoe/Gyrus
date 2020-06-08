@@ -142,13 +142,15 @@ class CoreDataManager: NSObject {
         - Parameters:
             - name: the name of the category
      */
-    func addCategory(name: String) {
+    func addCategory(name: String, emoji: String) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Category", in: self.container.viewContext) else  {
             fatalError("Could not find entity named Category");
         }
         
         let category = Category(entity: entity, insertInto: self.container.viewContext)
         category.name = name
+        category.emoji = emoji
+        category.popularity = 0
         category.id = UUID()
         save()
     }
@@ -160,6 +162,9 @@ class CoreDataManager: NSObject {
     func fetchAllCategories() -> [Category] {
         let context = self.container.viewContext
         let request: NSFetchRequest<Category> = Category.fetchRequest()
+        let popularitySort = NSSortDescriptor(key: "popularity", ascending: false)
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [popularitySort, nameSort]
         var categories: [Category] = []
         
         do {

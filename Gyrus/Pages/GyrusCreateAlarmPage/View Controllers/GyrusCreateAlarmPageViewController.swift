@@ -13,9 +13,9 @@ import MediaPlayer
 class GyrusCreateAlarmPageViewController: UIViewController {
     
     /**
-                |--contentWrapperView(stackview)--|
+                |--contentWrapperView-----------------|
                 |            |-----------------------|               |
-                |            |TimePicker          |
+                |            |TimePicker          |               |
                 |            |-----------------------|               |
                 |                                                        |
                 |            |-----------------------|               |
@@ -71,6 +71,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     var contentWrapperViewTopConstraint: NSLayoutConstraint!
     var separatorLeadingConstraint: NSLayoutConstraint!
     var separatorTrailingConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
@@ -81,7 +82,10 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             let sleepingIcon = UIImage(cgImage: #imageLiteral(resourceName: "napping").cgImage!, scale: #imageLiteral(resourceName: "napping").scale * -0.5, orientation:#imageLiteral(resourceName: "napping").imageOrientation)
             
             sleepingIcon.withTintColor(UIColor.white, renderingMode: .automatic)
-            gyrusTabBarController.gyrusTabBar.mainEventButton.setImage(sleepingIcon, for: .normal)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Stop", for: .selected)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
+
         }
     }
     

@@ -118,3 +118,14 @@ extension MPVolumeView {
         // Optional - Remove the HUD
     }
 }
+
+// MARK: Array-
+extension Array {
+    func splitted() -> ([Element], [Element]) {
+        let half = count / 2 + count % 2
+        let head = self[0..<half]
+        let tail = self[half..<count]
+
+        return (Array(head), Array(tail))
+    }
+}

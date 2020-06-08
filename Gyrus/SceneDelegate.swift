@@ -25,6 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = tabBarController
             self.window = window
             window.makeKeyAndVisible()
+            
+            createTagsTest()
         }
     }
 
@@ -59,6 +61,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
+    func createTagsTest() {
+        AppDelegate.appCoreDateManager.deleteAllCategories()
+        
+        AppDelegate.appCoreDateManager.addCategory(name: "Falling", emoji: "🌩")
+        AppDelegate.appCoreDateManager.addCategory(name: "Super Powers", emoji: "🦸🏻‍♂️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Very long category", emoji: "🌩")
+        AppDelegate.appCoreDateManager.addCategory(name: "Good Dream", emoji: "☺️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Nightmare", emoji: "😱")
+        AppDelegate.appCoreDateManager.addCategory(name: "Lucid Dream", emoji: "🤯")
+        AppDelegate.appCoreDateManager.addCategory(name: "Flying", emoji: "🌌")
+        AppDelegate.appCoreDateManager.addCategory(name: "Drunk", emoji: "🥴")
+        AppDelegate.appCoreDateManager.addCategory(name: "Person", emoji: "💁🏼‍♀️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Dad", emoji: "👨‍👦")
+        AppDelegate.appCoreDateManager.addCategory(name: "Music", emoji: "🎸")
+        AppDelegate.appCoreDateManager.addCategory(name: "Church", emoji: "⛪️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Chaos", emoji: "❌")
+        AppDelegate.appCoreDateManager.addCategory(name: "School", emoji: "🏫")
+        AppDelegate.appCoreDateManager.addCategory(name: "Work", emoji: "🗳")
+
+    }
 
 }
 

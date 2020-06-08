@@ -12,6 +12,7 @@ struct Constants {
     struct font {
         static let futura = "futura"
         static let futura_bold = "futura-bold"
+        static let futura_condensed = "futura-condensedMedium"
         
         /// Font Sizes
         static let h1: CGFloat = 96.0
@@ -40,6 +41,11 @@ struct Constants {
         static let tabbbarHeight: CGFloat = 67.0
     }
     
+    struct dreamLogPage {
+        static let categoryHeaderText: String = "Categories"
+        static let placeholderText: String = "Type your dream here"
+    }
+    
     // MARK: Colors
     struct colors {
         static let gray: UIColor = #colorLiteral(red: 0.4909371734, green: 0.5244275331, blue: 0.5922471881, alpha: 1)
@@ -47,5 +53,11 @@ struct Constants {
         static let textBlue: UIColor = #colorLiteral(red: 0.3482666612, green: 0.5096385479, blue: 0.7128044963, alpha: 1)
         static let buttonColor: UIColor = #colorLiteral(red: 0.2110268772, green: 0.2574242651, blue: 0.3377935886, alpha: 1)
         static let whiteTextColor: UIColor = #colorLiteral(red: 0.9679533839, green: 0.9687924981, blue: 0.9517564178, alpha: 1)
+    }
+    
+    struct category {
+        static let fontSize: CGFloat = 18.0
+        static let cellHeight: CGFloat = 29.0
+        
     }
 }

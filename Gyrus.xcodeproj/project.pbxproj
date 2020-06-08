@@ -24,6 +24,9 @@
 		D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712352248132FB00D9D303 /* GyrusTabBar.swift */; };
 		D771235724813E4B00D9D303 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771235624813E4B00D9D303 /* Helpers.swift */; };
 		D77123592481667900D9D303 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77123582481667900D9D303 /* TabItem.swift */; };
+		D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */; };
+		D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */; };
+		D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */; };
 		D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */; };
 		D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7BCBD272485A8D800F645D8 /* boniver.mp3 */; };
 /* End PBXBuildFile section */
@@ -60,6 +63,9 @@
 		D7712352248132FB00D9D303 /* GyrusTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBar.swift; sourceTree = "<group>"; };
 		D771235624813E4B00D9D303 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D77123582481667900D9D303 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateDreamPageViewController.swift; sourceTree = "<group>"; };
+		D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewLayout.swift; sourceTree = "<group>"; };
 		D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gyrus.entitlements; sourceTree = "<group>"; };
 		D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		D7BCBD272485A8D800F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boniver.mp3; path = "../../../Music/Music/Media.localized/Unknown Artist/Unknown Album/boniver.mp3"; sourceTree = "<group>"; };
@@ -106,17 +112,17 @@
 			isa = PBXGroup;
 			children = (
 				D72F721A2484E32C00B92AD7 /* Views */,
-				D72F72192484E32200B92AD7 /* ViewController */,
+				D72F72192484E32200B92AD7 /* View Controllers */,
 			);
 			path = GyrusCreateAlarmPage;
 			sourceTree = "<group>";
 		};
-		D72F72192484E32200B92AD7 /* ViewController */ = {
+		D72F72192484E32200B92AD7 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				D7712347247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift */,
 			);
-			path = ViewController;
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		D72F721A2484E32C00B92AD7 /* Views */ = {
@@ -148,6 +154,7 @@
 		D72F721D2484E36000B92AD7 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				D7A59E982489352400DC4257 /* GyrusCreatePage */,
 				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
 			);
 			path = Pages;
@@ -208,6 +215,32 @@
 				D7712350247FCB2700D9D303 /* Constants.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D7A59E982489352400DC4257 /* GyrusCreatePage */ = {
+			isa = PBXGroup;
+			children = (
+				D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */,
+				D7A59E992489353C00DC4257 /* Views */,
+				D7A59E9A2489354600DC4257 /* View Controllers */,
+			);
+			path = GyrusCreatePage;
+			sourceTree = "<group>";
+		};
+		D7A59E992489353C00DC4257 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D7A59E9A2489354600DC4257 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		D7BCBD242485A47800F645D8 /* Managers */ = {
@@ -331,13 +364,16 @@
 				D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
 				D77123592481667900D9D303 /* TabItem.swift in Sources */,
+				D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */,
 				D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
 				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
 				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
 				D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */,
 				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
+				D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
+				D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */,
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
 				D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */,
