@@ -68,9 +68,12 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         return countdownTimerView
     }()
 
-    var contentWrapperViewTopConstraint: NSLayoutConstraint!
-    var separatorLeadingConstraint: NSLayoutConstraint!
-    var separatorTrailingConstraint: NSLayoutConstraint!
+    /// The state of the page that toggles when the main event button is clicked (each page should have this to determine the button functionality and title)
+    private var pageState: PageState = .notSelected
+    
+    private var contentWrapperViewTopConstraint: NSLayoutConstraint!
+    private var separatorLeadingConstraint: NSLayoutConstraint!
+    private var separatorTrailingConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,11 +82,13 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
-            let sleepingIcon = UIImage(cgImage: #imageLiteral(resourceName: "napping").cgImage!, scale: #imageLiteral(resourceName: "napping").scale * -0.5, orientation:#imageLiteral(resourceName: "napping").imageOrientation)
-            
-            sleepingIcon.withTintColor(UIColor.white, renderingMode: .automatic)
-            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
-            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Stop", for: .selected)
+            gyrusTabBarController.gyrusTabBar.delegate = self
+            switch self.pageState {
+            case .selected:
+                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Stop", for: .normal)
+            case .notSelected:
+                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
+            }
             gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
 
         }
@@ -151,18 +156,23 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     }
 }
 
+
+// MARK: Gyrus Tab Bar Delegate-
 extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
+        print("I am in create alarm page view contorller")
         animateScreen(button: button)
         // Turning an alarm on if button is selected
-        if button.isSelected {
+        
+        switch self.pageState {
+        case .notSelected: // Page is not currently selected, and user pressed button | turning ON alarm
             guard let timeUntilAlarm = self.timePickerView.getSelectedTime() else {
                 return
             }
             let alarm: Alarm = AppDelegate.appCoreDateManager.addAlarm(time: timeUntilAlarm, name: self.alarmLabel.text ?? self.alarmLabel.placeholder!)
             
             PushNotificationManager.createLocalNotification(alarm: alarm)
-           
+            
             let alarmSound = Bundle.main.path(forResource: "boniver", ofType: "mp3")
             do {
                 try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.duckOthers, .defaultToSpeaker])
@@ -175,17 +185,22 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alarm.time!.timeIntervalSinceNow, execute: {
                     MPVolumeView.setVolume(1.0)
                 })
-
+                
             } catch {
-               print(error)
+                print(error)
             }
-        } else { // deactivating an alarm
+            button.setTitle("Stop", for: .normal)
+            self.pageState = .selected
+            
+        case .selected: // Page is currently selected, and user pressed button | turning OFF alarm
             // Stop the audio player
             AppDelegate.GyrusAudioPlayer.stop()
             // delete all pending alarms
             AppDelegate.appCoreDateManager.deleteAllAlarms()
             // remove all pending local notifications
             PushNotificationManager.removeAllPendingAlarmNotification()
+            button.setTitle("Start", for: .normal)
+            self.pageState = .notSelected
         }
     }
     
@@ -198,7 +213,8 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
         
         
         if !self.timePickerView.currentlySelectingTime {
-            if button.isSelected { // | Turning ON the alarm
+            switch self.pageState {
+            case .notSelected: // | Turning ON the alarm
                 guard let timeTillAlarm = self.timePickerView.getSelectedTime()?.timeIntervalSinceNow else {
                     return
                 }
@@ -228,7 +244,7 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                         button.isUserInteractionEnabled = true
                     })
                 })
-            } else { // animating back to in-active state | Turning OFF the alarm
+            case .selected: // animating back to in-active state | Turning OFF the alarm
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
                     // 1
                     self.countdownTimerView.alpha = 0
@@ -258,11 +274,9 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                         })
                     })
                 })
-                
             }
         } else { // The user is in the middle of interacting with the time picker
             button.isUserInteractionEnabled = true // interaction should be set back to true
-            button.isSelected = false // button selection should be undone
         }
     }
 }

@@ -61,3 +61,7 @@ struct Constants {
         
     }
 }
+
+enum PageState: CaseIterable {
+    case selected, notSelected
+}

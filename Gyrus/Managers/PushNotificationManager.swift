@@ -22,7 +22,6 @@ class PushNotificationManager: NSObject {
         }
         notifcationCenter.getNotificationSettings { (settings) in
           if settings.authorizationStatus != .authorized {
-            print("WHAT THE HECK")
             // Notifications not allowed
           }
         }
@@ -39,8 +38,6 @@ class PushNotificationManager: NSObject {
          
         let uuidString = UUID().uuidString
         let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
-        
-        
         notifcationCenter.add(request) { (error) in
             if error != nil  {
                 // handle errors here

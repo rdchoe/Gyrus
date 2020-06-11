@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class GyrusCreateDreamPageViewController: UIViewController {
+    
     /**
                |-CreateDreamPageViewController-|
                |       |------Header stack view------|   |
@@ -88,6 +89,9 @@ class GyrusCreateDreamPageViewController: UIViewController {
         
         return dreamLogTextView
     }()
+    
+    /// The state of the page that toggles when the main event button is clicked (each page should have this to determine the button functionality and title)
+    private var pageState: PageState = .notSelected
     
     private var categories: [[Category]] = [[],[],[]]
     private var numberOfCategoryRows = 3
@@ -171,9 +175,8 @@ class GyrusCreateDreamPageViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
-            let sleepingIcon = UIImage(cgImage: #imageLiteral(resourceName: "napping").cgImage!, scale: #imageLiteral(resourceName: "napping").scale * -0.5, orientation:#imageLiteral(resourceName: "napping").imageOrientation)
             
-            sleepingIcon.withTintColor(UIColor.white, renderingMode: .automatic)
+            gyrusTabBarController.gyrusTabBar.delegate = self
             gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Save", for: .normal)
             gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
         }
@@ -263,5 +266,12 @@ extension GyrusCreateDreamPageViewController: UITextViewDelegate {
             self.dreamLogTextView.textColor = Constants.colors.gray
             self.hasStartedLogging = false
         }
+    }
+}
+
+extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
+    func mainEventButtonClicked(button: UIButton) {
+        button.isSelected = false
+        print("i am here in the dream page view controller!")
     }
 }
