@@ -184,6 +184,8 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
             AppDelegate.GyrusAudioPlayer.stop()
             // delete all pending alarms
             AppDelegate.appCoreDateManager.deleteAllAlarms()
+            // remove all pending local notifications
+            PushNotificationManager.removeAllPendingAlarmNotification()
         }
     }
     
