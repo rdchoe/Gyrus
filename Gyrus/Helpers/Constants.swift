@@ -53,12 +53,23 @@ struct Constants {
         static let textBlue: UIColor = #colorLiteral(red: 0.3482666612, green: 0.5096385479, blue: 0.7128044963, alpha: 1)
         static let buttonColor: UIColor = #colorLiteral(red: 0.2110268772, green: 0.2574242651, blue: 0.3377935886, alpha: 1)
         static let whiteTextColor: UIColor = #colorLiteral(red: 0.9679533839, green: 0.9687924981, blue: 0.9517564178, alpha: 1)
+        static let grayBlue: UIColor = #colorLiteral(red: 0.2110268772, green: 0.2574242651, blue: 0.3377935886, alpha: 1)
+        static let lightBlue: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8470588235)
+        static let white: UIColor = #colorLiteral(red: 0.9679533839, green: 0.9687924981, blue: 0.9517564178, alpha: 1)
     }
     
     struct category {
         static let fontSize: CGFloat = 18.0
         static let cellHeight: CGFloat = 29.0
-        
+    }
+    
+    struct categoryBottomSheet {
+        static let inactiveColor: UIColor = #colorLiteral(red: 0.2272591144, green: 0.2656765435, blue: 0.3138055371, alpha: 1)
+        static let activeColor: UIColor = #colorLiteral(red: 0.4707381129, green: 0.6321940422, blue: 0.7315576077, alpha: 1)
+        static let nameFieldBackgroundColor: UIColor = #colorLiteral(red: 0.1194898859, green: 0.1329186261, blue: 0.1583568752, alpha: 1)
+        static let borderColor: UIColor = #colorLiteral(red: 0.4432456493, green: 0.4431354702, blue: 0.447265625, alpha: 1)
+        static let backgroundColor: UIColor = #colorLiteral(red: 0.123877801, green: 0.1445729733, blue: 0.1701545119, alpha: 1)
+        static let emojiPickerBackgroundColor: UIColor = #colorLiteral(red: 0.1780658364, green: 0.1917771101, blue: 0.213049531, alpha: 1)
     }
 }
 

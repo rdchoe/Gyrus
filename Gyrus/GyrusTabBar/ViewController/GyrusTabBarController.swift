@@ -94,7 +94,6 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("opening up from notificaiton in app delegate")
         // Turning down the volume
         MPVolumeView.setVolume(0.5)
         print(response.notification.request.content.userInfo)
