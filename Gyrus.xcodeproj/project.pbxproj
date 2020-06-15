@@ -27,6 +27,9 @@
 		D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */; };
 		D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */; };
 		D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */; };
+		D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */; };
+		D7AA05A024940A78005D2C0E /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */; };
+		D7BBC2932497422600DCB9B0 /* EmojiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */; };
 		D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */; };
 		D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7BCBD272485A8D800F645D8 /* boniver.mp3 */; };
 /* End PBXBuildFile section */
@@ -66,6 +69,9 @@
 		D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateDreamPageViewController.swift; sourceTree = "<group>"; };
 		D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewLayout.swift; sourceTree = "<group>"; };
+		D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateCategoryBottomSheetViewController.swift; sourceTree = "<group>"; };
+		D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
+		D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextField.swift; sourceTree = "<group>"; };
 		D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gyrus.entitlements; sourceTree = "<group>"; };
 		D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		D7BCBD272485A8D800F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boniver.mp3; path = "../../../Music/Music/Media.localized/Unknown Artist/Unknown Album/boniver.mp3"; sourceTree = "<group>"; };
@@ -181,6 +187,7 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
+				D7AA059E24940A4D005D2C0E /* UIComponents */,
 				D7BCBD292485A8DD00F645D8 /* Alarm Sounds */,
 				D7BCBD242485A47800F645D8 /* Managers */,
 				D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */,
@@ -239,8 +246,18 @@
 			isa = PBXGroup;
 			children = (
 				D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */,
+				D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D7AA059E24940A4D005D2C0E /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */,
+				D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */,
+			);
+			path = UIComponents;
 			sourceTree = "<group>";
 		};
 		D7BCBD242485A47800F645D8 /* Managers */ = {
@@ -362,9 +379,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */,
+				D7BBC2932497422600DCB9B0 /* EmojiTextField.swift in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
 				D77123592481667900D9D303 /* TabItem.swift in Sources */,
 				D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */,
+				D7AA05A024940A78005D2C0E /* BottomSheetPresentationController.swift in Sources */,
 				D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
 				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
@@ -378,6 +397,7 @@
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
 				D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */,
 				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
+				D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

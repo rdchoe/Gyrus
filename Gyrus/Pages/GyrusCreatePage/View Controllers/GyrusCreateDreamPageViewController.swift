@@ -68,7 +68,16 @@ class GyrusCreateDreamPageViewController: UIViewController {
         return expandCategoryButton
     }()
     
-    private var categoriesCollectionView: UICollectionView! = nil
+    private let createCategoryButton: UIButton = {
+        let createCategoryButton = UIButton()
+        createCategoryButton.translatesAutoresizingMaskIntoConstraints = false
+        let plusIcon = UIImage(named: "plus")?.imageWithColor(color: .white)
+        createCategoryButton.setImage(plusIcon, for: .normal)
+        createCategoryButton.backgroundColor = UIColor.clear
+        return createCategoryButton
+    }()
+    
+    public var categoriesCollectionView: UICollectionView! = nil
     
     private let separator: UIView = {
         let separator = UIView()
@@ -99,17 +108,24 @@ class GyrusCreateDreamPageViewController: UIViewController {
     private var dreamLogTextViewBottomAnchor: NSLayoutConstraint!
     private var keyboardHeight: CGFloat = 8.0
 
-    
+    // MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
     }
     
-    private func setupViewController() {
-        // Populates the categories 2d array
-        for (index,category) in AppDelegate.appCoreDateManager.fetchAllCategories().enumerated() {
-            categories[index % numberOfCategoryRows].append(category)
+    override func viewDidAppear(_ animated: Bool) {
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            gyrusTabBarController.gyrusTabBar.delegate = self
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Save", for: .normal)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
         }
+    }
+    
+    private func setupViewController() {
+        // adding gradient
+        self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
+        self.populateCategories()
         /*
          Setting up the collection view.
          Have to this here since the custom flow layout class needs access to categories array after its been populated
@@ -118,7 +134,7 @@ class GyrusCreateDreamPageViewController: UIViewController {
         self.categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.categoriesCollectionView.backgroundColor = UIColor.clear
         self.categoriesCollectionView.showsHorizontalScrollIndicator = false
-        self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
+        
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.delegate = self
         categoriesCollectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
@@ -126,8 +142,11 @@ class GyrusCreateDreamPageViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
+        self.createCategoryButton.addTarget(self, action: #selector(createCategoryButtonClicked), for: .touchUpInside)
+        
         view.addSubview(categoryHeaderWrapperView)
         categoryHeaderWrapperView.addSubview(categoryHeaderLabel)
+        categoryHeaderWrapperView.addSubview(createCategoryButton)
         categoryHeaderWrapperView.addSubview(expandCategoryButton)
         view.addSubview(categoriesCollectionView)
         view.addSubview(separator)
@@ -150,6 +169,9 @@ class GyrusCreateDreamPageViewController: UIViewController {
             expandCategoryButton.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
             expandCategoryButton.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
             expandCategoryButton.trailingAnchor.constraint(equalTo: categoryHeaderWrapperView.trailingAnchor),
+            createCategoryButton.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
+            createCategoryButton.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
+            createCategoryButton.trailingAnchor.constraint(equalTo: expandCategoryButton.leadingAnchor),
             categoriesCollectionView.topAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor, constant: 8),
             categoriesCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             categoriesCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -173,17 +195,7 @@ class GyrusCreateDreamPageViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
-            
-            gyrusTabBarController.gyrusTabBar.delegate = self
-            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Save", for: .normal)
-            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
-        }
-    }
-    
-    @objc func keyboardWillShow(notification: Notification) {
-        print("showing keyboard")
+    @objc private func keyboardWillShow(notification: Notification) {
         if let userInfo = notification.userInfo {
             let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
             let endFrameY = endFrame?.origin.y ?? 0
@@ -211,9 +223,17 @@ class GyrusCreateDreamPageViewController: UIViewController {
             completion: nil)
         }
     }
+    
+    @objc func createCategoryButtonClicked() {
+        let bottomSheetViewController = GyrusCreateCategoryBottomSheetViewController()
+        bottomSheetViewController.modalPresentationStyle = .custom
+        bottomSheetViewController.transitioningDelegate = self
+        bottomSheetViewController.delegate = self
+        self.present(bottomSheetViewController, animated: true)
+    }
 }
 
-/// Collection View Delegate
+// MARK: Collection View Delegate-
 extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -231,7 +251,7 @@ extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UIColl
     }
 }
 
-/// Text view delegate
+// MARK: Text view delegate-
 extension GyrusCreateDreamPageViewController: UITextViewDelegate {
     /**
      Returns the number of real words the user has currently typed in the text box.
@@ -269,9 +289,47 @@ extension GyrusCreateDreamPageViewController: UITextViewDelegate {
     }
 }
 
+// MARK: Collection View Delegate-
+/// Tells this view controller that it should use the custom presentation controller we created @BottomSheetPresentationController
+extension GyrusCreateDreamPageViewController: UIViewControllerTransitioningDelegate {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return BottomSheetPresentationController(presentedViewController: presented, presenting: presenting, blurEffectStyle: .dark)
+    }
+}
+
+// MARK: Tab Bar Delegate-
 extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
         button.isSelected = false
-        print("i am here in the dream page view controller!")
+    }
+}
+
+
+// MARK: Create Category Bottom Sheet Delegate-
+extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate {
+    func categoryCreated() {
+        
+        self.populateCategories()
+        if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
+            flowLayout.categories = self.categories
+        }
+        self.categoriesCollectionView.reloadData()
+    }
+}
+
+// MARK: Helpers-
+extension GyrusCreateDreamPageViewController {
+    private func populateCategories() {
+        self.categories = formatCategories()
+    }
+    
+    private func formatCategories() -> [[Category]] {
+        var formattedCategories: [[Category]] = [[],[],[]]
+        for (index,category) in AppDelegate.appCoreDateManager.fetchAllCategories().enumerated() {
+            formattedCategories[index % numberOfCategoryRows].append(category)
+        }
+        print(formattedCategories.count)
+        
+        return formattedCategories
     }
 }
