@@ -12,6 +12,7 @@ struct Constants {
     struct font {
         static let futura = "futura"
         static let futura_bold = "futura-bold"
+        static let futura_italic = "Futura-MediumItalic"
         static let futura_condensed = "futura-condensedMedium"
         
         /// Font Sizes
@@ -56,11 +57,17 @@ struct Constants {
         static let grayBlue: UIColor = #colorLiteral(red: 0.2110268772, green: 0.2574242651, blue: 0.3377935886, alpha: 1)
         static let lightBlue: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8470588235)
         static let white: UIColor = #colorLiteral(red: 0.9679533839, green: 0.9687924981, blue: 0.9517564178, alpha: 1)
+        static let activeColor: UIColor = #colorLiteral(red: 0.4707381129, green: 0.6321940422, blue: 0.7315576077, alpha: 1)
+        static let inactiveColor: UIColor = #colorLiteral(red: 0.2155992985, green: 0.242302984, blue: 0.2931298018, alpha: 1)
     }
     
     struct category {
         static let fontSize: CGFloat = 18.0
         static let cellHeight: CGFloat = 29.0
+        static let activeColor: UIColor = #colorLiteral(red: 0.4707381129, green: 0.6321940422, blue: 0.7315576077, alpha: 1)
+        static let inactiveColor: UIColor = #colorLiteral(red: 0.2155992985, green: 0.242302984, blue: 0.2931298018, alpha: 1)
+        static let activeBorderColor: UIColor = #colorLiteral(red: 0.9679533839, green: 0.9687924981, blue: 0.9517564178, alpha: 1)
+        static let inactiveBorderColor: UIColor = #colorLiteral(red: 0.1141634211, green: 0.1520627439, blue: 0.1904778481, alpha: 1)
     }
     
     struct categoryBottomSheet {
