@@ -58,7 +58,18 @@ class GyrusCreateDreamPageViewController: UIViewController {
         categoryHeaderLabel.backgroundColor = UIColor.clear
         return categoryHeaderLabel
     }()
-   
+    
+    /// Select all that apply label
+    private let subCategoryHeaderLabel: UILabel = {
+        let subCategoryHeaderLabel = UILabel()
+        subCategoryHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
+        subCategoryHeaderLabel.font = UIFont(name: Constants.font.futura_italic, size: Constants.font.subtitle)
+        subCategoryHeaderLabel.text = "Select all that apply"
+        subCategoryHeaderLabel.textColor = Constants.colors.gray
+        subCategoryHeaderLabel.backgroundColor = UIColor.clear
+        return subCategoryHeaderLabel
+    }()
+   /*
     /// The expand button that expands the category collection view
     private let expandCategoryButton: UIButton = {
         let expandCategoryButton = UIButton()
@@ -67,6 +78,7 @@ class GyrusCreateDreamPageViewController: UIViewController {
         expandCategoryButton.backgroundColor = UIColor.clear
         return expandCategoryButton
     }()
+ */
     
     private let createCategoryButton: UIButton = {
         let createCategoryButton = UIButton()
@@ -98,6 +110,8 @@ class GyrusCreateDreamPageViewController: UIViewController {
         
         return dreamLogTextView
     }()
+    
+    private var relatedCategories = NSMutableSet()
     
     /// The state of the page that toggles when the main event button is clicked (each page should have this to determine the button functionality and title)
     private var pageState: PageState = .notSelected
@@ -147,7 +161,8 @@ class GyrusCreateDreamPageViewController: UIViewController {
         view.addSubview(categoryHeaderWrapperView)
         categoryHeaderWrapperView.addSubview(categoryHeaderLabel)
         categoryHeaderWrapperView.addSubview(createCategoryButton)
-        categoryHeaderWrapperView.addSubview(expandCategoryButton)
+        //categoryHeaderWrapperView.addSubview(expandCategoryButton)
+        categoryHeaderWrapperView.addSubview(subCategoryHeaderLabel)
         view.addSubview(categoriesCollectionView)
         view.addSubview(separator)
         view.addSubview(dreamLogTextView)
@@ -166,12 +181,11 @@ class GyrusCreateDreamPageViewController: UIViewController {
             categoryHeaderLabel.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
             categoryHeaderLabel.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
             categoryHeaderLabel.leadingAnchor.constraint(equalTo: categoryHeaderWrapperView.leadingAnchor),
-            expandCategoryButton.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
-            expandCategoryButton.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
-            expandCategoryButton.trailingAnchor.constraint(equalTo: categoryHeaderWrapperView.trailingAnchor),
+            subCategoryHeaderLabel.leadingAnchor.constraint(equalTo: categoryHeaderLabel.trailingAnchor, constant: 4),
+            subCategoryHeaderLabel.bottomAnchor.constraint(equalTo: categoryHeaderLabel.bottomAnchor, constant: -2),
             createCategoryButton.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
             createCategoryButton.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
-            createCategoryButton.trailingAnchor.constraint(equalTo: expandCategoryButton.leadingAnchor),
+            createCategoryButton.trailingAnchor.constraint(equalTo: categoryHeaderWrapperView.trailingAnchor),
             categoriesCollectionView.topAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor, constant: 8),
             categoriesCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             categoriesCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -249,6 +263,18 @@ extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UIColl
         cell.category = categories[indexPath.section][indexPath.row]
         return cell
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+        if cell.toggleActiveState() { // we need to add this category
+            self.relatedCategories.add(cell.category!)
+        } else { // we need to remove this category
+            self.relatedCategories.remove(cell.category!)
+        }
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+    }
 }
 
 // MARK: Text view delegate-
@@ -300,7 +326,17 @@ extension GyrusCreateDreamPageViewController: UIViewControllerTransitioningDeleg
 // MARK: Tab Bar Delegate-
 extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
-        button.isSelected = false
+        switch self.pageState {
+        case .selected:
+            self.pageState = .notSelected
+        case .notSelected:
+            self.pageState = .selected
+        }
+        let separatedContent = self.dreamLogTextView.text.components(separatedBy: CharacterSet.newlines)
+        if separatedContent.count > 0 {
+            //AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
+        }
+        
     }
 }
 
@@ -328,8 +364,6 @@ extension GyrusCreateDreamPageViewController {
         for (index,category) in AppDelegate.appCoreDateManager.fetchAllCategories().enumerated() {
             formattedCategories[index % numberOfCategoryRows].append(category)
         }
-        print(formattedCategories.count)
-        
         return formattedCategories
     }
 }
