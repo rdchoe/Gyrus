@@ -272,7 +272,7 @@ extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UIColl
         } else { // we need to remove this category
             self.relatedCategories.remove(cell.category!)
         }
-        let generator = UIImpactFeedbackGenerator(style: .light)
+        let generator = UIImpactFeedbackGenerator(style: .soft)
         generator.impactOccurred()
     }
 }

@@ -111,10 +111,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func applicationDidEnterBackground(_ application: UIApplication) {
         MPVolumeView.setVolume(1.0)
     }
-    
-    
-    
-    
-    
 }
 

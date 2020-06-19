@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */; };
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
 		D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */; };
 		D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D700F49A249C29D600337AFF /* Futura-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Futura-Light.ttf"; path = "../../../../Downloads/futura light/Futura-Light.ttf"; sourceTree = "<group>"; };
+		D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusAllLogsPageViewController.swift; sourceTree = "<group>"; };
 		D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCountdownTimerView.swift; sourceTree = "<group>"; };
 		D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerCellView.swift; sourceTree = "<group>"; };
@@ -96,6 +99,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D700F499249C29AB00337AFF /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D700F49A249C29D600337AFF /* Futura-Light.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		D700F49B249C2E5400337AFF /* GyrusAllLogsPage */ = {
+			isa = PBXGroup;
+			children = (
+				D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */,
+			);
+			path = GyrusAllLogsPage;
+			sourceTree = "<group>";
+		};
 		D70B6F4A247E065A001A14DC /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +179,7 @@
 		D72F721D2484E36000B92AD7 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				D700F49B249C2E5400337AFF /* GyrusAllLogsPage */,
 				D7A59E982489352400DC4257 /* GyrusCreatePage */,
 				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
 			);
@@ -187,6 +207,7 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
+				D700F499249C29AB00337AFF /* fonts */,
 				D7AA059E24940A4D005D2C0E /* UIComponents */,
 				D7BCBD292485A8DD00F645D8 /* Alarm Sounds */,
 				D7BCBD242485A47800F645D8 /* Managers */,
@@ -390,6 +411,7 @@
 				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
 				D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */,
 				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
+				D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */,
 				D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
 				D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */,

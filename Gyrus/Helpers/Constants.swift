@@ -14,6 +14,7 @@ struct Constants {
         static let futura_bold = "futura-bold"
         static let futura_italic = "Futura-MediumItalic"
         static let futura_condensed = "futura-condensedMedium"
+        static let futura_light = "Futura-Light"
         
         /// Font Sizes
         static let h1: CGFloat = 96.0

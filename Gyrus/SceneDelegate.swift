@@ -26,7 +26,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
             
-            createTagsTest()
+            let defaults = UserDefaults.standard
+            let returningUser = defaults.bool(forKey: "returningUser")
+            if returningUser == false {
+                loadPresetCategories()
+                defaults.set(true, forKey: "returningUser")
+            } else {
+                print("returning user")
+            }
         }
     }
 
@@ -61,6 +68,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
+    func loadPresetCategories() {
+        AppDelegate.appCoreDateManager.addCategory(name: "Chased", emoji: "💨")
+        AppDelegate.appCoreDateManager.addCategory(name: "Attacked", emoji: "👹")
+        AppDelegate.appCoreDateManager.addCategory(name: "Injured", emoji: "🤕")
+        AppDelegate.appCoreDateManager.addCategory(name: "Dying", emoji: "☠️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Car", emoji: "🚗")
+        AppDelegate.appCoreDateManager.addCategory(name: "House Damage", emoji: "🏠")
+        AppDelegate.appCoreDateManager.addCategory(name: "Poor Performance", emoji: "😕")
+        AppDelegate.appCoreDateManager.addCategory(name: "Falling", emoji: "⛷")
+        AppDelegate.appCoreDateManager.addCategory(name: "Drowning", emoji: "💧")
+        AppDelegate.appCoreDateManager.addCategory(name: "Public Embarrassment", emoji: "🥴")
+        AppDelegate.appCoreDateManager.addCategory(name: "Being Late", emoji: "🏃‍♂️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Telephone Malfunction", emoji: "☎️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Natural Disasters", emoji: "🌪")
+        AppDelegate.appCoreDateManager.addCategory(name: "Lost", emoji: "🏝")
+        AppDelegate.appCoreDateManager.addCategory(name: "Trapped", emoji: "📦")
+        AppDelegate.appCoreDateManager.addCategory(name: "Ghost", emoji: "👻")
+    }
     func createTagsTest() {
         AppDelegate.appCoreDateManager.deleteAllCategories()
         
@@ -68,19 +93,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppDelegate.appCoreDateManager.addCategory(name: "Super Powers", emoji: "🦸🏻‍♂️")
         AppDelegate.appCoreDateManager.addCategory(name: "Very long category", emoji: "🌩")
         AppDelegate.appCoreDateManager.addCategory(name: "Good Dream", emoji: "☺️")
-        AppDelegate.appCoreDateManager.addCategory(name: "Nightmare", emoji: "😱")
-        AppDelegate.appCoreDateManager.addCategory(name: "Lucid Dream", emoji: "🤯")
-        AppDelegate.appCoreDateManager.addCategory(name: "Flying", emoji: "🌌")
-        AppDelegate.appCoreDateManager.addCategory(name: "Drunk", emoji: "🥴")
-        AppDelegate.appCoreDateManager.addCategory(name: "Person", emoji: "💁🏼‍♀️")
-        AppDelegate.appCoreDateManager.addCategory(name: "Dad", emoji: "👨‍👦")
-        AppDelegate.appCoreDateManager.addCategory(name: "Music", emoji: "🎸")
-        AppDelegate.appCoreDateManager.addCategory(name: "Church", emoji: "⛪️")
-        AppDelegate.appCoreDateManager.addCategory(name: "Chaos", emoji: "❌")
-        AppDelegate.appCoreDateManager.addCategory(name: "School", emoji: "🏫")
-        AppDelegate.appCoreDateManager.addCategory(name: "Work", emoji: "🗳")
-
+        AppDelegate.appCoreDateManager.deleteAllCategories()
     }
 
 }
+
 

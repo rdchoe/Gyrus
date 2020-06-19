@@ -11,6 +11,7 @@ import UIKit
 enum TabItem: String, CaseIterable {
     case alarm = "alarm"
     case create = "create"
+    case logs = "logs"
     
     var viewController: UIViewController {
         switch self {
@@ -18,6 +19,8 @@ enum TabItem: String, CaseIterable {
             return GyrusCreateAlarmPageViewController()
         case .create:
             return GyrusCreateDreamPageViewController()
+        case .logs:
+            return GyrusAllLogsPageViewController()
         }
     }
     
@@ -27,6 +30,8 @@ enum TabItem: String, CaseIterable {
             return #imageLiteral(resourceName: "alarm")
         case .create:
             return #imageLiteral(resourceName: "create")
+        case .logs:
+            return #imageLiteral(resourceName: "logs").imageWithColor(color: Constants.colors.white)
         }
     }
     
