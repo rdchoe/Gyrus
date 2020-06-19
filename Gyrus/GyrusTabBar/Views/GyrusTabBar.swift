@@ -43,8 +43,8 @@ class GyrusTabBar: UIView {
        let leadingStackView = UIStackView()
         leadingStackView.translatesAutoresizingMaskIntoConstraints = false
         leadingStackView.axis = .horizontal
-        //leadingStackView.distribution = .equalSpacing
-        
+        leadingStackView.distribution = .equalSpacing
+
         return leadingStackView
     }()
     
@@ -52,7 +52,7 @@ class GyrusTabBar: UIView {
        let trailingStackView = UIStackView()
         trailingStackView.translatesAutoresizingMaskIntoConstraints = false
         trailingStackView.axis = .horizontal
-        trailingStackView.distribution = .fill
+        trailingStackView.distribution = .equalCentering
         
         return trailingStackView
     }()
@@ -101,13 +101,13 @@ class GyrusTabBar: UIView {
         self.addSubview(trailingStackView)
         
         NSLayoutConstraint.activate([
-            leadingStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            leadingStackView.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -Constants.tabbar.tabbarRadius),
+            leadingStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 36),
+            leadingStackView.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -Constants.tabbar.tabbarRadius - 16),
             leadingStackView.topAnchor.constraint(equalTo: self.topAnchor),
             leadingStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
-            trailingStackView.leadingAnchor.constraint(equalTo: self.centerXAnchor, constant: Constants.tabbar.tabbarRadius),
-            trailingStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            trailingStackView.leadingAnchor.constraint(equalTo: self.centerXAnchor, constant: Constants.tabbar.tabbarRadius + 16),
+            trailingStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -36),
             trailingStackView.topAnchor.constraint(equalTo: self.topAnchor),
             trailingStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
@@ -186,11 +186,13 @@ class GyrusTabBar: UIView {
         borderLayer.name = "active border"
         borderLayer.frame = CGRect(x: 10, y: 0, width: borderWidth, height: 2)
         DispatchQueue.main.async {
+            /*
             UIView.animate(withDuration: 0.8, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
                 tabToActivate.layer.addSublayer(borderLayer)
                 tabToActivate.setNeedsLayout()
                 tabToActivate.layoutIfNeeded()
             })
+             */
             self.itemTapped?(tab)
         }
         self.activeItem = tab

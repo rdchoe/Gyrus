@@ -122,7 +122,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             "V:[countdownTimerView(100)]"
         ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
         
-        contentWrapperViewTopConstraint = contentWrapperView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.view.frame.height / 4))
+        contentWrapperViewTopConstraint = contentWrapperView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: (self.view.frame.height / 3))
         contentWrapperViewTopConstraint.isActive = true
         
         separatorLeadingConstraint = self.separator.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor)
@@ -160,7 +160,6 @@ class GyrusCreateAlarmPageViewController: UIViewController {
 // MARK: Gyrus Tab Bar Delegate-
 extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
-        print("I am in create alarm page view contorller")
         animateScreen(button: button)
         // Turning an alarm on if button is selected
         

@@ -205,7 +205,7 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
    
     /// Using the will display delegate method to generate haptic feedback when cell enters view
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let generator = UIImpactFeedbackGenerator(style: .light)
+        let generator = UIImpactFeedbackGenerator(style: .soft)
         if tableView == self.hoursTableView  {
             generator.impactOccurred()
         } else if tableView == self.minutesTableView {
