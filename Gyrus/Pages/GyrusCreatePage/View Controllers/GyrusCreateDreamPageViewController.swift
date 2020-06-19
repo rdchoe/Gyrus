@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol CreateDreamDelegate {
+    func dreamCreated()
+}
+
 class GyrusCreateDreamPageViewController: UIViewController {
     
     /**
@@ -102,11 +106,12 @@ class GyrusCreateDreamPageViewController: UIViewController {
         let dreamLogTextView = UITextView()
         dreamLogTextView.translatesAutoresizingMaskIntoConstraints = false
         dreamLogTextView.backgroundColor = UIColor.clear
+        dreamLogTextView.font = UIFont(name: Constants.font.futura_light, size: Constants.font.body)
         dreamLogTextView.text = Constants.dreamLogPage.placeholderText
         dreamLogTextView.keyboardDismissMode = .onDrag
         dreamLogTextView.alwaysBounceVertical = true
         dreamLogTextView.textColor = Constants.colors.gray
-        dreamLogTextView.font = UIFont(name: Constants.font.futura, size: Constants.font.body)
+        
         
         return dreamLogTextView
     }()
@@ -121,19 +126,33 @@ class GyrusCreateDreamPageViewController: UIViewController {
     private var hasStartedLogging = false
     private var dreamLogTextViewBottomAnchor: NSLayoutConstraint!
     private var keyboardHeight: CGFloat = 8.0
+    var delegate: CreateDreamDelegate!
 
     // MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.navigationItem.largeTitleDisplayMode = .never
         setupViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.title = ""
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
             gyrusTabBarController.gyrusTabBar.delegate = self
             gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Save", for: .normal)
             gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     private func setupViewController() {
@@ -172,9 +191,10 @@ class GyrusCreateDreamPageViewController: UIViewController {
     
     private func layoutConstraints() {
         let margins = view.layoutMarginsGuide
+        let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            categoryHeaderWrapperView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16),
+            categoryHeaderWrapperView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             categoryHeaderWrapperView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             categoryHeaderWrapperView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
             
@@ -334,7 +354,11 @@ extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
         }
         let separatedContent = self.dreamLogTextView.text.components(separatedBy: CharacterSet.newlines)
         if separatedContent.count > 0 {
-            //AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
+            AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
+            if let tabBarController = self.tabBarController as? GyrusTabBarController {
+                tabBarController.changeTab(tab: 2)
+                self.delegate.dreamCreated()
+            }
         }
         
     }
@@ -344,7 +368,6 @@ extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
 // MARK: Create Category Bottom Sheet Delegate-
 extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate {
     func categoryCreated() {
-        
         self.populateCategories()
         if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
             flowLayout.categories = self.categories

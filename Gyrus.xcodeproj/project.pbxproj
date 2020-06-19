@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */; };
+		D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D700F49A249C29D600337AFF /* Futura-Light.ttf */; };
+		D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49F249C8F2600337AFF /* DreamCellView.swift */; };
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
 		D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */; };
 		D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */; };
@@ -48,6 +50,7 @@
 /* Begin PBXFileReference section */
 		D700F49A249C29D600337AFF /* Futura-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Futura-Light.ttf"; path = "../../../../Downloads/futura light/Futura-Light.ttf"; sourceTree = "<group>"; };
 		D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusAllLogsPageViewController.swift; sourceTree = "<group>"; };
+		D700F49F249C8F2600337AFF /* DreamCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCellView.swift; sourceTree = "<group>"; };
 		D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCountdownTimerView.swift; sourceTree = "<group>"; };
 		D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerCellView.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */,
+				D700F49F249C8F2600337AFF /* DreamCellView.swift */,
 			);
 			path = GyrusAllLogsPage;
 			sourceTree = "<group>";
@@ -379,6 +383,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */,
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
 				D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */,
 				D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */,
@@ -418,6 +423,7 @@
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
 				D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */,
+				D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */,
 				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
 				D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,

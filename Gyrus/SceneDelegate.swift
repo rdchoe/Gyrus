@@ -19,8 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         if let windowScene = (scene as? UIWindowScene) {
             let window = UIWindow(windowScene: windowScene)
+            let navController = UINavigationController()
+            //navController.navigationBar.backgroundColor = UIColor.clear
+            
             let tabBarController = GyrusTabBarController()
             UITabBar.setTransparentTabbar()
+            navController.viewControllers = [tabBarController]
+            
             
             window.rootViewController = tabBarController
             self.window = window

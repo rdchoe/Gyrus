@@ -49,13 +49,16 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadGyrusTabBar()
-        
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     private func loadGyrusTabBar() {
-        let tabItems: [TabItem] = [.alarm, .create, .logs]
+        let tabItems: [TabItem] = [.alarm, .create, .dreams]
         self.setupCustomTabBar(tabItems) { (controllers) in
             self.viewControllers = controllers
         }

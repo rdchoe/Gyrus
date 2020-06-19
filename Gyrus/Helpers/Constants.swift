@@ -25,7 +25,7 @@ struct Constants {
         static let h6: CGFloat = 20.0
         
         static let subtitle: CGFloat = 11.0
-        static let body: CGFloat = 14.0
+        static let body: CGFloat = 16.0
         static let tabBarSize: CGFloat = 10.0
         
         static let timePickerFontSize: CGFloat = 28.0

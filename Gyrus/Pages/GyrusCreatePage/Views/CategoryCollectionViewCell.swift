@@ -32,13 +32,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         return categoryLabel
     }()
     
-    let containerView: UIView = {
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = UIColor.clear
-        return containerView
-    }()
-    
     var category: Category! {
         didSet {
             categoryLabel.text = "\(category.emoji!) \(category.name!)"

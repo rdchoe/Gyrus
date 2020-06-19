@@ -11,7 +11,7 @@ import UIKit
 enum TabItem: String, CaseIterable {
     case alarm = "alarm"
     case create = "create"
-    case logs = "logs"
+    case dreams = "dreams"
     
     var viewController: UIViewController {
         switch self {
@@ -19,8 +19,16 @@ enum TabItem: String, CaseIterable {
             return GyrusCreateAlarmPageViewController()
         case .create:
             return GyrusCreateDreamPageViewController()
-        case .logs:
-            return GyrusAllLogsPageViewController()
+        case .dreams:
+            let navController = UINavigationController()
+            navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navController.navigationBar.shadowImage = UIImage()
+            navController.navigationBar.isTranslucent = true
+            navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Constants.colors.white, NSAttributedString.Key.font: UIFont(name: Constants.font.futura, size: Constants.font.h6)]
+            navController.navigationBar.prefersLargeTitles = true
+            navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Constants.colors.white, NSAttributedString.Key.font: UIFont(name: Constants.font.futura, size: Constants.font.h4)]
+            navController.viewControllers = [GyrusAllLogsPageViewController()]
+            return navController
         }
     }
     
@@ -30,7 +38,7 @@ enum TabItem: String, CaseIterable {
             return #imageLiteral(resourceName: "alarm")
         case .create:
             return #imageLiteral(resourceName: "create")
-        case .logs:
+        case .dreams:
             return #imageLiteral(resourceName: "logs").imageWithColor(color: Constants.colors.white)
         }
     }

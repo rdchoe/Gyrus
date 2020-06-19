@@ -77,10 +77,13 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.navigationItem.largeTitleDisplayMode = .never
         setupViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tabBarController?.title = ""
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
             gyrusTabBarController.gyrusTabBar.delegate = self
             switch self.pageState {
@@ -90,11 +93,12 @@ class GyrusCreateAlarmPageViewController: UIViewController {
                 gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
             }
             gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
-
         }
     }
     
     private func setupViewController() {
+        self.edgesForExtendedLayout = []
+        self.extendedLayoutIncludesOpaqueBars = true
         self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
         view.addSubview(contentWrapperView)
         contentWrapperView.addSubview(timePickerView)
