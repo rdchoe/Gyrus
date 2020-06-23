@@ -95,6 +95,12 @@ class GyrusAllLogsPageViewController: UIViewController {
         } else {
             noDreamsLabel.isHidden = true
         }
+        
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            gyrusTabBarController.gyrusTabBar.delegate = self
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Create", for: .normal)
+            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
+        }
         layoutConstraints()
     }
     
@@ -175,4 +181,12 @@ extension GyrusAllLogsPageViewController: UISearchResultsUpdating {
         }
         self.dreamsTable.reloadData()
     }
+}
+
+extension GyrusAllLogsPageViewController: GyrusTabBarDelegate {
+    func mainEventButtonClicked(button: UIButton) {
+        self.navigationController?.pushViewController(GyrusCreateDreamPageViewController(), animated: true)
+    }
+    
+    
 }
