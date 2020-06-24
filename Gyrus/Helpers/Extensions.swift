@@ -159,4 +159,22 @@ extension UIImage {
     }
 }
 
+// MARK: UITextView-
+extension UITextView {
+    var currentWord : String? {
+
+     let beginning = beginningOfDocument
+
+     if let start = position(from: beginning, offset: selectedRange.location),
+         let end = position(from: start, offset: selectedRange.length) {
+
+        let textRange = tokenizer.rangeEnclosingPosition(end, with: .word, inDirection: UITextDirection(rawValue: 1))
+
+         if let textRange = textRange {
+             return text(in: textRange)
+         }
+     }
+     return nil
+    }
+}
 

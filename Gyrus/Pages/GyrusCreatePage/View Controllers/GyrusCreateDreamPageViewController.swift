@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyJSON
 
 protocol CreateDreamDelegate {
     func dreamCreated()
@@ -116,12 +117,43 @@ class GyrusCreateDreamPageViewController: UIViewController {
         return dreamLogTextView
     }()
     
+    private let dateLabel: UILabel = {
+        let dateLabel = UILabel()
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.backgroundColor = UIColor.clear
+        dateLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.subtitle)
+        dateLabel.textColor = Constants.colors.gray
+        let dateFormatter = DateFormatter()
+        let dateFormat = "MMMM dd, yyyy 'at' h:mm a"
+        
+        dateFormatter.dateFormat = dateFormat
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "AM"
+        dateLabel.text = dateFormatter.string(from: Date())
+        return dateLabel
+    }()
+    private let keywords: JSON = {
+        if let path = Bundle.main.url(forResource: "keywords", withExtension: ".json") {
+            do {
+                let pathAsData = try Data(contentsOf: path, options: .dataReadingMapped)
+                let json = try JSON(data: pathAsData)
+                return json
+            } catch {
+                fatalError("Could not find keywords file")
+            }
+        }
+        return JSON()
+    }()
+    
     private var relatedCategories = NSMutableSet()
     
     /// The state of the page that toggles when the main event button is clicked (each page should have this to determine the button functionality and title)
     private var pageState: PageState = .notSelected
     
-    private var categories: [[Category]] = [[],[],[]]
+    private var dreamLogTextViewTopAnchor: NSLayoutConstraint!
+    private var categoriesCollectionViewTopAnchor: NSLayoutConstraint!
+
+    private var categories: NSMutableOrderedSet = NSMutableOrderedSet()
     private var numberOfCategoryRows = 3
     private var hasStartedLogging = false
     private var dreamLogTextViewBottomAnchor: NSLayoutConstraint!
@@ -147,23 +179,38 @@ class GyrusCreateDreamPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        //self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     private func setupViewController() {
+        self.navigationItem.largeTitleDisplayMode = .never
         // adding gradient
         self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
-        self.populateCategories()
+        setupCollectionView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        self.createCategoryButton.addTarget(self, action: #selector(createCategoryButtonClicked), for: .touchUpInside)
+        
+        view.addSubview(dateLabel)
+        view.addSubview(categoriesCollectionView)
+        view.addSubview(dreamLogTextView)
+        
+        layoutConstraints()
+    }
+    
+    func setupCollectionView() {
         /*
          Setting up the collection view.
          Have to this here since the custom flow layout class needs access to categories array after its been populated
         */
-        self.categoriesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: CategoryCollectionViewLayout(categories: self.categories))
+        self.categoriesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: CategoryCollectionViewLayout(categories: self.categories.array as! [Category]))
+        self.categoriesCollectionView.alpha = 0.0
         self.categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         self.categoriesCollectionView.backgroundColor = UIColor.clear
         self.categoriesCollectionView.showsHorizontalScrollIndicator = false
@@ -172,54 +219,25 @@ class GyrusCreateDreamPageViewController: UIViewController {
         categoriesCollectionView.delegate = self
         categoriesCollectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         dreamLogTextView.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-        self.createCategoryButton.addTarget(self, action: #selector(createCategoryButtonClicked), for: .touchUpInside)
-        
-        view.addSubview(categoryHeaderWrapperView)
-        categoryHeaderWrapperView.addSubview(categoryHeaderLabel)
-        categoryHeaderWrapperView.addSubview(createCategoryButton)
-        //categoryHeaderWrapperView.addSubview(expandCategoryButton)
-        categoryHeaderWrapperView.addSubview(subCategoryHeaderLabel)
-        view.addSubview(categoriesCollectionView)
-        view.addSubview(separator)
-        view.addSubview(dreamLogTextView)
-        
-        layoutConstraints()
     }
     
     private func layoutConstraints() {
         let margins = view.layoutMarginsGuide
-        let safeArea = view.safeAreaLayoutGuide
-        
+
         NSLayoutConstraint.activate([
-            categoryHeaderWrapperView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            categoryHeaderWrapperView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            categoryHeaderWrapperView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-            
-            categoryHeaderLabel.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
-            categoryHeaderLabel.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
-            categoryHeaderLabel.leadingAnchor.constraint(equalTo: categoryHeaderWrapperView.leadingAnchor),
-            subCategoryHeaderLabel.leadingAnchor.constraint(equalTo: categoryHeaderLabel.trailingAnchor, constant: 4),
-            subCategoryHeaderLabel.bottomAnchor.constraint(equalTo: categoryHeaderLabel.bottomAnchor, constant: -2),
-            createCategoryButton.topAnchor.constraint(equalTo: categoryHeaderWrapperView.topAnchor),
-            createCategoryButton.bottomAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor),
-            createCategoryButton.trailingAnchor.constraint(equalTo: categoryHeaderWrapperView.trailingAnchor),
-            categoriesCollectionView.topAnchor.constraint(equalTo: categoryHeaderWrapperView.bottomAnchor, constant: 8),
-            categoriesCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            categoriesCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            categoriesCollectionView.heightAnchor.constraint(equalToConstant: (Constants.category.cellHeight *  CGFloat(self.categoriesCollectionView.numberOfSections)) + (CGFloat(self.categoriesCollectionView.numberOfSections) * 8)),
-            
-            separator.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
-            separator.topAnchor.constraint(equalTo: categoriesCollectionView.bottomAnchor, constant: 8),
-            separator.heightAnchor.constraint(equalToConstant: 2.0),
-            
-            dreamLogTextView.topAnchor.constraint(equalTo: separator.bottomAnchor),
+            dateLabel.topAnchor.constraint(equalTo: margins.topAnchor),
+            dateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            categoriesCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            categoriesCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
+            categoriesCollectionView.heightAnchor.constraint(equalToConstant: 30),
             dreamLogTextView.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             dreamLogTextView.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
         ])
+        
+        self.categoriesCollectionViewTopAnchor = categoriesCollectionView.topAnchor.constraint(equalTo: dateLabel.topAnchor)
+        categoriesCollectionViewTopAnchor.isActive = true
+        self.dreamLogTextViewTopAnchor = dreamLogTextView.topAnchor.constraint(equalTo: categoriesCollectionView.bottomAnchor)
+        dreamLogTextViewTopAnchor.isActive = true
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
             dreamLogTextViewBottomAnchor = dreamLogTextView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -gyrusTabBarController.gyrusTabBar.frame.height)
         } else {
@@ -271,16 +289,16 @@ class GyrusCreateDreamPageViewController: UIViewController {
 extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        self.categories.count
+        1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.categories[section].count
+        self.categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCollectionViewCell
         //cell.emoji.text = categories[indexPath.row].emoji
-        cell.category = categories[indexPath.section][indexPath.row]
+        cell.category = categories.object(at: indexPath.row) as? Category
         return cell
     }
     
@@ -295,6 +313,21 @@ extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UIColl
         let generator = UIImpactFeedbackGenerator(style: .soft)
         generator.impactOccurred()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            if let cell = cell as? CategoryCollectionViewCell {
+                animateCell(cell: cell)
+            }
+        }
+    }
+    
+    private func animateCell(cell: CategoryCollectionViewCell) {
+        cell.alpha = 0.0
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut,animations: {
+            cell.alpha = 1.0
+        })
+    }
 }
 
 // MARK: Text view delegate-
@@ -303,13 +336,23 @@ extension GyrusCreateDreamPageViewController: UITextViewDelegate {
      Returns the number of real words the user has currently typed in the text box.
      - Returns: An int representing the number of words in *dreamLogTextBox*
      */
-    func getWordCount() -> Int {
+    private func getWordCount() -> Int {
         let components = self.dreamLogTextView.text.components(separatedBy:NSCharacterSet.whitespacesAndNewlines.union(.punctuationCharacters))
         let words = components.filter { !$0.isEmpty }
         return words.count
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        if let currentWord = textView.currentWord {
+            if let existing_keyword = self.keywords[currentWord.lowercased()].string {
+                let category = AppDelegate.appCoreDateManager.fetchCategory(byName: existing_keyword)!
+                self.addNewCategory(category: category)
+                if (self.categories.count == 1) {
+                    animateCategoriesView()
+                }
+                self.updateCategoriesCollectionView()
+            }
+        }
         let currWordCount = getWordCount()
         if currWordCount >= 50 {
             // do something here
@@ -333,9 +376,20 @@ extension GyrusCreateDreamPageViewController: UITextViewDelegate {
             self.hasStartedLogging = false
         }
     }
+    
+    private func animateCategoriesView() {
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut,animations: {
+            self.categoriesCollectionViewTopAnchor.constant = 20
+            self.view.layoutIfNeeded()
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut,animations: {
+                self.categoriesCollectionView.alpha = 1.0
+            })
+        })
+    }
 }
 
-// MARK: Collection View Delegate-
+// MARK: UIViewControllerTransitioningDelegate-
 /// Tells this view controller that it should use the custom presentation controller we created @BottomSheetPresentationController
 extension GyrusCreateDreamPageViewController: UIViewControllerTransitioningDelegate {
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
@@ -355,10 +409,7 @@ extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
         let separatedContent = self.dreamLogTextView.text.components(separatedBy: CharacterSet.newlines)
         if separatedContent.count > 0 {
             AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
-            if let tabBarController = self.tabBarController as? GyrusTabBarController {
-                tabBarController.changeTab(tab: 2)
-                self.delegate.dreamCreated()
-            }
+        self.delegate.dreamCreated()
         }
         
     }
@@ -368,9 +419,14 @@ extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
 // MARK: Create Category Bottom Sheet Delegate-
 extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate {
     func categoryCreated() {
-        self.populateCategories()
+        print("unimplemtned")
+    }
+    
+    
+    func addNewCategory(category: Category) {
+        self.categories.insert(category, at: 0)
         if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
-            flowLayout.categories = self.categories
+            flowLayout.categories = self.categories.array as! [Category]
         }
         self.categoriesCollectionView.reloadData()
     }
@@ -378,15 +434,11 @@ extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate 
 
 // MARK: Helpers-
 extension GyrusCreateDreamPageViewController {
-    private func populateCategories() {
-        self.categories = formatCategories()
-    }
     
-    private func formatCategories() -> [[Category]] {
-        var formattedCategories: [[Category]] = [[],[],[]]
-        for (index,category) in AppDelegate.appCoreDateManager.fetchAllCategories().enumerated() {
-            formattedCategories[index % numberOfCategoryRows].append(category)
+    private func updateCategoriesCollectionView() {
+        if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
+            flowLayout.categories = self.categories.array as! [Category]
         }
-        return formattedCategories
+        self.categoriesCollectionView.reloadData()
     }
 }

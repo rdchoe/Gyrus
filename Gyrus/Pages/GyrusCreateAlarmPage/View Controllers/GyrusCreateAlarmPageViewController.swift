@@ -83,17 +83,8 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.tabBarController?.title = ""
-        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
-            gyrusTabBarController.gyrusTabBar.delegate = self
-            switch self.pageState {
-            case .selected:
-                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Stop", for: .normal)
-            case .notSelected:
-                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
-            }
-            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
-        }
+        tabBarSetup()
+        
     }
     
     private func setupViewController() {
@@ -152,6 +143,19 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             self.countdownTimerView.topAnchor.constraint(equalTo: self.separator.bottomAnchor)
             
         ])
+    }
+    
+    private func tabBarSetup() {
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            gyrusTabBarController.gyrusTabBar.delegate = self
+            switch self.pageState {
+            case .selected:
+                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Stop", for: .normal)
+            case .notSelected:
+                gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Start", for: .normal)
+            }
+            gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
+        }
     }
 
     //MARK: UITextField Handler

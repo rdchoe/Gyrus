@@ -1,0 +1,20 @@
+{
+    "attacked": "Attacked",
+    "punched": "Attacked",
+    "blood": "Attacked",
+    "chased": "Chased",
+    "injured": "Injured",
+    "dying": "Dying",
+    "car": "Car",
+    "house": "House Damage",
+    "performance": "Poor Performance",
+    "falling": "Falling",
+    "drowning": "Drowning",
+    "embarrassment": "Public Embarrassment",
+    "late": "Being Late",
+    "phone": "Telephone Malfunction",
+    "disaster": "Natural Disaster",
+    "lost": "Lost",
+    "trapped": "Trapped",
+    "ghost": "Ghost"
+}

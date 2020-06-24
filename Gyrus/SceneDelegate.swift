@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,12 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = (scene as? UIWindowScene) {
             let window = UIWindow(windowScene: windowScene)
             let navController = UINavigationController()
-            //navController.navigationBar.backgroundColor = UIColor.clear
-            
+
             let tabBarController = GyrusTabBarController()
             UITabBar.setTransparentTabbar()
+            
             navController.viewControllers = [tabBarController]
             
+            stylizeNavigationBar()
             
             window.rootViewController = tabBarController
             self.window = window
@@ -71,6 +73,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    }
+    
+    func stylizeNavigationBar() {
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: Constants.colors.activeColor, NSAttributedString.Key.font: UIFont(name: Constants.font.futura, size:20)], for: .normal)
+        
+        let backIndicator = #imageLiteral(resourceName: "back_arrow")
+        UINavigationBar.appearance().backIndicatorImage = backIndicator
+        UINavigationBar.appearance().backIndicatorTransitionMaskImage = backIndicator
+        UINavigationBar.appearance().tintColor = Constants.colors.activeColor
+        
     }
 
     func loadPresetCategories() {

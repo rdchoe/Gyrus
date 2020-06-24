@@ -218,6 +218,29 @@ class CoreDataManager: NSObject {
     }
     
     /**
+        fetches a category by it's name
+        - Parameters:
+            - name: name of categorty
+        - Returns: The category instance assocaited with that name
+     */
+    func fetchCategory(byName name: String) -> Category? {
+        let context = self.container.viewContext
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        let predicate = NSPredicate(format: "name= %@", name as CVarArg)
+        request.predicate = predicate
+        var category: Category? = nil
+        
+        do {
+            for result in try context.fetch(request) {
+                category = result
+            }
+        } catch {
+            fatalError("Could not find any categories with that name")
+        }
+        return category
+    }
+    
+    /**
          deletes all the categories stored in the context
     */
      func deleteAllCategories() {

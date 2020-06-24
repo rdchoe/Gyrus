@@ -80,12 +80,13 @@ class GyrusAllLogsPageViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            gyrusTabBarController.gyrusTabBar.delegate = self
+            gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Create", for: .normal)
+        }
         //self.tabBarController?.title = "Dreams"
     }
     private func setupViewController() {
-        if let createPage = self.tabBarController?.viewControllers?[1] as? GyrusCreateDreamPageViewController {
-            createPage.delegate = self
-        }
         
         setupNavBar()
         
@@ -162,6 +163,7 @@ extension GyrusAllLogsPageViewController: UITableViewDelegate, UITableViewDataSo
 
 extension GyrusAllLogsPageViewController: CreateDreamDelegate {
     func dreamCreated() {
+        self.navigationController?.popViewController(animated: true)
         self.dreams = AppDelegate.appCoreDateManager.fetchAllDreams()
         self.dreamsTable.reloadData()
     }
@@ -185,7 +187,9 @@ extension GyrusAllLogsPageViewController: UISearchResultsUpdating {
 
 extension GyrusAllLogsPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
-        self.navigationController?.pushViewController(GyrusCreateDreamPageViewController(), animated: true)
+        let createDreamViewController = GyrusCreateDreamPageViewController()
+        createDreamViewController.delegate = self
+        self.navigationController?.pushViewController(createDreamViewController, animated: true)
     }
     
     

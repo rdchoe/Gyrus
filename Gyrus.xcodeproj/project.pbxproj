@@ -3,13 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25959C5845D9C32512806AE0 /* Pods_Gyrus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FF05904CBE274ABF26B776 /* Pods_Gyrus.framework */; };
+		BEBA538722FE5C1B06DB2915 /* Pods_GyrusTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5967AD45270B92222A9C7FC2 /* Pods_GyrusTests.framework */; };
 		D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */; };
 		D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D700F49A249C29D600337AFF /* Futura-Light.ttf */; };
 		D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49F249C8F2600337AFF /* DreamCellView.swift */; };
+		D700F4A424A1EBBE00337AFF /* keywords.json in Resources */ = {isa = PBXBuildFile; fileRef = D700F4A324A1EBBE00337AFF /* keywords.json */; };
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
 		D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */; };
 		D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */; };
@@ -48,9 +51,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5967AD45270B92222A9C7FC2 /* Pods_GyrusTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GyrusTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A86A219BA9995A1BA930236D /* Pods-GyrusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GyrusTests.debug.xcconfig"; path = "Target Support Files/Pods-GyrusTests/Pods-GyrusTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AA15800B2CB854E2BD25B180 /* Pods-Gyrus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gyrus.release.xcconfig"; path = "Target Support Files/Pods-Gyrus/Pods-Gyrus.release.xcconfig"; sourceTree = "<group>"; };
+		B169AEF8A1561F688D368DA3 /* Pods-GyrusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GyrusTests.release.xcconfig"; path = "Target Support Files/Pods-GyrusTests/Pods-GyrusTests.release.xcconfig"; sourceTree = "<group>"; };
+		B4FF05904CBE274ABF26B776 /* Pods_Gyrus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Gyrus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D700F49A249C29D600337AFF /* Futura-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Futura-Light.ttf"; path = "../../../../Downloads/futura light/Futura-Light.ttf"; sourceTree = "<group>"; };
 		D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusAllLogsPageViewController.swift; sourceTree = "<group>"; };
 		D700F49F249C8F2600337AFF /* DreamCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCellView.swift; sourceTree = "<group>"; };
+		D700F4A324A1EBBE00337AFF /* keywords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = keywords.json; sourceTree = "<group>"; };
 		D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCountdownTimerView.swift; sourceTree = "<group>"; };
 		D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerCellView.swift; sourceTree = "<group>"; };
@@ -82,6 +91,7 @@
 		D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		D7BCBD272485A8D800F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boniver.mp3; path = "../../../Music/Music/Media.localized/Unknown Artist/Unknown Album/boniver.mp3"; sourceTree = "<group>"; };
 		D7BCBD2A2485A8E100F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boniver.mp3; sourceTree = "<group>"; };
+		F60AB7213F80CE0A7E76A645 /* Pods-Gyrus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gyrus.debug.xcconfig"; path = "Target Support Files/Pods-Gyrus/Pods-Gyrus.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25959C5845D9C32512806AE0 /* Pods_Gyrus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,12 +107,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEBA538722FE5C1B06DB2915 /* Pods_GyrusTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A489EA1097B5FD0713127AF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F60AB7213F80CE0A7E76A645 /* Pods-Gyrus.debug.xcconfig */,
+				AA15800B2CB854E2BD25B180 /* Pods-Gyrus.release.xcconfig */,
+				A86A219BA9995A1BA930236D /* Pods-GyrusTests.debug.xcconfig */,
+				B169AEF8A1561F688D368DA3 /* Pods-GyrusTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8C895528593B0A520460B425 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B4FF05904CBE274ABF26B776 /* Pods_Gyrus.framework */,
+				5967AD45270B92222A9C7FC2 /* Pods_GyrusTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D700F499249C29AB00337AFF /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +149,21 @@
 				D700F49F249C8F2600337AFF /* DreamCellView.swift */,
 			);
 			path = GyrusAllLogsPage;
+			sourceTree = "<group>";
+		};
+		D700F4A124A1D28200337AFF /* GyrusCreatePageV2 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GyrusCreatePageV2;
+			sourceTree = "<group>";
+		};
+		D700F4A224A1EBA400337AFF /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				D700F4A324A1EBBE00337AFF /* keywords.json */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		D70B6F4A247E065A001A14DC /* Core Data */ = {
@@ -183,6 +230,7 @@
 		D72F721D2484E36000B92AD7 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				D700F4A124A1D28200337AFF /* GyrusCreatePageV2 */,
 				D700F49B249C2E5400337AFF /* GyrusAllLogsPage */,
 				D7A59E982489352400DC4257 /* GyrusCreatePage */,
 				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
@@ -196,6 +244,8 @@
 				D74A63F6247CB08F005CDC8B /* Gyrus */,
 				D74A6410247CB091005CDC8B /* GyrusTests */,
 				D74A63F5247CB08F005CDC8B /* Products */,
+				8A489EA1097B5FD0713127AF /* Pods */,
+				8C895528593B0A520460B425 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -211,6 +261,7 @@
 		D74A63F6247CB08F005CDC8B /* Gyrus */ = {
 			isa = PBXGroup;
 			children = (
+				D700F4A224A1EBA400337AFF /* JSON */,
 				D700F499249C29AB00337AFF /* fonts */,
 				D7AA059E24940A4D005D2C0E /* UIComponents */,
 				D7BCBD292485A8DD00F645D8 /* Alarm Sounds */,
@@ -309,9 +360,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D74A6416247CB091005CDC8B /* Build configuration list for PBXNativeTarget "Gyrus" */;
 			buildPhases = (
+				2F7A678A380449DE731E34FF /* [CP] Check Pods Manifest.lock */,
 				D74A63F0247CB08F005CDC8B /* Sources */,
 				D74A63F1247CB08F005CDC8B /* Frameworks */,
 				D74A63F2247CB08F005CDC8B /* Resources */,
+				85237C76EE77F18DB9F5B668 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -326,6 +379,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D74A6419247CB091005CDC8B /* Build configuration list for PBXNativeTarget "GyrusTests" */;
 			buildPhases = (
+				8C1DB789040089C41C43A880 /* [CP] Check Pods Manifest.lock */,
 				D74A6409247CB091005CDC8B /* Sources */,
 				D74A640A247CB091005CDC8B /* Frameworks */,
 				D74A640B247CB091005CDC8B /* Resources */,
@@ -384,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */,
+				D700F4A424A1EBBE00337AFF /* keywords.json in Resources */,
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
 				D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */,
 				D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */,
@@ -398,6 +453,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F7A678A380449DE731E34FF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Gyrus-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85237C76EE77F18DB9F5B668 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Gyrus/Pods-Gyrus-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Gyrus/Pods-Gyrus-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Gyrus/Pods-Gyrus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8C1DB789040089C41C43A880 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GyrusTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D74A63F0247CB08F005CDC8B /* Sources */ = {
@@ -576,6 +695,7 @@
 		};
 		D74A6417247CB091005CDC8B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F60AB7213F80CE0A7E76A645 /* Pods-Gyrus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Gyrus/Gyrus.entitlements;
@@ -596,6 +716,7 @@
 		};
 		D74A6418247CB091005CDC8B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA15800B2CB854E2BD25B180 /* Pods-Gyrus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Gyrus/Gyrus.entitlements;
@@ -616,6 +737,7 @@
 		};
 		D74A641A247CB091005CDC8B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A86A219BA9995A1BA930236D /* Pods-GyrusTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -638,6 +760,7 @@
 		};
 		D74A641B247CB091005CDC8B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B169AEF8A1561F688D368DA3 /* Pods-GyrusTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

@@ -13,19 +13,18 @@ class CategoryCollectionViewLayout: UICollectionViewLayout {
     
     let CELL_HEIGHT = 30.0
     let CELL_WIDTH = 100.0
-    var categories: [[Category]]! {
+    var categories: [Category]! {
         didSet {
-            measurementMatrix = [[],[],[]]
-            for section in 0...categories.count - 1 {
-                if categories[section].count > 0  {
-                    for _ in 0...categories[section].count - 1 {
-                        measurementMatrix[section].append(0.0)
-                    }
+            measurementMatrix = []
+            if categories.count > 0 {
+                for category in 0...categories.count - 1 {
+                    measurementMatrix.append(0.0)
                 }
             }
+            
         }
     }
-    var measurementMatrix: [[Double]] = [[],[],[]]
+    var measurementMatrix: [Double] = []
     
     var cellAttrsDictionary = Dictionary<IndexPath, UICollectionViewLayoutAttributes>()
     var contentSize = CGSize.zero
@@ -33,15 +32,12 @@ class CategoryCollectionViewLayout: UICollectionViewLayout {
         super.init()
     }
     
-    convenience init(categories: [[Category]]) {
+    convenience init(categories: [Category]) {
         self.init()
         self.categories = categories
-        print(categories.count)
-        for section in 0...categories.count - 1 {
-            if categories[section].count > 0  {
-                for _ in 0...categories[section].count - 1 {
-                    measurementMatrix[section].append(0.0)
-                }
+        if categories.count > 0 {
+            for category in 0...categories.count - 1 {
+                measurementMatrix.append(0.0)
             }
         }
     }
@@ -75,8 +71,8 @@ class CategoryCollectionViewLayout: UICollectionViewLayout {
                 if categoryCollectionView.numberOfItems(inSection: section) > 0 {
                     for item in 0...collectionView!.numberOfItems(inSection: section) - 1 {
                         let cellIndex = IndexPath(item: item, section: section)
-                        let name = categories[section][item].name! as NSString
-                        let emoji = categories[section][item].emoji! as NSString
+                        let name = categories[item].name! as NSString
+                        let emoji = categories[item].emoji! as NSString
 
                         let categoryLabel = "\(emoji) \(name)" as NSString
                         let categorySize = categoryLabel.size(withAttributes: [NSAttributedString.Key.font: UIFont(name: Constants.font.futura_condensed, size: Constants.category.fontSize)!])
@@ -89,14 +85,14 @@ class CategoryCollectionViewLayout: UICollectionViewLayout {
                         var yPos: Double = Double(section) * (height + 8)
                         if item == 0 {
                             xPos = 16
-                            self.measurementMatrix[section][item] = width + 8 + 16 // adding 8 for padding
+                            self.measurementMatrix[item] = width + 8 + 16 // adding 8 for padding
                         } else {
-                            xPos = self.measurementMatrix[section][item-1]
-                            self.measurementMatrix[section][item] = self.measurementMatrix[section][item-1] + width + 8 // adding 8 for padding
+                            xPos = self.measurementMatrix[item-1]
+                            self.measurementMatrix[item] = self.measurementMatrix[item-1] + width + 8 // adding 8 for padding
                         }
                         
-                        if self.measurementMatrix[section][item] >= longestSection {
-                            longestSection = self.measurementMatrix[section][item]
+                        if self.measurementMatrix[item] >= longestSection {
+                            longestSection = self.measurementMatrix[item]
                         }
 
                         var cellAttributes = UICollectionViewLayoutAttributes(forCellWith: cellIndex)
