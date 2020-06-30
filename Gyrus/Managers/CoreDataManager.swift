@@ -56,6 +56,17 @@ class CoreDataManager: NSObject {
         dream.id = UUID()
         save()
     }
+   
+    /**
+        Updates the dream with that ID
+     */
+    func updateDream(withID id: UUID, title: String, Content: String, relatedCategories: NSSet?) {
+        guard let dream = self.fetchDream(byID: id) else { fatalError("Could not fetch that dream with that id")}
+        dream.title = title
+        dream.content = Content
+        dream.relatedCategories = relatedCategories
+        save()
+    }
     
     /**
         Fetches and returns all the dreams the user has had
@@ -102,20 +113,19 @@ class CoreDataManager: NSObject {
         
         return dream
     }
-   
+
     /**
         deletes a dream
         - Parameters :
             - id: UUID of the dream
         - Returns: boolean value indicating success of delete
      */
-    func deleteDream(byID id: UUID) -> Bool{
+    func deleteDream(byID id: UUID) {
         let context = self.container.viewContext
         if let dream = self.fetchDream(byID: id) {
             context.delete(dream)
-            return true
         } else {
-           return false
+           fatalError("Could not delete dream with id \(id)")
         }
         save()
     }

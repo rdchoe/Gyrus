@@ -34,6 +34,7 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
     
     var gyrusTabBar: GyrusTabBar!
     var tabBarHeight: CGFloat = Constants.tabbar.tabbbarHeight
+    var gyrusTabBarBottomAnchor: NSLayoutConstraint!
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
@@ -82,9 +83,12 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
             self.gyrusTabBar.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
             self.gyrusTabBar.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
             self.gyrusTabBar.widthAnchor.constraint(equalToConstant: tabBar.frame.width),
-            self.gyrusTabBar.heightAnchor.constraint(equalToConstant: tabBarHeight), // Fixed height for nav menu
-            self.gyrusTabBar.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor)
+            self.gyrusTabBar.heightAnchor.constraint(equalToConstant: tabBarHeight) // Fixed height for nav menu
+            //self.gyrusTabBar.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor)
         ])
+        
+        self.gyrusTabBarBottomAnchor = self.gyrusTabBar.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor)
+        self.gyrusTabBarBottomAnchor.isActive = true
         for i in 0 ..< items.count {
             controllers.append(items[i].viewController) // we fetch the matching view controller and append here
         }
@@ -101,9 +105,37 @@ class GyrusTabBarController: UITabBarController, UNUserNotificationCenterDelegat
         MPVolumeView.setVolume(0.5)
         print(response.notification.request.content.userInfo)
         
+        // Opening the app from an alarm local notification
+        // 1. Change tab to the all dream logs page view controller
+        self.changeTab(tab: 1)
+        if let navController = self.viewControllers?[1] as? UINavigationController {
+            if let allLogsController = navController.viewControllers[0] as? GyrusAllLogsPageViewController {
+                // 2. Open up the create log page
+                allLogsController.openCreateLog()
+            }
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(volumeChanged(_:)), name: NSNotification.Name(rawValue: "AVSystemController_SystemVolumeDidChangeNotification"), object: nil)
     }
+    
     @objc func volumeChanged(_ notifcation: NSNotification) {
         MPVolumeView.setVolume(0.5)
+    }
+    
+    func hideTabBar() {
+        UIView.animate(withDuration: 0.5, delay: 0.0 ,options: .curveEaseInOut, animations: {
+            self.gyrusTabBarBottomAnchor.constant = 150.0
+            self.gyrusTabBar.isUserInteractionEnabled = false
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func showTabBar() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.gyrusTabBarBottomAnchor.constant = 0.0
+            self.gyrusTabBar.isUserInteractionEnabled = true
+            self.view.layoutIfNeeded()
+            self.navigationController?.navigationBar.makeTransparent()
+        }, completion: nil)
     }
 }

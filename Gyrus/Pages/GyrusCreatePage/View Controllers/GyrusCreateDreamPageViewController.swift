@@ -36,72 +36,8 @@ class GyrusCreateDreamPageViewController: UIViewController {
                |          |-----------------------------|         |
                |----------------------------------------------|
     */
-   
-    /// The vertical stack view container all the visual componets of the page
-    private let contentWrapperView: UIView = {
-        let contentWrapperView = UIView()
-        contentWrapperView.translatesAutoresizingMaskIntoConstraints = false
-        contentWrapperView.backgroundColor = UIColor.clear
-        return contentWrapperView
-    }()
-    
-    /// The horizontal stack view container containing the category label, add button, and expand button
-    private let categoryHeaderWrapperView: UIView = {
-        let categoryHeaderWrapperView = UIView()
-        categoryHeaderWrapperView.translatesAutoresizingMaskIntoConstraints = false
-        categoryHeaderWrapperView.backgroundColor = UIColor.clear
-        return categoryHeaderWrapperView
-    }()
-    
-    /// The category header label
-    private let categoryHeaderLabel: UILabel = {
-        let categoryHeaderLabel = UILabel()
-        categoryHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryHeaderLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.h6)
-        categoryHeaderLabel.text = Constants.dreamLogPage.categoryHeaderText
-        categoryHeaderLabel.textColor = Constants.colors.whiteTextColor
-        categoryHeaderLabel.backgroundColor = UIColor.clear
-        return categoryHeaderLabel
-    }()
-    
-    /// Select all that apply label
-    private let subCategoryHeaderLabel: UILabel = {
-        let subCategoryHeaderLabel = UILabel()
-        subCategoryHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
-        subCategoryHeaderLabel.font = UIFont(name: Constants.font.futura_italic, size: Constants.font.subtitle)
-        subCategoryHeaderLabel.text = "Select all that apply"
-        subCategoryHeaderLabel.textColor = Constants.colors.gray
-        subCategoryHeaderLabel.backgroundColor = UIColor.clear
-        return subCategoryHeaderLabel
-    }()
-   /*
-    /// The expand button that expands the category collection view
-    private let expandCategoryButton: UIButton = {
-        let expandCategoryButton = UIButton()
-        expandCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        expandCategoryButton.setImage(#imageLiteral(resourceName: "expand"), for: .normal)
-        expandCategoryButton.backgroundColor = UIColor.clear
-        return expandCategoryButton
-    }()
- */
-    
-    private let createCategoryButton: UIButton = {
-        let createCategoryButton = UIButton()
-        createCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        let plusIcon = UIImage(named: "plus")?.imageWithColor(color: .white)
-        createCategoryButton.setImage(plusIcon, for: .normal)
-        createCategoryButton.backgroundColor = UIColor.clear
-        return createCategoryButton
-    }()
     
     public var categoriesCollectionView: UICollectionView! = nil
-    
-    private let separator: UIView = {
-        let separator = UIView()
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.backgroundColor = Constants.colors.gray
-        return separator
-    }()
     
     private let dreamLogTextView: UITextView = {
         let dreamLogTextView = UITextView()
@@ -132,6 +68,7 @@ class GyrusCreateDreamPageViewController: UIViewController {
         dateLabel.text = dateFormatter.string(from: Date())
         return dateLabel
     }()
+    
     private let keywords: JSON = {
         if let path = Bundle.main.url(forResource: "keywords", withExtension: ".json") {
             do {
@@ -158,8 +95,30 @@ class GyrusCreateDreamPageViewController: UIViewController {
     private var hasStartedLogging = false
     private var dreamLogTextViewBottomAnchor: NSLayoutConstraint!
     private var keyboardHeight: CGFloat = 8.0
+    fileprivate var dream: Dream?
+    fileprivate var existingDreamLog: Bool = false
+    fileprivate var fromAlarm: Bool = false
     var delegate: CreateDreamDelegate!
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    convenience init(dream: Dream) {
+        self.init(nibName: nil, bundle: nil)
+        self.dreamLogTextView.text = dream.content
+        self.dreamLogTextView.textColor = Constants.colors.white
+        self.hasStartedLogging = true
+        self.dream = dream
+    }
+    
+    convenience init(fromAlarm: Bool) {
+        self.init(nibName: nil, bundle: nil)
+        self.fromAlarm = true
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -176,15 +135,24 @@ class GyrusCreateDreamPageViewController: UIViewController {
             gyrusTabBarController.gyrusTabBar.mainEventButton.titleLabel?.font = UIFont(name: Constants.font.futura, size: Constants.font.h5)
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
+   
+    /**
+     Detect when the user presses the back button on the view controller, and determine if we need to save/update this dream log
+     */
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        if self.isMovingFromParent {
+            let separatedContent = self.dreamLogTextView.text.components(separatedBy: CharacterSet.newlines)
+            
+            if separatedContent.count > 0 {
+                if existingDreamLog {
+                    AppDelegate.appCoreDateManager.updateDream(withID: self.dream!.id!, title: separatedContent[0], Content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
+                } else {
+                    AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
+                }
+                self.delegate.dreamCreated()
+            }
+        }
     }
     
     private func setupViewController() {
@@ -193,15 +161,25 @@ class GyrusCreateDreamPageViewController: UIViewController {
         self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
         setupCollectionView()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        if fromAlarm {
+            if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+                gyrusTabBarController.hideTabBar()
+            }
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
         
-        self.createCategoryButton.addTarget(self, action: #selector(createCategoryButtonClicked), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         view.addSubview(dateLabel)
         view.addSubview(categoriesCollectionView)
         view.addSubview(dreamLogTextView)
         
         layoutConstraints()
+    
+        // If we are coming back in to an existing log and there were related categories, we should should those categories
+        if existingDreamLog && self.relatedCategories.count > 0 {
+            self.animateCategoriesView()
+        }
     }
     
     func setupCollectionView() {
@@ -219,6 +197,15 @@ class GyrusCreateDreamPageViewController: UIViewController {
         categoriesCollectionView.delegate = self
         categoriesCollectionView.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryCell")
         dreamLogTextView.delegate = self
+        
+        if let dream = self.dream {
+            self.existingDreamLog = true
+            if let relatedCategories = dream.relatedCategories {
+                for case let category as Category in relatedCategories {
+                    self.addNewCategory(category: category)
+                }
+            }
+        }
     }
     
     private func layoutConstraints() {
@@ -275,14 +262,7 @@ class GyrusCreateDreamPageViewController: UIViewController {
             completion: nil)
         }
     }
-    
-    @objc func createCategoryButtonClicked() {
-        let bottomSheetViewController = GyrusCreateCategoryBottomSheetViewController()
-        bottomSheetViewController.modalPresentationStyle = .custom
-        bottomSheetViewController.transitioningDelegate = self
-        bottomSheetViewController.delegate = self
-        self.present(bottomSheetViewController, animated: true)
-    }
+
 }
 
 // MARK: Collection View Delegate-
@@ -305,11 +285,7 @@ extension GyrusCreateDreamPageViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
-        if cell.toggleActiveState() { // we need to add this category
-            self.relatedCategories.add(cell.category!)
-        } else { // we need to remove this category
-            self.relatedCategories.remove(cell.category!)
-        }
+        self.navigationController?.pushViewController(GyrusCategoryPageViewController(category: cell.category!), animated: true)
         let generator = UIImpactFeedbackGenerator(style: .soft)
         generator.impactOccurred()
     }
@@ -353,11 +329,18 @@ extension GyrusCreateDreamPageViewController: UITextViewDelegate {
                 self.updateCategoriesCollectionView()
             }
         }
-        let currWordCount = getWordCount()
-        if currWordCount >= 50 {
-            // do something here
-        } else {
-            //self.wordCountLabel.text = String(currWordCount) + "/50"
+        if fromAlarm {
+            let currWordCount = getWordCount()
+            if currWordCount >= 25 {
+                // show tab bar
+                if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+                    gyrusTabBarController.showTabBar()
+                }
+                // show navigation bar
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            } else {
+                //self.wordCountLabel.text = String(currWordCount) + "/50"
+            }
         }
     }
     
@@ -400,35 +383,11 @@ extension GyrusCreateDreamPageViewController: UIViewControllerTransitioningDeleg
 // MARK: Tab Bar Delegate-
 extension GyrusCreateDreamPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
-        switch self.pageState {
-        case .selected:
-            self.pageState = .notSelected
-        case .notSelected:
-            self.pageState = .selected
-        }
         let separatedContent = self.dreamLogTextView.text.components(separatedBy: CharacterSet.newlines)
         if separatedContent.count > 0 {
-            AppDelegate.appCoreDateManager.addDream(title: separatedContent[0], content: self.dreamLogTextView.text, relatedCategories: self.relatedCategories as NSSet)
-        self.delegate.dreamCreated()
+            self.delegate.dreamCreated()
         }
         
-    }
-}
-
-
-// MARK: Create Category Bottom Sheet Delegate-
-extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate {
-    func categoryCreated() {
-        print("unimplemtned")
-    }
-    
-    
-    func addNewCategory(category: Category) {
-        self.categories.insert(category, at: 0)
-        if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
-            flowLayout.categories = self.categories.array as! [Category]
-        }
-        self.categoriesCollectionView.reloadData()
     }
 }
 
@@ -436,6 +395,15 @@ extension GyrusCreateDreamPageViewController: CreateCategoryBottomSheetDelegate 
 extension GyrusCreateDreamPageViewController {
     
     private func updateCategoriesCollectionView() {
+        if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
+            flowLayout.categories = self.categories.array as! [Category]
+        }
+        self.categoriesCollectionView.reloadData()
+    }
+    
+    private func addNewCategory(category: Category) {
+        self.relatedCategories.add(category)
+        self.categories.insert(category, at: 0)
         if let flowLayout = self.categoriesCollectionView.collectionViewLayout as? CategoryCollectionViewLayout {
             flowLayout.categories = self.categories.array as! [Category]
         }

@@ -123,15 +123,17 @@ class GyrusAllLogsPageViewController: UIViewController {
         NSLayoutConstraint.activate([
             testView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             testView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            //testView.bottomAnchor.constraint(equalTo: dreamsTable.topAnchor, constant: 200),
-            //testView.heightAnchor.constraint(equalToConstant: 20),
             self.dreamsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             self.dreamsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             self.dreamsTable.topAnchor.constraint(equalTo: marginsGuide.topAnchor),
-            self.dreamsTable.bottomAnchor.constraint(equalTo: marginsGuide.bottomAnchor),
             noDreamsLabel.centerXAnchor.constraint(equalTo: dreamsTable.centerXAnchor),
             noDreamsLabel.centerYAnchor.constraint(equalTo: dreamsTable.centerYAnchor),
         ])
+        if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
+            self.dreamsTable.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -gyrusTabBarController.gyrusTabBar.frame.height).isActive = true
+        } else {
+            self.dreamsTable.bottomAnchor.constraint(equalTo: marginsGuide.bottomAnchor).isActive = true
+        }
     }
 }
 
@@ -154,6 +156,12 @@ extension GyrusAllLogsPageViewController: UITableViewDelegate, UITableViewDataSo
             tableView.deleteRows(at: [indexPath]
                 , with: UITableView.RowAnimation.automatic)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let createDreamPageViewController = GyrusCreateDreamPageViewController(dream: self.dreams[indexPath.row])
+        createDreamPageViewController.delegate = self
+        self.navigationController?.pushViewController(createDreamPageViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -191,6 +199,12 @@ extension GyrusAllLogsPageViewController: GyrusTabBarDelegate {
         createDreamViewController.delegate = self
         self.navigationController?.pushViewController(createDreamViewController, animated: true)
     }
-    
-    
+}
+
+extension GyrusAllLogsPageViewController {
+    func openCreateLog() {
+        let createDreamViewController = GyrusCreateDreamPageViewController(fromAlarm: true)
+        createDreamViewController.delegate = self
+        self.navigationController?.pushViewController(createDreamViewController, animated: true)
+    }
 }

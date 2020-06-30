@@ -186,13 +186,6 @@ class GyrusTabBar: UIView {
         borderLayer.name = "active border"
         borderLayer.frame = CGRect(x: 10, y: 0, width: borderWidth, height: 2)
         DispatchQueue.main.async {
-            /*
-            UIView.animate(withDuration: 0.8, delay: 0.0, options: [.curveEaseIn, .allowUserInteraction], animations: {
-                tabToActivate.layer.addSublayer(borderLayer)
-                tabToActivate.setNeedsLayout()
-                tabToActivate.layoutIfNeeded()
-            })
-             */
             self.itemTapped?(tab)
         }
         self.activeItem = tab

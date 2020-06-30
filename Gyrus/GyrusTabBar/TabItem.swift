@@ -21,9 +21,7 @@ enum TabItem: String, CaseIterable {
             return GyrusCreateDreamPageViewController()
         case .dreams:
             let navController = UINavigationController()
-            navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            navController.navigationBar.shadowImage = UIImage()
-            navController.navigationBar.isTranslucent = true
+            navController.navigationBar.makeTransparent()
             navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Constants.colors.white, NSAttributedString.Key.font: UIFont(name: Constants.font.futura, size: Constants.font.h6)]
             navController.navigationBar.prefersLargeTitles = true
             navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: Constants.colors.white, NSAttributedString.Key.font: UIFont(name: Constants.font.futura, size: Constants.font.h4)]

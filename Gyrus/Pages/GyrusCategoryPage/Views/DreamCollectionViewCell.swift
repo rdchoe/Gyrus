@@ -1,20 +1,20 @@
 //
-//  DreamCellView.swift
+//  DreamCollectionViewCell.swift
 //  Gyrus
 //
-//  Created by Robert Choe on 6/19/20.
+//  Created by Robert Choe on 6/29/20.
 //  Copyright © 2020 Robert Choe. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class DreamCellView: UITableViewCell {
+class DreamCollectionViewCell: UICollectionViewCell {
     private let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
         title.font = UIFont(name: Constants.font.futura, size: Constants.font.h6)
         title.textColor = Constants.colors.white
+        
         return title
     }()
     
@@ -34,7 +34,12 @@ class DreamCellView: UITableViewCell {
         return content
     }()
     
-    private let dateFormatter = DateFormatter()
+    private let separator: UIView = {
+        let separator = UIView()
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = Constants.colors.gray
+        return separator
+    }()
     
     var dream: Dream! {
         didSet {
@@ -46,30 +51,35 @@ class DreamCellView: UITableViewCell {
             self.contentView.addSubview(title)
             self.contentView.addSubview(date)
             self.contentView.addSubview(content)
+            self.contentView.addSubview(separator)
             layoutConstraints()
         }
     }
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.translatesAutoresizingMaskIntoConstraints = false
+    
+    static let identifier = "DreamCell"
+    private let dateFormatter = DateFormatter()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = UIColor.clear
+        
+        //layoutConstraints()
     }
     
-    
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func layoutConstraints() {
-        let views : [String: Any] = ["title": self.title, "date": self.date, "content": self.content, "contentView": self.contentView]
+        let views : [String: Any] = ["title": self.title, "date": self.date, "content": self.content, "contentView": self.contentView, "separator":self.separator]
         ["H:|-[contentView]|",
          "V:|-[contentView]-|",
          "V:|[title]-[date]|",
-         "V:|[title]-10-[content]|",
-         "H:|[title]",
+         "V:|[title]-10-[content]-[separator(1)]",
+         "H:|[title]|",
          "H:|[date]-[content]",
+         "H:|[separator]|"
             ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
     }
-    
 }

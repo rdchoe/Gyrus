@@ -178,3 +178,12 @@ extension UITextView {
     }
 }
 
+
+extension UINavigationBar {
+    func makeTransparent() {
+        self.setBackgroundImage(UIImage(), for: .default)
+        self.shadowImage = UIImage()
+        self.isTranslucent = true
+        self.backgroundColor = .clear
+    }
+}

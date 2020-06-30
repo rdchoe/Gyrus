@@ -89,7 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppDelegate.appCoreDateManager.addCategory(name: "Chased", emoji: "💨")
         AppDelegate.appCoreDateManager.addCategory(name: "Attacked", emoji: "👹")
         AppDelegate.appCoreDateManager.addCategory(name: "Injured", emoji: "🤕")
-        AppDelegate.appCoreDateManager.addCategory(name: "Dying", emoji: "☠️")
+        AppDelegate.appCoreDateManager.addCategory(name: "Death", emoji: "☠️")
         AppDelegate.appCoreDateManager.addCategory(name: "Car", emoji: "🚗")
         AppDelegate.appCoreDateManager.addCategory(name: "House Damage", emoji: "🏠")
         AppDelegate.appCoreDateManager.addCategory(name: "Poor Performance", emoji: "😕")
@@ -103,16 +103,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         AppDelegate.appCoreDateManager.addCategory(name: "Trapped", emoji: "📦")
         AppDelegate.appCoreDateManager.addCategory(name: "Ghost", emoji: "👻")
     }
-    func createTagsTest() {
-        AppDelegate.appCoreDateManager.deleteAllCategories()
-        
-        AppDelegate.appCoreDateManager.addCategory(name: "Falling", emoji: "🌩")
-        AppDelegate.appCoreDateManager.addCategory(name: "Super Powers", emoji: "🦸🏻‍♂️")
-        AppDelegate.appCoreDateManager.addCategory(name: "Very long category", emoji: "🌩")
-        AppDelegate.appCoreDateManager.addCategory(name: "Good Dream", emoji: "☺️")
-        AppDelegate.appCoreDateManager.deleteAllCategories()
-    }
-
 }
 
 

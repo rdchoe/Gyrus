@@ -14,6 +14,7 @@
 		D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D700F49F249C8F2600337AFF /* DreamCellView.swift */; };
 		D700F4A424A1EBBE00337AFF /* keywords.json in Resources */ = {isa = PBXBuildFile; fileRef = D700F4A324A1EBBE00337AFF /* keywords.json */; };
 		D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */; };
+		D71D52BE24A4F65700639E1E /* GyrusCategoryPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71D52BD24A4F65700639E1E /* GyrusCategoryPageViewController.swift */; };
 		D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */; };
 		D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */; };
 		D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74A63F7247CB08F005CDC8B /* AppDelegate.swift */; };
@@ -30,9 +31,15 @@
 		D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712352248132FB00D9D303 /* GyrusTabBar.swift */; };
 		D771235724813E4B00D9D303 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771235624813E4B00D9D303 /* Helpers.swift */; };
 		D77123592481667900D9D303 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77123582481667900D9D303 /* TabItem.swift */; };
+		D79C359F24A4D785007B0703 /* categories.json in Resources */ = {isa = PBXBuildFile; fileRef = D79C359E24A4D785007B0703 /* categories.json */; };
+		D7A5750024A50AE60002F9A7 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A574FF24A50AE60002F9A7 /* HeaderView.swift */; };
 		D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */; };
 		D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */; };
 		D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */; };
+		D7A7C11A24A534B900D60354 /* StretchyHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C11924A534B900D60354 /* StretchyHeaderLayout.swift */; };
+		D7A7C11C24A53C5700D60354 /* DocumentationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C11B24A53C5700D60354 /* DocumentationCell.swift */; };
+		D7A7C12024AA94A600D60354 /* DreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C11F24AA94A600D60354 /* DreamCollectionViewCell.swift */; };
+		D7A7C12224AAA2A000D60354 /* DreamsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C12124AAA2A000D60354 /* DreamsHeaderView.swift */; };
 		D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */; };
 		D7AA05A024940A78005D2C0E /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */; };
 		D7BBC2932497422600DCB9B0 /* EmojiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */; };
@@ -61,6 +68,7 @@
 		D700F49F249C8F2600337AFF /* DreamCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCellView.swift; sourceTree = "<group>"; };
 		D700F4A324A1EBBE00337AFF /* keywords.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = keywords.json; sourceTree = "<group>"; };
 		D70B6F4B247E0AA2001A14DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D71D52BD24A4F65700639E1E /* GyrusCategoryPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCategoryPageViewController.swift; sourceTree = "<group>"; };
 		D72F72152484DFB600B92AD7 /* GyrusCountdownTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCountdownTimerView.swift; sourceTree = "<group>"; };
 		D72F721E248585FB00B92AD7 /* TimePickerCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimePickerCellView.swift; sourceTree = "<group>"; };
 		D74A63F4247CB08F005CDC8B /* Gyrus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Gyrus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,9 +89,15 @@
 		D7712352248132FB00D9D303 /* GyrusTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBar.swift; sourceTree = "<group>"; };
 		D771235624813E4B00D9D303 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D77123582481667900D9D303 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		D79C359E24A4D785007B0703 /* categories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = categories.json; sourceTree = "<group>"; };
+		D7A574FF24A50AE60002F9A7 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateDreamPageViewController.swift; sourceTree = "<group>"; };
 		D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewLayout.swift; sourceTree = "<group>"; };
+		D7A7C11924A534B900D60354 /* StretchyHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchyHeaderLayout.swift; sourceTree = "<group>"; };
+		D7A7C11B24A53C5700D60354 /* DocumentationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentationCell.swift; sourceTree = "<group>"; };
+		D7A7C11F24AA94A600D60354 /* DreamCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCollectionViewCell.swift; sourceTree = "<group>"; };
+		D7A7C12124AAA2A000D60354 /* DreamsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamsHeaderView.swift; sourceTree = "<group>"; };
 		D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateCategoryBottomSheetViewController.swift; sourceTree = "<group>"; };
 		D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
 		D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextField.swift; sourceTree = "<group>"; };
@@ -145,23 +159,17 @@
 		D700F49B249C2E5400337AFF /* GyrusAllLogsPage */ = {
 			isa = PBXGroup;
 			children = (
+				D7A7C11D24A97AB300D60354 /* Views */,
 				D700F49C249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift */,
-				D700F49F249C8F2600337AFF /* DreamCellView.swift */,
 			);
 			path = GyrusAllLogsPage;
-			sourceTree = "<group>";
-		};
-		D700F4A124A1D28200337AFF /* GyrusCreatePageV2 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = GyrusCreatePageV2;
 			sourceTree = "<group>";
 		};
 		D700F4A224A1EBA400337AFF /* JSON */ = {
 			isa = PBXGroup;
 			children = (
 				D700F4A324A1EBBE00337AFF /* keywords.json */,
+				D79C359E24A4D785007B0703 /* categories.json */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -172,6 +180,16 @@
 				D74A6400247CB08F005CDC8B /* Gyrus.xcdatamodeld */,
 			);
 			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		D71D52BC24A4F64100639E1E /* GyrusCategoryPage */ = {
+			isa = PBXGroup;
+			children = (
+				D7A7C11E24A97ACB00D60354 /* Views */,
+				D71D52BD24A4F65700639E1E /* GyrusCategoryPageViewController.swift */,
+				D7A7C11924A534B900D60354 /* StretchyHeaderLayout.swift */,
+			);
+			path = GyrusCategoryPage;
 			sourceTree = "<group>";
 		};
 		D72F72172484E2DA00B92AD7 /* GyrusTabBar */ = {
@@ -230,7 +248,7 @@
 		D72F721D2484E36000B92AD7 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
-				D700F4A124A1D28200337AFF /* GyrusCreatePageV2 */,
+				D71D52BC24A4F64100639E1E /* GyrusCategoryPage */,
 				D700F49B249C2E5400337AFF /* GyrusAllLogsPage */,
 				D7A59E982489352400DC4257 /* GyrusCreatePage */,
 				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
@@ -270,8 +288,8 @@
 				D72F721D2484E36000B92AD7 /* Pages */,
 				D72F72172484E2DA00B92AD7 /* GyrusTabBar */,
 				D7712349247F907F00D9D303 /* Helpers */,
-				D7BCBD272485A8D800F645D8 /* boniver.mp3 */,
 				D70B6F4A247E065A001A14DC /* Core Data */,
+				D7BCBD272485A8D800F645D8 /* boniver.mp3 */,
 				D74A63F7247CB08F005CDC8B /* AppDelegate.swift */,
 				D74A63F9247CB08F005CDC8B /* SceneDelegate.swift */,
 				D74A6403247CB091005CDC8B /* Assets.xcassets */,
@@ -325,6 +343,25 @@
 				D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		D7A7C11D24A97AB300D60354 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D700F49F249C8F2600337AFF /* DreamCellView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D7A7C11E24A97ACB00D60354 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D7A574FF24A50AE60002F9A7 /* HeaderView.swift */,
+				D7A7C12124AAA2A000D60354 /* DreamsHeaderView.swift */,
+				D7A7C11B24A53C5700D60354 /* DocumentationCell.swift */,
+				D7A7C11F24AA94A600D60354 /* DreamCollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D7AA059E24940A4D005D2C0E /* UIComponents */ = {
@@ -438,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */,
+				D79C359F24A4D785007B0703 /* categories.json in Resources */,
 				D700F4A424A1EBBE00337AFF /* keywords.json in Resources */,
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
 				D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */,
@@ -523,13 +561,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7A7C12024AA94A600D60354 /* DreamCollectionViewCell.swift in Sources */,
 				D74A6402247CB08F005CDC8B /* Gyrus.xcdatamodeld in Sources */,
 				D7BBC2932497422600DCB9B0 /* EmojiTextField.swift in Sources */,
+				D7A7C11A24A534B900D60354 /* StretchyHeaderLayout.swift in Sources */,
 				D74A63F8247CB08F005CDC8B /* AppDelegate.swift in Sources */,
 				D77123592481667900D9D303 /* TabItem.swift in Sources */,
 				D7A59E9E2489B8C700DC4257 /* CategoryCollectionViewCell.swift in Sources */,
 				D7AA05A024940A78005D2C0E /* BottomSheetPresentationController.swift in Sources */,
 				D72F721F248585FB00B92AD7 /* TimePickerCellView.swift in Sources */,
+				D71D52BE24A4F65700639E1E /* GyrusCategoryPageViewController.swift in Sources */,
 				D70B6F4C247E0AA2001A14DC /* CoreDataManager.swift in Sources */,
 				D7712346247F897800D9D303 /* GyrusTabBarController.swift in Sources */,
 				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
@@ -537,14 +578,17 @@
 				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
 				D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */,
 				D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */,
+				D7A5750024A50AE60002F9A7 /* HeaderView.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
 				D7A59EA02489C0DD00DC4257 /* CategoryCollectionViewLayout.swift in Sources */,
 				D771234B247F908D00D9D303 /* Extensions.swift in Sources */,
 				D771234E247FA0A400D9D303 /* GyrusTimePickerView.swift in Sources */,
 				D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */,
+				D7A7C12224AAA2A000D60354 /* DreamsHeaderView.swift in Sources */,
 				D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */,
 				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
 				D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */,
+				D7A7C11C24A53C5700D60354 /* DocumentationCell.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
