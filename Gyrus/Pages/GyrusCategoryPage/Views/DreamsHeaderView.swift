@@ -13,7 +13,7 @@ class DreamsHeaderView: UICollectionReusableView {
     fileprivate let headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.text = "Related dreams"
+        headerLabel.text = "Related Dreams"
         headerLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.body)
         headerLabel.textColor = Constants.colors.white
         return headerLabel
@@ -59,7 +59,7 @@ class DreamsHeaderView: UICollectionReusableView {
             "H:|-16-[headerLabel]",
             "H:|-16-[dreamCountLabel]",
             "H:|[separator]|",
-            "V:|-[headerLabel]-[dreamCountLabel]-[separator(1)]|",
+            "V:|-[headerLabel]-[dreamCountLabel]-[separator(0.5)]|",
         ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
     }
 }

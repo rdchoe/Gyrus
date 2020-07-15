@@ -43,14 +43,13 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     
     private let timePickerView: GyrusTimePicker = GyrusTimePicker()
     
-    private let alarmLabel: UITextField = {
-        let alarmLabel = UITextField()
+    private let alarmLabel: UILabel = {
+        let alarmLabel = UILabel()
         alarmLabel.translatesAutoresizingMaskIntoConstraints = false
         alarmLabel.textColor = Constants.colors.whiteTextColor
-        alarmLabel.placeholder = "Alarm"
-        alarmLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.h4)
+        alarmLabel.text = ""
+        alarmLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.body)
         alarmLabel.textAlignment = .center
-        alarmLabel.addDoneButton(title: "Done", target: self, selector: #selector(tapDone(sender:)))
 
         return alarmLabel
     }()
@@ -59,6 +58,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.backgroundColor = Constants.colors.gray
+        separator.alpha = 0
         return separator
     }()
     
@@ -67,6 +67,32 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         countdownTimerView.alpha = 0
         return countdownTimerView
     }()
+    
+    fileprivate let timeArcView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0
+        return view
+    }()
+    
+    lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        let dateFormat = "'Waking up at' h:mm a"
+        
+        dateFormatter.dateFormat = dateFormat
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "PM"
+        return dateFormatter
+    }()
+    
+    private let timeArcImageView: UIImageView = {
+        let iv = UIImageView()
+        let configuration = UIImage.SymbolConfiguration(scale: .small)
+        iv.image = UIImage(systemName: "moon.fill")
+        iv.tintColor = .white
+        return iv
+    }()
 
     /// The state of the page that toggles when the main event button is clicked (each page should have this to determine the button functionality and title)
     private var pageState: PageState = .notSelected
@@ -74,7 +100,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     private var contentWrapperViewTopConstraint: NSLayoutConstraint!
     private var separatorLeadingConstraint: NSLayoutConstraint!
     private var separatorTrailingConstraint: NSLayoutConstraint!
-    
+    private var timeArcIsAnimating: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.largeTitleDisplayMode = .never
@@ -88,6 +114,8 @@ class GyrusCreateAlarmPageViewController: UIViewController {
     }
     
     private func setupViewController() {
+        timePickerView.delegate = self
+        countdownTimerView.delegate = self
         self.edgesForExtendedLayout = []
         self.extendedLayoutIncludesOpaqueBars = true
         self.view.setGradientBackground(colorOne: #colorLiteral(red: 0.08831106871, green: 0.09370639175, blue: 0.1314730048, alpha: 1), colorTwo: #colorLiteral(red: 0.09751460701, green: 0.1287023127, blue: 0.1586345732, alpha: 1))
@@ -97,13 +125,17 @@ class GyrusCreateAlarmPageViewController: UIViewController {
         contentWrapperView.addSubview(separator)
         contentWrapperView.addSubview(countdownTimerView)
         
+        view.addSubview(timeArcView)
         
         // set delegate for tab bar to self to handle main event button functionality
         if let gyrusTabBarController = self.tabBarController as? GyrusTabBarController {
             gyrusTabBarController.gyrusTabBar.delegate = self
         }
-        
         layoutConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //self.timeDidChange()
     }
     
     private func layoutConstraints() {
@@ -132,15 +164,22 @@ class GyrusCreateAlarmPageViewController: UIViewController {
             self.timePickerView.topAnchor.constraint(equalTo: contentWrapperView.topAnchor),
             self.timePickerView.centerXAnchor.constraint(equalTo: contentWrapperView.centerXAnchor),
 
-            self.alarmLabel.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor),
-            self.alarmLabel.trailingAnchor.constraint(equalTo: self.timePickerView.trailingAnchor),
             self.alarmLabel.topAnchor.constraint(equalTo: self.timePickerView.bottomAnchor, constant: Constants.spacing.standard),
-        
-            self.separator.topAnchor.constraint(equalTo: self.alarmLabel.bottomAnchor),
+            self.alarmLabel.centerXAnchor.constraint(equalTo: self.timePickerView.centerXAnchor),
+            self.alarmLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.alarmLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+
+            self.separator.topAnchor.constraint(equalTo: self.alarmLabel.bottomAnchor, constant: 8),
             
-            self.countdownTimerView.leadingAnchor.constraint(equalTo: self.timePickerView.leadingAnchor),
-            self.countdownTimerView.trailingAnchor.constraint(equalTo: self.timePickerView.trailingAnchor),
-            self.countdownTimerView.topAnchor.constraint(equalTo: self.separator.bottomAnchor)
+            //self.countdownTimerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            //self.countdownTimerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.countdownTimerView.topAnchor.constraint(equalTo: self.separator.bottomAnchor),
+            self.countdownTimerView.centerXAnchor.constraint(equalTo: self.timePickerView.centerXAnchor),
+            self.countdownTimerView.widthAnchor.constraint(equalToConstant: 300),
+            timeArcView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+            timeArcView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: -16),
+            timeArcView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 16),
+            timeArcView.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5, constant: 32)
             
         ])
     }
@@ -168,6 +207,7 @@ class GyrusCreateAlarmPageViewController: UIViewController {
 // MARK: Gyrus Tab Bar Delegate-
 extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
     func mainEventButtonClicked(button: UIButton) {
+        // This function toggles the page state (asycnhronous reason)
         animateScreen(button: button)
         // Turning an alarm on if button is selected
         
@@ -176,29 +216,17 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
             guard let timeUntilAlarm = self.timePickerView.getSelectedTime() else {
                 return
             }
-            let alarm: Alarm = AppDelegate.appCoreDateManager.addAlarm(time: timeUntilAlarm, name: self.alarmLabel.text ?? self.alarmLabel.placeholder!)
+            let alarm: Alarm = AppDelegate.appCoreDateManager.addAlarm(time: timeUntilAlarm, name: "alarm")
             
             PushNotificationManager.createLocalNotification(alarm: alarm)
             
-            let alarmSound = Bundle.main.path(forResource: "boniver", ofType: "mp3")
-            do {
-                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.duckOthers, .defaultToSpeaker])
-                try AVAudioSession.sharedInstance().setActive(true)
-                UIApplication.shared.beginReceivingRemoteControlEvents()
-                AppDelegate.GyrusAudioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: alarmSound!))
-                print(AppDelegate.GyrusAudioPlayer.deviceCurrentTime)
-                AppDelegate.GyrusAudioPlayer.play(atTime: AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)
-                print("time: \(AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)")
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alarm.time!.timeIntervalSinceNow, execute: {
-                    MPVolumeView.setVolume(1.0)
-                })
-                
-            } catch {
-                print(error)
-            }
+            AppDelegate.GyrusAudioPlayer.play(atTime: AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)
+            print("time: \(AppDelegate.GyrusAudioPlayer.deviceCurrentTime + alarm.time!.timeIntervalSinceNow)")
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + alarm.time!.timeIntervalSinceNow, execute: {
+                MPVolumeView.setVolume(1.0)
+            })
             button.setTitle("Stop", for: .normal)
-            self.pageState = .selected
-            
+
         case .selected: // Page is currently selected, and user pressed button | turning OFF alarm
             // Stop the audio player
             AppDelegate.GyrusAudioPlayer.stop()
@@ -207,7 +235,6 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
             // remove all pending local notifications
             PushNotificationManager.removeAllPendingAlarmNotification()
             button.setTitle("Start", for: .normal)
-            self.pageState = .notSelected
         }
     }
     
@@ -217,19 +244,20 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
         
         let contentWrapperViewFrame = self.contentWrapperView.frame
         let distanceToTravel = self.alarmLabel.frame.origin.y - self.timePickerView.frame.origin.y
-        
+        self.createTimeArc()
         
         if !self.timePickerView.currentlySelectingTime {
             switch self.pageState {
             case .notSelected: // | Turning ON the alarm
-                guard let timeTillAlarm = self.timePickerView.getSelectedTime()?.timeIntervalSinceNow else {
-                    return
-                }
+                guard let selectedTime = self.timePickerView.getSelectedTime() else { return }
+                let timeTillAlarm = selectedTime.timeIntervalSinceNow
                 self.countdownTimerView.startCountdown(time: timeTillAlarm)
                 // Animate the time picker expansion, THEN (on completion) do other animations
-                UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut, animations: {
+                UIView.animate(withDuration: 0.75, delay: 0.0, options: .curveEaseInOut, animations: {
                     // 1
-                    self.timePickerView.animateSelectionView(mainEventButton: button)
+                    self.timePickerView.animateSelectionView(pageState: self.pageState)
+                    // CHANGE THE ALARM LABEL
+                    self.alarmLabel.alpha = 0
                 }, completion: { _ in
                     // 2
                     UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -241,13 +269,24 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                     }, completion: { _ in
                         // 3
                         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
-                            self.separatorLeadingConstraint.constant = -24
-                            self.separatorTrailingConstraint.constant = 24
+                            self.separator.alpha = 1
+                            self.separatorLeadingConstraint.constant = -72
+                            self.separatorTrailingConstraint.constant = 72
                             self.separator.backgroundColor = Constants.colors.whiteTextColor
                             self.countdownTimerView.alpha = 1
+                            
+                            // ADD THE TIME ARC
+                            self.timeArcView.alpha = 1
                             // layoutifneeded necesary for the constraint constant changes to animate
+                            
+                            print("changing alarm label text to date")
+                            
+                            self.alarmLabel.text = self.dateFormatter.string(from: selectedTime)
+                            self.alarmLabel.font = UIFont(name: Constants.font.futura, size: 28.0)
+                            self.alarmLabel.alpha = 1
                             self.view.layoutIfNeeded()
                         })
+                        self.pageState = .selected
                         button.isUserInteractionEnabled = true
                     })
                 })
@@ -259,25 +298,36 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
                     self.separatorTrailingConstraint.constant = 0
                     self.separator.backgroundColor = Constants.colors.gray
                     // layoutifneeded necesary for the constraint constant changes to animate
+                    
+                    // MAKE ALARM LABEL INVISIBLE
+                    self.alarmLabel.alpha = 0
+                    self.timeArcView.alpha = 0
                     self.view.layoutIfNeeded()
                 }, completion: { _ in
                     UIView.animate(withDuration: 0.75, delay: 0.25, options: .curveEaseInOut,animations: {
                         // 2
+                        self.separator.alpha = 0
                         self.contentWrapperViewTopConstraint.constant += distanceToTravel
                         self.timePickerView.alpha = 1
                         self.contentWrapperView.frame = contentWrapperViewFrame
                         self.countdownTimerView.alpha = 0
                         self.countdownTimerView.stopCountdown()
+                        // CHANGE ALARM LABEL BACK
+                        let time = NSInteger(self.timePickerView.getSelectedTime()!.timeIntervalSinceNow)
+                        self.alarmLabel.text = String(self.stringFromTimeinSeconds(time: time))
+                        self.alarmLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.body)
+                        self.alarmLabel.alpha = 1
                         // layoutifneeded necesary for the constraint constant changes to animate
                         self.view.layoutIfNeeded()
                     }, completion: {_ in
                         // 3
                         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut,animations: {
-                            self.timePickerView.animateSelectionView(mainEventButton: button)
+                            self.timePickerView.animateSelectionView(pageState: self.pageState)
                         }, completion: { _ in
                             // 4
                             button.isUserInteractionEnabled = true
                             self.alarmLabel.isUserInteractionEnabled = true
+                            self.pageState = .notSelected
                         })
                     })
                 })
@@ -286,4 +336,87 @@ extension GyrusCreateAlarmPageViewController: GyrusTabBarDelegate {
             button.isUserInteractionEnabled = true // interaction should be set back to true
         }
     }
+}
+
+extension GyrusCreateAlarmPageViewController: timePickerDelegate {
+    func timeDidChange() {
+        // Don't want this being called while animating
+        if self.pageState == .notSelected {
+            let time = NSInteger(self.timePickerView.getSelectedTime()!.timeIntervalSinceNow)
+            self.alarmLabel.text = String(stringFromTimeinSeconds(time: time))
+        }
+    }
+   
+    fileprivate func stringFromTimeinSeconds (time: NSInteger) -> NSString {
+        let minutes = (time / 60) % 60
+        let hours = (time / 3600)
+        var hoursString = "hours"
+        if hours == 1 {
+            hoursString = "hour"
+        }
+        
+        if hours == 0 {
+            if minutes == 0 {
+                return NSString(format: "Wake up like right now?",minutes)
+            } else if minutes == 1 {
+                return NSString(format: "Wake up in %0.1d minute",minutes)
+            } else {
+                return NSString(format: "Wake up in %0.1d minutes",minutes)
+            }
+        } else {
+            if minutes == 0 {
+                return NSString(format: "Wake up in %0.1d %@",hours,hoursString)
+            } else if minutes == 1 {
+                return NSString(format: "Wake up in %0.1d %@ and %0.1d minute",hours,hoursString,minutes)
+            } else {
+                return NSString(format: "Wake up in %0.1d %@ and %0.1d minutes",hours,hoursString,minutes)
+            }
+        }
+    }
+    
+    fileprivate func createTimeArc() {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.strokeColor = UIColor.clear.cgColor
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.lineWidth = 2.0
+        shapeLayer.path = createArcPath()
+        self.timeArcView.layer.addSublayer(shapeLayer)
+        timeArcView.addSubview(timeArcImageView)
+        
+    }
+    
+    fileprivate func createArcPath() -> CGPath {
+        let radius: CGFloat = self.timeArcView.frame.height
+        let path = UIBezierPath()
+        let centerWidth = self.timeArcView.frame.width / 2
+        let startingPointY = self.timeArcView.frame.height
+        path.move(to: CGPoint(x: 0, y: startingPointY))
+        path.addArc(withCenter: CGPoint(x: centerWidth, y: startingPointY) , radius: radius, startAngle: CGFloat(180).degreesToRadians, endAngle:CGFloat(0).degreesToRadians, clockwise: true)
+        
+        return path.cgPath
+    }
+}
+
+extension GyrusCreateAlarmPageViewController: coundownTimerDelegate {
+    func didTick(time: NSInteger) {
+        let startingTime = self.countdownTimerView.startingTime
+        let degree = CGFloat(((135*time)/startingTime)).degreesToRadians
+        let radius: CGFloat = self.timeArcView.frame.height
+        let cx = self.timeArcView.frame.width / 2
+        let cy = self.timeArcView.frame.height
+        let x =  cx + radius * cos(degree)
+        let y =  cy - radius * sin(degree)
+        if timeArcIsAnimating {
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut, animations: {
+                self.timeArcImageView.frame = CGRect(x: x - 20, y: y - 20, width: 40, height: 40)
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        } else {
+            self.timeArcImageView.frame = CGRect(x: x - 20, y: y - 20, width: 40, height: 40)
+            self.view.layoutIfNeeded()
+            timeArcIsAnimating = true
+        }
+    }
+    
+    
 }

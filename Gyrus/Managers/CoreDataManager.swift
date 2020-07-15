@@ -156,7 +156,6 @@ class CoreDataManager: NSObject {
         guard let entity = NSEntityDescription.entity(forEntityName: "Category", in: self.container.viewContext) else  {
             fatalError("Could not find entity named Category");
         }
-        
         let category = Category(entity: entity, insertInto: self.container.viewContext)
         category.name = name
         category.emoji = emoji

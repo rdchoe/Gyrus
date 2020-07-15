@@ -32,7 +32,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = tabBarController
             self.window = window
             window.makeKeyAndVisible()
-            
             let defaults = UserDefaults.standard
             let returningUser = defaults.bool(forKey: "returningUser")
             if returningUser == false {
@@ -85,7 +84,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     }
 
+    /**
+     Being Chased
+     Falling
+     Flying
+     Death
+     Naked
+     Water
+     Sex
+     Money
+     House
+     Teeth
+     Journey
+     */
     func loadPresetCategories() {
+        AppDelegate.appCoreDateManager.addCategory(name: "Flying", emoji: "🦋")
+        AppDelegate.appCoreDateManager.addCategory(name: "Naked", emoji: "🥴")
+        AppDelegate.appCoreDateManager.addCategory(name: "Sex", emoji: "🍆")
+        AppDelegate.appCoreDateManager.addCategory(name: "Water", emoji: "🌊")
+        AppDelegate.appCoreDateManager.addCategory(name: "Money", emoji: "💰")
+        AppDelegate.appCoreDateManager.addCategory(name: "House", emoji: "🏠")
+        AppDelegate.appCoreDateManager.addCategory(name: "Teeth", emoji: "🦷")
+        AppDelegate.appCoreDateManager.addCategory(name: "Journey", emoji: "🚶🏼‍♂️")
         AppDelegate.appCoreDateManager.addCategory(name: "Chased", emoji: "💨")
         AppDelegate.appCoreDateManager.addCategory(name: "Attacked", emoji: "👹")
         AppDelegate.appCoreDateManager.addCategory(name: "Injured", emoji: "🤕")

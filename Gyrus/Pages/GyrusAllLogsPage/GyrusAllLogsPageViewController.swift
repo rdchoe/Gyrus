@@ -61,13 +61,6 @@ class GyrusAllLogsPageViewController: UIViewController {
         return dreamsTableView
     }()
     
-    private let testView: UIView = {
-        let testView = UIView()
-        testView.translatesAutoresizingMaskIntoConstraints = false
-        testView.backgroundColor = Constants.colors.grayBlue
-        return testView
-    }()
-    
     fileprivate var filtered = [Dream]()
     fileprivate var filterring = false
     
@@ -84,8 +77,8 @@ class GyrusAllLogsPageViewController: UIViewController {
             gyrusTabBarController.gyrusTabBar.delegate = self
             gyrusTabBarController.gyrusTabBar.mainEventButton.setTitle("Create", for: .normal)
         }
-        //self.tabBarController?.title = "Dreams"
     }
+    
     private func setupViewController() {
         
         setupNavBar()
@@ -110,6 +103,7 @@ class GyrusAllLogsPageViewController: UIViewController {
         self.title = "Dreams"
         let search = UISearchController(searchResultsController: nil)
         search.searchResultsUpdater = self
+        search.obscuresBackgroundDuringPresentation = false
         self.navigationItem.searchController = search
     }
 
@@ -117,12 +111,9 @@ class GyrusAllLogsPageViewController: UIViewController {
         let marginsGuide = view.layoutMarginsGuide
         dreamsTable.addSubview(noDreamsLabel)
         view.addSubview(dreamsTable)
-        view.addSubview(testView)
-        
+
         
         NSLayoutConstraint.activate([
-            testView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            testView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             self.dreamsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             self.dreamsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             self.dreamsTable.topAnchor.constraint(equalTo: marginsGuide.topAnchor),
@@ -155,6 +146,9 @@ extension GyrusAllLogsPageViewController: UITableViewDelegate, UITableViewDataSo
             AppDelegate.appCoreDateManager.deleteDream(byID: cell.dream.id!)
             tableView.deleteRows(at: [indexPath]
                 , with: UITableView.RowAnimation.automatic)
+            if self.dreams.count == 0 {
+                self.noDreamsLabel.isHidden = false
+            }
         }
     }
     
@@ -173,6 +167,9 @@ extension GyrusAllLogsPageViewController: CreateDreamDelegate {
     func dreamCreated() {
         self.navigationController?.popViewController(animated: true)
         self.dreams = AppDelegate.appCoreDateManager.fetchAllDreams()
+        if !self.noDreamsLabel.isHidden {
+            self.noDreamsLabel.isHidden = true
+        }
         self.dreamsTable.reloadData()
     }
 }

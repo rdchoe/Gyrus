@@ -51,6 +51,17 @@ extension UIView {
     }
 }
 
+// MARK: UIImage-
+extension UIImage {
+    class func imageWithLabel(label: UILabel) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
+   }
+}
+
 // MARK: UITabBar-
 extension UITabBar {
     static func setTransparentTabbar() {
@@ -137,6 +148,36 @@ extension Array {
     }
 }
 
+extension Array where Element: Hashable {
+    func difference(from other: [Element]) -> [Element] {
+        let thisSet = Set(self)
+        let otherSet = Set(other)
+        return Array(thisSet.symmetricDifference(otherSet))
+    }
+    var asBag: [Element: Int] {
+        return reduce(into: [:]) {
+            $0.updateValue(($0[$1] ?? 0) + 1, forKey: $1)
+        }
+    }
+    func containSameElements(_ array: [Element]) -> Bool {
+        let selfAsBag = asBag
+        let arrayAsBag = array.asBag
+        return selfAsBag.count == arrayAsBag.count && selfAsBag.allSatisfy {
+            arrayAsBag[$0.key] == $0.value
+        }
+    }
+}
+
+extension Array where Element: Equatable {
+    
+    // Remove first collection element that is equal to the given `object`:
+    mutating func remove(object: Element) {
+        guard let index = firstIndex(of: object) else {return}
+        remove(at: index)
+    }
+    
+}
+
 // MARK: UIImage-
 extension UIImage {
     func imageWithColor(color: UIColor) -> UIImage {
@@ -185,5 +226,21 @@ extension UINavigationBar {
         self.shadowImage = UIImage()
         self.isTranslucent = true
         self.backgroundColor = .clear
+    }
+}
+
+extension NSInteger {
+    /**
+    Convert time in seconds to a string
+    Parameters:
+    - time: time until alarm goes off
+    Returns:  string(hour,minute,second)
+     */
+    static func stringFromTimeinSeconds (time: NSInteger) -> NSString {
+        let seconds = time % 60
+        let minutes = (time / 60) % 60
+        let hours = (time / 3600)
+        
+        return NSString(format: "%0.2d:%0.2d:%0.2d",hours,minutes,seconds)
     }
 }

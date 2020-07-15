@@ -70,7 +70,7 @@ class DreamCellView: UITableViewCell {
          "V:|[title]-[date]|",
          "V:|[title]-10-[content]|",
          "H:|[title]|",
-         "H:|[date]-[content]",
+         "H:|[date]-[content]-(>=8)-|",
             ].forEach{NSLayoutConstraint.activate(NSLayoutConstraint.constraints(withVisualFormat: $0, metrics: nil, views: views))}
     }
 }

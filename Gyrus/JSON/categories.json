@@ -43,5 +43,115 @@
             "If you die young in your dream",
             "“If you are a younger self in your dream and you die, you’ve got to ask yourself, what was going on with you at that age? What were you like? What were you dealing with? Is there something from that point in time that you’ve been carrying with you but that now you’re finally over?”",
         ]
+    },
+    "Money": {
+    "documentation": [
+        "Money"
+        ]
+    },
+    "Flying": {
+    "documentation": [
+        "Flying"
+        ]
+    },
+    "Naked": {
+    "documentation": [
+        "Naked"
+        ]
+    },
+    "Sex": {
+    "documentation": [
+        "Sex"
+        ]
+    },
+    "Water": {
+    "documentation": [
+        "Water"
+        ]
+    },
+    "House": {
+    "documentation": [
+        "House"
+        ]
+    },
+    "Teeth": {
+    "documentation": [
+        "Teeth"
+        ]
+    },
+    "Journey": {
+    "documentation": [
+        "Journey"
+        ]
+    },
+    "Chased": {
+    "documentation": [
+        "Chased"
+        ]
+    },
+    "Atacked": {
+    "documentation": [
+        "Attacked"
+        ]
+    },
+    "Injured": {
+    "documentation": [
+        "Injured"
+        ]
+    },
+    "Car": {
+    "documentation": [
+        "Car"
+        ]
+    },
+    "House Damage": {
+    "documentation": [
+        "House Damage"
+        ]
+    },
+    "Poor Performance": {
+    "documentation": [
+        "Poor Performance"
+        ]
+    },
+    "Falling": {
+    "documentation": [
+        "Falling"
+        ]
+    },
+    "Public Embaarrassment": {
+    "documentation": [
+        "Public Embaarrassment"
+        ]
+    },
+    "Being Late": {
+    "documentation": [
+        "Being Late"
+        ]
+    },
+    "Telephone Malfunction": {
+    "documentation": [
+        "Telephone Malfunction"
+        ]
+    },
+    "Natural Disasters": {
+    "documentation": [
+        "Natural Disasters"
+        ]
+    },
+    "Lost": {
+    "documentation": [
+        "Lost"
+        ]
+    },
+    "Trapped": {
+    "documentation": [
+        "Trapped"
+        ]
+    },
+    "Ghost": {
+    "documentation": [
+        "Ghost"
+        ]
     }
 }

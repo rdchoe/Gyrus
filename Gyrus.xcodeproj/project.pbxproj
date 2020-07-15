@@ -31,6 +31,9 @@
 		D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7712352248132FB00D9D303 /* GyrusTabBar.swift */; };
 		D771235724813E4B00D9D303 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D771235624813E4B00D9D303 /* Helpers.swift */; };
 		D77123592481667900D9D303 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77123582481667900D9D303 /* TabItem.swift */; };
+		D7823A2424ABB53E00FA8A65 /* ManageCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7823A2324ABB53E00FA8A65 /* ManageCategoriesViewController.swift */; };
+		D7823A2624ABB7A400FA8A65 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7823A2524ABB7A400FA8A65 /* CategoryTableViewCell.swift */; };
+		D7823A2B24AE870300FA8A65 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7823A2A24AE870300FA8A65 /* alarm.mp3 */; };
 		D79C359F24A4D785007B0703 /* categories.json in Resources */ = {isa = PBXBuildFile; fileRef = D79C359E24A4D785007B0703 /* categories.json */; };
 		D7A5750024A50AE60002F9A7 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A574FF24A50AE60002F9A7 /* HeaderView.swift */; };
 		D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */; };
@@ -40,11 +43,12 @@
 		D7A7C11C24A53C5700D60354 /* DocumentationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C11B24A53C5700D60354 /* DocumentationCell.swift */; };
 		D7A7C12024AA94A600D60354 /* DreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C11F24AA94A600D60354 /* DreamCollectionViewCell.swift */; };
 		D7A7C12224AAA2A000D60354 /* DreamsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C12124AAA2A000D60354 /* DreamsHeaderView.swift */; };
+		D7A7C12424AB7AD600D60354 /* ManageCategoriesNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C12324AB7AD500D60354 /* ManageCategoriesNavigationController.swift */; };
+		D7A7C12624AB7B4300D60354 /* CenterSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A7C12524AB7B4300D60354 /* CenterSheetPresentationController.swift */; };
 		D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */; };
 		D7AA05A024940A78005D2C0E /* BottomSheetPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */; };
 		D7BBC2932497422600DCB9B0 /* EmojiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */; };
 		D7BCBD262485A49E00F645D8 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */; };
-		D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D7BCBD272485A8D800F645D8 /* boniver.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +93,9 @@
 		D7712352248132FB00D9D303 /* GyrusTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusTabBar.swift; sourceTree = "<group>"; };
 		D771235624813E4B00D9D303 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D77123582481667900D9D303 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		D7823A2324ABB53E00FA8A65 /* ManageCategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCategoriesViewController.swift; sourceTree = "<group>"; };
+		D7823A2524ABB7A400FA8A65 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		D7823A2A24AE870300FA8A65 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alarm.mp3; path = ../../../../Downloads/alarm.mp3; sourceTree = "<group>"; };
 		D79C359E24A4D785007B0703 /* categories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = categories.json; sourceTree = "<group>"; };
 		D7A574FF24A50AE60002F9A7 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateDreamPageViewController.swift; sourceTree = "<group>"; };
@@ -98,13 +105,14 @@
 		D7A7C11B24A53C5700D60354 /* DocumentationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentationCell.swift; sourceTree = "<group>"; };
 		D7A7C11F24AA94A600D60354 /* DreamCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCollectionViewCell.swift; sourceTree = "<group>"; };
 		D7A7C12124AAA2A000D60354 /* DreamsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamsHeaderView.swift; sourceTree = "<group>"; };
+		D7A7C12324AB7AD500D60354 /* ManageCategoriesNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageCategoriesNavigationController.swift; sourceTree = "<group>"; };
+		D7A7C12524AB7B4300D60354 /* CenterSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterSheetPresentationController.swift; sourceTree = "<group>"; };
 		D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyrusCreateCategoryBottomSheetViewController.swift; sourceTree = "<group>"; };
 		D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentationController.swift; sourceTree = "<group>"; };
 		D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiTextField.swift; sourceTree = "<group>"; };
 		D7BCBD232485A2B300F645D8 /* Gyrus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Gyrus.entitlements; sourceTree = "<group>"; };
 		D7BCBD252485A49E00F645D8 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		D7BCBD272485A8D800F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = boniver.mp3; path = "../../../Music/Music/Media.localized/Unknown Artist/Unknown Album/boniver.mp3"; sourceTree = "<group>"; };
-		D7BCBD2A2485A8E100F645D8 /* boniver.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boniver.mp3; sourceTree = "<group>"; };
 		F60AB7213F80CE0A7E76A645 /* Pods-Gyrus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Gyrus.debug.xcconfig"; path = "Target Support Files/Pods-Gyrus/Pods-Gyrus.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,7 +205,6 @@
 			children = (
 				D77123582481667900D9D303 /* TabItem.swift */,
 				D72F721C2484E34300B92AD7 /* Views */,
-				D72F721B2484E33700B92AD7 /* ViewController */,
 			);
 			path = GyrusTabBar;
 			sourceTree = "<group>";
@@ -240,6 +247,7 @@
 		D72F721C2484E34300B92AD7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D72F721B2484E33700B92AD7 /* ViewController */,
 				D7712352248132FB00D9D303 /* GyrusTabBar.swift */,
 			);
 			path = Views;
@@ -250,7 +258,7 @@
 			children = (
 				D71D52BC24A4F64100639E1E /* GyrusCategoryPage */,
 				D700F49B249C2E5400337AFF /* GyrusAllLogsPage */,
-				D7A59E982489352400DC4257 /* GyrusCreatePage */,
+				D7A59E982489352400DC4257 /* GyrusCreateDreamPage */,
 				D72F72182484E30700B92AD7 /* GyrusCreateAlarmPage */,
 			);
 			path = Pages;
@@ -318,20 +326,31 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		D7A59E982489352400DC4257 /* GyrusCreatePage */ = {
+		D7823A2724ABBD7000FA8A65 /* Manage Categories Modal Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D7A7C12324AB7AD500D60354 /* ManageCategoriesNavigationController.swift */,
+				D7823A2324ABB53E00FA8A65 /* ManageCategoriesViewController.swift */,
+				D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */,
+			);
+			path = "Manage Categories Modal Controller";
+			sourceTree = "<group>";
+		};
+		D7A59E982489352400DC4257 /* GyrusCreateDreamPage */ = {
 			isa = PBXGroup;
 			children = (
 				D7A59E9F2489C0DD00DC4257 /* CategoryCollectionViewLayout.swift */,
 				D7A59E992489353C00DC4257 /* Views */,
 				D7A59E9A2489354600DC4257 /* View Controllers */,
 			);
-			path = GyrusCreatePage;
+			path = GyrusCreateDreamPage;
 			sourceTree = "<group>";
 		};
 		D7A59E992489353C00DC4257 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				D7A59E9D2489B8C700DC4257 /* CategoryCollectionViewCell.swift */,
+				D7823A2524ABB7A400FA8A65 /* CategoryTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,8 +358,8 @@
 		D7A59E9A2489354600DC4257 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D7823A2724ABBD7000FA8A65 /* Manage Categories Modal Controller */,
 				D7A59E9B2489358900DC4257 /* GyrusCreateDreamPageViewController.swift */,
-				D7AA059C2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -369,6 +388,7 @@
 			children = (
 				D7AA059F24940A78005D2C0E /* BottomSheetPresentationController.swift */,
 				D7BBC2922497422600DCB9B0 /* EmojiTextField.swift */,
+				D7A7C12524AB7B4300D60354 /* CenterSheetPresentationController.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -385,7 +405,7 @@
 		D7BCBD292485A8DD00F645D8 /* Alarm Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				D7BCBD2A2485A8E100F645D8 /* boniver.mp3 */,
+				D7823A2A24AE870300FA8A65 /* alarm.mp3 */,
 			);
 			path = "Alarm Sounds";
 			sourceTree = "<group>";
@@ -476,9 +496,9 @@
 			files = (
 				D700F49E249C40C200337AFF /* Futura-Light.ttf in Resources */,
 				D79C359F24A4D785007B0703 /* categories.json in Resources */,
+				D7823A2B24AE870300FA8A65 /* alarm.mp3 in Resources */,
 				D700F4A424A1EBBE00337AFF /* keywords.json in Resources */,
 				D74A6407247CB091005CDC8B /* LaunchScreen.storyboard in Resources */,
-				D7BCBD282485A8D800F645D8 /* boniver.mp3 in Resources */,
 				D74A6404247CB091005CDC8B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,7 +596,9 @@
 				D771235724813E4B00D9D303 /* Helpers.swift in Sources */,
 				D72F72162484DFB600B92AD7 /* GyrusCountdownTimerView.swift in Sources */,
 				D7712351247FCB2700D9D303 /* Constants.swift in Sources */,
+				D7A7C12624AB7B4300D60354 /* CenterSheetPresentationController.swift in Sources */,
 				D700F49D249C2E6B00337AFF /* GyrusAllLogsPageViewController.swift in Sources */,
+				D7823A2624ABB7A400FA8A65 /* CategoryTableViewCell.swift in Sources */,
 				D7A59E9C2489358900DC4257 /* GyrusCreateDreamPageViewController.swift in Sources */,
 				D7A5750024A50AE60002F9A7 /* HeaderView.swift in Sources */,
 				D74A63FA247CB08F005CDC8B /* SceneDelegate.swift in Sources */,
@@ -587,7 +609,9 @@
 				D7A7C12224AAA2A000D60354 /* DreamsHeaderView.swift in Sources */,
 				D700F4A0249C8F2600337AFF /* DreamCellView.swift in Sources */,
 				D7712353248132FB00D9D303 /* GyrusTabBar.swift in Sources */,
+				D7A7C12424AB7AD600D60354 /* ManageCategoriesNavigationController.swift in Sources */,
 				D7AA059D2492E20B005D2C0E /* GyrusCreateCategoryBottomSheetViewController.swift in Sources */,
+				D7823A2424ABB53E00FA8A65 /* ManageCategoriesViewController.swift in Sources */,
 				D7A7C11C24A53C5700D60354 /* DocumentationCell.swift in Sources */,
 				D7712348247F89D700D9D303 /* GyrusCreateAlarmPageViewController.swift in Sources */,
 			);

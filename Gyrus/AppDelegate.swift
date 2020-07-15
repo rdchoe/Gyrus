@@ -84,7 +84,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     
     // MARK: Alarm System-
-    static var GyrusAudioPlayer: AVAudioPlayer = AVAudioPlayer()
+    static var GyrusAudioPlayer: AVAudioPlayer = {
+        var avp = AVAudioPlayer()
+        let alarmSound = Bundle.main.path(forResource: "alarm", ofType: "mp3")
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, options: [.duckOthers, .defaultToSpeaker])
+            try AVAudioSession.sharedInstance().setActive(true)
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+            avp = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: alarmSound!))
+            avp.numberOfLoops = 10
+        } catch {
+            fatalError("could not initialize audio player")
+        }
+        return avp
+    }()
     
     /// Register the user for push notifications
     func registerForPushNotification() {

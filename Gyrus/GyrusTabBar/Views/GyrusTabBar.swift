@@ -140,6 +140,7 @@ class GyrusTabBar: UIView {
         let tabBarItem = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         let itemTitleLabel = UILabel(frame: CGRect.zero)
         let itemIconView = UIImageView(frame: CGRect.zero)
+        itemIconView.tintColor = .white
         itemTitleLabel.text = item.displayTitle
         itemTitleLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.tabBarSize)
         itemTitleLabel.textAlignment = .center

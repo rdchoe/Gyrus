@@ -31,13 +31,15 @@ enum TabItem: String, CaseIterable {
     }
     
     var icon: UIImage {
+        let font = UIFont.systemFont(ofSize: 24)
+        let configuration = UIImage.SymbolConfiguration(scale: .large)
         switch self {
         case .alarm:
-            return #imageLiteral(resourceName: "alarm")
+            return UIImage(systemName: "alarm", withConfiguration: configuration)!
         case .create:
             return #imageLiteral(resourceName: "create")
         case .dreams:
-            return #imageLiteral(resourceName: "logs").imageWithColor(color: Constants.colors.white)
+            return UIImage(systemName: "list.bullet", withConfiguration: configuration)!
         }
     }
     

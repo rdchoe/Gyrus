@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol coundownTimerDelegate {
+    func didTick(time: NSInteger)
+}
+
 class GyrusCountdownTimerView: UIView {
    
     /**
@@ -33,7 +37,7 @@ class GyrusCountdownTimerView: UIView {
     private var hourLabel: UILabel = {
         let hourLabel = UILabel()
         hourLabel.translatesAutoresizingMaskIntoConstraints = false
-        hourLabel.font = UIFont(name: Constants.font.futura_bold, size: Constants.font.timePickerFontSize)
+        hourLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.countdownFontSize)
         hourLabel.textColor = Constants.colors.gray
         hourLabel.text = "00"
         return hourLabel
@@ -42,7 +46,7 @@ class GyrusCountdownTimerView: UIView {
     private var semicolonLabelFirst: UILabel = {
         let semicolonLabel = UILabel()
         semicolonLabel.translatesAutoresizingMaskIntoConstraints = false
-        semicolonLabel.font = UIFont(name: Constants.font.futura_bold, size: Constants.font.timePickerFontSize)
+        semicolonLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.countdownFontSize)
         semicolonLabel.textColor = Constants.colors.gray
         semicolonLabel.text = ":"
         return semicolonLabel
@@ -51,7 +55,7 @@ class GyrusCountdownTimerView: UIView {
     private var minuteLabel: UILabel = {
         let minuteLabel = UILabel()
         minuteLabel.translatesAutoresizingMaskIntoConstraints = false
-        minuteLabel.font = UIFont(name: Constants.font.futura_bold, size: Constants.font.timePickerFontSize)
+        minuteLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.countdownFontSize)
         minuteLabel.textColor = Constants.colors.gray
         minuteLabel.text = "00"
         return minuteLabel
@@ -60,7 +64,7 @@ class GyrusCountdownTimerView: UIView {
     private var semicolonLabelSecond: UILabel = {
         let semicolonLabel = UILabel()
         semicolonLabel.translatesAutoresizingMaskIntoConstraints = false
-        semicolonLabel.font = UIFont(name: Constants.font.futura_bold, size: Constants.font.timePickerFontSize)
+        semicolonLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.countdownFontSize)
         semicolonLabel.textColor = Constants.colors.gray
         semicolonLabel.text = ":"
         return semicolonLabel
@@ -69,7 +73,7 @@ class GyrusCountdownTimerView: UIView {
     private var secondsLabel: UILabel = {
         let secondsLabel = UILabel()
         secondsLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondsLabel.font = UIFont(name: Constants.font.futura_bold, size: Constants.font.timePickerFontSize)
+        secondsLabel.font = UIFont(name: Constants.font.futura, size: Constants.font.countdownFontSize)
         secondsLabel.textColor = Constants.colors.gray
         secondsLabel.text = "00"
         return secondsLabel
@@ -82,6 +86,10 @@ class GyrusCountdownTimerView: UIView {
     private var counter = 0
     /// A boolean representing if the countdown can be started
     var timerActive: Bool = false
+    
+    var startingTime: NSInteger = 0
+    
+    var delegate: coundownTimerDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -124,8 +132,10 @@ class GyrusCountdownTimerView: UIView {
         self.timerActive = true
         // Set counter to the time interval representing time until alarm needs to go off
         self.counter = NSInteger(time)
+        self.startingTime = NSInteger(time)
         
         self.countTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { (timer) in
+            self.delegate?.didTick(time: self.counter)
             self.updateCounterLabels(stringTime: self.stringFromTimeinSeconds(time: self.counter))
             // If timer is done
             if self.counter == 0 {

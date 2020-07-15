@@ -76,7 +76,7 @@ class DreamCollectionViewCell: UICollectionViewCell {
         ["H:|-[contentView]|",
          "V:|-[contentView]-|",
          "V:|[title]-[date]|",
-         "V:|[title]-10-[content]-[separator(1)]",
+         "V:|[title]-10-[content]-[separator(0.5)]",
          "H:|[title]|",
          "H:|[date]-[content]",
          "H:|[separator]|"

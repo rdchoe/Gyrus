@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol timePickerDelegate {
+    func timeDidChange()
+}
+
 class GyrusTimePicker: UIView {
     
     /// A boolean indicating if any of the scrollable table views are still being **interacted** with
@@ -28,7 +32,8 @@ class GyrusTimePicker: UIView {
         selectionBoxView.layer.cornerRadius = 5.0
         return selectionBoxView
     }()
-    
+   
+    var delegate: timePickerDelegate?
     /// Making these constraints on the selection view accessible to allow for animation
     fileprivate var selectionBoxViewTopConstraint: NSLayoutConstraint!
     fileprivate var selectionBoxViewBottomConstraint: NSLayoutConstraint!
@@ -108,6 +113,7 @@ class GyrusTimePicker: UIView {
         hoursTableView.rowHeight = self.bounds.height/3
         minutesTableView.rowHeight = self.bounds.height/3
         timePeriodTableView.rowHeight = self.bounds.height/3
+        self.delegate?.timeDidChange()
     }
 
     private func setupView() {
@@ -117,7 +123,6 @@ class GyrusTimePicker: UIView {
         stackViewWrapper.addSubview(horizontalStackView)
         addSubview(selectionBoxView)
         addSubview(stackViewWrapper)
-        //addSubview(horizontalStackView)
         setupLayout()
         
         self.minutesTableView.scrollToRow(at: IndexPath(row: 500, section: 0), at: .top, animated: true)
@@ -235,6 +240,7 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         if !hoursTableView.currentlyScrolling && !minutesTableView.currentlyScrolling && !timePeriodTableView.currentlyScrolling {
             self.currentlySelectingTime = false
         }
+        //self.delegate?.timeDidChange()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -255,7 +261,7 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         if !hoursTableView.currentlyScrolling && !minutesTableView.currentlyScrolling && !timePeriodTableView.currentlyScrolling {
             self.currentlySelectingTime = false
         }
-        
+        //self.delegate?.timeDidChange()
     }
     
     
@@ -302,6 +308,7 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
     private func scrollToNearestRow(in tableView: UITableView) {
         if let indexPath = getRowInMiddle(in: tableView) {
             tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+            self.delegate?.timeDidChange()
         }
     }
     
@@ -349,29 +356,25 @@ extension GyrusTimePicker: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func animateSelectionView(mainEventButton: UIButton) {
+    func animateSelectionView(pageState: PageState) {
         self.removeConstraint(self.selectionBoxViewHeightAnchor)
-        if (mainEventButton.isSelected) {
-            //self.alpha = 0
+        
+        switch pageState {
+        case .notSelected: // tunring ON the alarm
+            print("tuirning on the alarm")
             self.selectionBoxViewHeightAnchor = self.selectionBoxView.heightAnchor.constraint(equalTo:  self.heightAnchor, multiplier: 1.0)
             let timePickerFrame = self.frame
             //timePickerFrame.origin.y -= 250
             self.frame = timePickerFrame
-        } else {
-            //self.alpha = 1
+            
+        case .selected: // turning OFF the alarm
+            print("tuirning off the alarm")
             self.selectionBoxViewHeightAnchor = self.selectionBoxView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.33)
         }
         self.addConstraint(self.selectionBoxViewHeightAnchor)
         
         
         self.layoutIfNeeded()
-        /*
-        UIView.animate(withDuration: 0.75, delay: 0.5, options: .curveEaseIn, animations: {
-            
-        }, completion: { _ in
-            //mainEventButton.isUserInteractionEnabled = true
-        })
-        */
         
     }
 }

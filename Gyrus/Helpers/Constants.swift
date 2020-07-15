@@ -29,6 +29,7 @@ struct Constants {
         static let tabBarSize: CGFloat = 10.0
         
         static let timePickerFontSize: CGFloat = 28.0
+        static let countdownFontSize: CGFloat = 48.0
     }
     
     // MARK: Spacing
@@ -61,6 +62,7 @@ struct Constants {
         static let activeColor: UIColor = #colorLiteral(red: 0.4707381129, green: 0.6321940422, blue: 0.7315576077, alpha: 1)
         static let inactiveColor: UIColor = #colorLiteral(red: 0.2155992985, green: 0.242302984, blue: 0.2931298018, alpha: 1)
         static let backgroundColorApprx: UIColor = #colorLiteral(red: 0.09719891101, green: 0.1209237799, blue: 0.1548948586, alpha: 1)
+        static let lightGray: UIColor = #colorLiteral(red: 0.4314269125, green: 0.4657293558, blue: 0.5167986751, alpha: 1)
     }
     
     struct category {

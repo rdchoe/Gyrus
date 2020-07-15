@@ -41,11 +41,14 @@ class GyrusCategoryPageViewController: UIViewController {
     
     private var relatedDreams: [Dream] = []
     
+    fileprivate var kHeaderReferenceSize: CGFloat = 200
+    
     fileprivate var relatedDreamsTableViewTopAnchor: NSLayoutConstraint!
     fileprivate let padding: CGFloat = 16
-    fileprivate var category: JSON!
+    fileprivate var categoryJSON: JSON!
     fileprivate var documentation: Array<JSON>?
     fileprivate var inBottomHalf: Bool = false
+    fileprivate var category: Category!
     
     init(category: Category) {
         super.init(nibName: nil, bundle: nil)
@@ -53,8 +56,10 @@ class GyrusCategoryPageViewController: UIViewController {
             print(relatedDreams.count)
             self.relatedDreams = Array(relatedDreams) as! [Dream]
         }
-        self.category = categories[category.name!]
-        self.documentation = self.category["documentation"].arrayValue
+        self.category = category
+        self.categoryJSON = categories[category.name!]
+        
+        self.documentation = self.categoryJSON["documentation"].arrayValue
     }
 
     required init?(coder: NSCoder) {
@@ -101,15 +106,6 @@ class GyrusCategoryPageViewController: UIViewController {
         view.addSubview(collectionView)
     }
     
-    fileprivate func setupRelatedDreamsTableView() {
-        self.relatedDreamsTableView.delegate = self
-        self.relatedDreamsTableView.dataSource = self
-        self.relatedDreamsTableView.alwaysBounceVertical = false
-        self.relatedDreamsTableView.bounces = false
-        self.relatedDreamsTableView.register(DreamCellView.self, forCellReuseIdentifier: DreamCellView.identifier)
-        view.addSubview(self.relatedDreamsTableView)
-    }
-    
     private func customizeLayout() {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.sectionInset = .init(top: padding, left: padding, bottom: padding, right: padding)
@@ -127,13 +123,7 @@ class GyrusCategoryPageViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            //relatedDreamsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            //relatedDreamsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            //relatedDreamsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
-        //self.relatedDreamsTableViewTopAnchor = relatedDreamsTableView.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 0)
-        //self.relatedDreamsTableViewTopAnchor.isActive = true
     }
 }
 
@@ -216,7 +206,7 @@ extension GyrusCategoryPageViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         switch section {
         case 0 :
-            return .init(width: view.frame.width, height: 200)
+            return .init(width: view.frame.width, height: kHeaderReferenceSize)
         default:
             return .init(width: view.frame.width, height: 66)
         }
@@ -227,8 +217,18 @@ extension GyrusCategoryPageViewController: UICollectionViewDelegateFlowLayout{
         switch indexPath.section {
         case 0:
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! HeaderView
-            if let asset_name = category["asset"].string {
+            if let asset_name = categoryJSON["asset"].string {
                 header.imageView.image = UIImage(named: asset_name)
+            } else { // asset does not exist
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: kHeaderReferenceSize))
+                label.numberOfLines = 0
+                label.textAlignment = .center
+                label.backgroundColor = .clear
+                label.font = UIFont(name: Constants.font.futura, size: 100)
+                label.text = self.category.emoji
+                //label.sizeToFit()
+                header.imageView.image = UIImage.imageWithLabel(label: label)
+
             }
             return header
         case 1:
@@ -245,41 +245,15 @@ extension GyrusCategoryPageViewController: UICollectionViewDelegateFlowLayout{
     }
 }
 
-// MARK: Table View Delegate-
-extension GyrusCategoryPageViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.relatedDreams.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DreamCellView.identifier , for: indexPath) as? DreamCellView else { return UITableViewCell() }
-        cell.dream = self.relatedDreams[indexPath.row]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Related dreams"
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-}
-
 // MARK: Scroll View Delegate
 extension GyrusCategoryPageViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // Handle table view top anchor constant
-        //relatedDreamsTableViewTopAnchor.constant = -relatedDreamsTableView.contentOffset.y
-        //relatedDreamsTableView.setContentOffset(CGPoint.zero, animated: false)
-    //    print(scrollView.contentOffset.y)
-        if collectionView.contentOffset.y >= 200 {
+        if collectionView.contentOffset.y >= kHeaderReferenceSize {
             if !self.inBottomHalf { // first time coming from top half
                 self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
                 self.navigationController?.navigationBar.shadowImage = nil
-                //self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.09719891101, green: 0.1209237799, blue: 0.1548948586, alpha: 1)
-                //self.navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.09719891101, green: 0.1209237799, blue: 0.1548948586, alpha: 1)
                 self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.09719891101, green: 0.1209237799, blue: 0.1548948586, alpha: 1)
                 self.navigationController?.navigationBar.isTranslucent = false
                 self.navigationController?.navigationBar.alpha = 0.0
